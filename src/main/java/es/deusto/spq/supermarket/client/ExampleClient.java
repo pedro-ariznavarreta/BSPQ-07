@@ -21,6 +21,7 @@ public class ExampleClient {
 	//Pedro
 	//Javi R.
 	//Iñigo S
+	//Ane S.T.
 	protected static final Logger logger = LogManager.getLogger();
 
 	private static final String USER = "dipina";
