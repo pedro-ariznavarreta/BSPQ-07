@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>org.datanucleus</groupId>
-	<artifactId>datanucleus-jersey-jdo-mysql</artifactId>
+	<artifactId>BSPQ-07</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Jersey + Datanucleus + MySQL</name>
@@ -194,7 +194,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <mainClass>es.deusto.spq.client.ExampleClient</mainClass>
+                            <mainClass>es.deusto.spq.supermarket.client.ExampleClient</mainClass>
 							<arguments>
 								<argument>${server.hostname}</argument>
 								<argument>${server.port}</argument>

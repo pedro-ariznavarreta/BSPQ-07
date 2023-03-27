@@ -17,7 +17,7 @@ import es.deusto.spq.supermarket.pojo.MessageData;
 import es.deusto.spq.supermarket.pojo.UserData;
 
 public class ExampleClient {
-
+//juudwhuhuw
 	protected static final Logger logger = LogManager.getLogger();
 
 	private static final String USER = "dipina";
