@@ -1,0 +1,4 @@
+Si el login esta bien pero la contraseña mal devolver 0
+Si el login y la contraseña bien devolver 1
+Si el login y contra bien y ademas es trabajador 1 devolver 2
+Si es login y contra bien y trabajador y admin 1 devolver 3
