@@ -2,6 +2,7 @@ package es.deusto.spq.supermarket.client;
 
 import javax.ws.rs.client.Client;
 
+
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -20,7 +21,7 @@ import es.deusto.spq.supermarket.pojo.UserData;
 public class ExampleClient {
 //juudwhuhuw
 	//Pedro
-	//Javi R.
+	//Javi R.   
 	//Iñigo S
 	//Ane S.T.
 	
