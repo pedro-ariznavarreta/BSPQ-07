@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -94,6 +95,9 @@ public class Loading extends JFrame {
 				// TODO Auto-generated method stub
 				setVisible(false);
 				cod.setVisible(true);
+				int codigoverificacion1 = VentanaCrearCuenta.returcodigo();
+				JOptionPane.showMessageDialog(null, "Tu codigo es"+" "+codigoverificacion1 ,
+						"codigo", JOptionPane.DEFAULT_OPTION);
 			}
 		});
 
