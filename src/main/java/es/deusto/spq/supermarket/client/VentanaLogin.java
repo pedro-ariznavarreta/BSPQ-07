@@ -4,6 +4,7 @@ package es.deusto.spq.supermarket.client;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -47,7 +48,7 @@ public class VentanaLogin extends JFrame {
 	private JTextField textnombre_usuario;
 	private JTextField textContraseña;
 	private static User usuarios;
-	//private VentanaCrearCuenta cc = new VentanaCrearCuenta();
+	private VentanaCrearCuenta cc = new VentanaCrearCuenta();
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
@@ -144,7 +145,7 @@ public class VentanaLogin extends JFrame {
 		JButton crear = new JButton("REGISTRARSE");
 		crear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//cc.setVisible(true);
+				cc.setVisible(true);
 				setVisible(false);
 
 			}
