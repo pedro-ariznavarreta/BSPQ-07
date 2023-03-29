@@ -2,40 +2,36 @@ package es.deusto.spq.supermarket.client;
 
 import java.awt.EventQueue;
 
-
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.SystemColor;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
-
-import es.deusto.spq.supermarket.pojo.*;
 import es.deusto.spq.supermarket.server.Resource;
 
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPasswordField;
 
 public class VentanaCrearCuenta extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	public static JTextField nombretxt;
-	public static JTextField apellidotxt;
-	public static JTextField mailtxt;
-	public static JTextField contra;
-	public static JTextField comprobacion;
+	public static JTextField txtUsername;
+	public static JTextField txtEmail;
+	public static JTextField txtContraseña;
+	public static JTextField txtRepetirContraseña;
 	public static JTextField codigotext;
 	public static int codigoverificacion;
 
@@ -59,6 +55,7 @@ public class VentanaCrearCuenta extends JFrame {
 	 * Create the application.
 	 */
 	public VentanaCrearCuenta() {
+		getContentPane().setBackground(new Color(0, 0, 0));
 		initialize();
 	}
 
@@ -72,85 +69,71 @@ public class VentanaCrearCuenta extends JFrame {
 		/**
 		 * Valores propios de la ventana JFRAME
 		 */
-		setBounds(100, 100, 638, 503);
+		setBounds(100, 100, 375, 575);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 
 		// Inizializamos todos los Jlabel de dentro de la ventana y los retocamos para
 		// que sea mas bonitos visualmente hablando
-		JLabel titulo = new JLabel("Registrarse");
-		titulo.setToolTipText("");
-		titulo.setHorizontalAlignment(SwingConstants.CENTER);
-		titulo.setForeground(SystemColor.textHighlight);
-		titulo.setFont(new Font("Leelawadee UI", Font.PLAIN, 24));
-		titulo.setBounds(226, 11, 165, 45);
-		getContentPane().add(titulo);
+		JLabel lblRegistrarse = new JLabel("REGISTRARSE");
+		lblRegistrarse.setToolTipText("");
+		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistrarse.setForeground(new Color(233, 217, 27));
+		lblRegistrarse.setFont(new Font("Leelawadee UI", Font.BOLD, 24));
+		lblRegistrarse.setBounds(104, 10, 165, 45);
+		getContentPane().add(lblRegistrarse);
 
-		final JLabel nombre = new JLabel("Nombre Usuario");
-		nombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		nombre.setBounds(33, 107, 104, 29);
-		getContentPane().add(nombre);
+		final JLabel lblUsername = new JLabel("Username");
+		lblUsername.setForeground(new Color(233, 217, 27));
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUsername.setBounds(71, 83, 104, 29);
+		getContentPane().add(lblUsername);
 
-		final JLabel apellido = new JLabel("Apellido");
-		apellido.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		apellido.setBounds(364, 107, 58, 29);
-		getContentPane().add(apellido);
+		final JLabel lblContraseña = new JLabel("Contrase\u00F1a");
+		lblContraseña.setForeground(new Color(233, 217, 27));
+		lblContraseña.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblContraseña.setBounds(71, 237, 86, 29);
+		getContentPane().add(lblContraseña);
 
-		final JLabel lblContrasea = new JLabel("Contrase\u00F1a");
-		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblContrasea.setBounds(10, 300, 86, 29);
-		getContentPane().add(lblContrasea);
+		final JLabel lblRepetirContraseña = new JLabel("Repeir Contraseña");
+		lblRepetirContraseña.setForeground(new Color(233, 217, 27));
+		lblRepetirContraseña.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblRepetirContraseña.setBounds(71, 318, 168, 29);
+		getContentPane().add(lblRepetirContraseña);
 
-		final JLabel lblcomprobar = new JLabel("Comprobar Contrase\u00F1a");
-		lblcomprobar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblcomprobar.setBounds(284, 300, 138, 29);
-		getContentPane().add(lblcomprobar);
-
-		final JLabel gmailcom = new JLabel("E-mail");
-		gmailcom.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		gmailcom.setBounds(33, 216, 63, 29);
-		getContentPane().add(gmailcom);
-
-		// Esto es un aviso para que el usuario vea que es obligatoria la verificacion
-		// por mail
-		JLabel aviso = new JLabel(
-				"*Es necesario verificar el correo electronico de la cuenta mediante el codigo aleatorio");
-		aviso.setForeground(Color.GRAY);
-		aviso.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		aviso.setBounds(137, 409, 390, 23);
-		getContentPane().add(aviso);
+		final JLabel lblEmail = new JLabel("Email");
+		lblEmail.setForeground(new Color(233, 217, 27));
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblEmail.setBounds(71, 165, 63, 29);
+		getContentPane().add(lblEmail);
 
 		// Los JTextField
-		nombretxt = new JTextField();
-		nombretxt.setBounds(147, 100, 138, 45);
-		getContentPane().add(nombretxt);
-		nombretxt.setColumns(10);
+		txtUsername = new JTextField();
+		txtUsername.setBounds(71, 122, 223, 23);
+		getContentPane().add(txtUsername);
+		txtUsername.setColumns(10);
 
-		apellidotxt = new JTextField();
-		apellidotxt.setBounds(432, 99, 131, 45);
-		getContentPane().add(apellidotxt);
-		apellidotxt.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(71, 204, 222, 23);
+		getContentPane().add(txtEmail);
 
-		mailtxt = new JTextField();
-		mailtxt.setColumns(10);
-		mailtxt.setBounds(106, 201, 222, 45);
-		getContentPane().add(mailtxt);
+		txtContraseña = new JTextField();
+		txtContraseña.setBounds(71, 276, 227, 23);
+		getContentPane().add(txtContraseña);
 
-		contra = new JTextField();
-		contra.setBounds(106, 293, 138, 45);
-		getContentPane().add(contra);
-
-		comprobacion = new JTextField();
-		comprobacion.setBounds(425, 293, 138, 45);
-		getContentPane().add(comprobacion);
+		txtRepetirContraseña = new JTextField();
+		txtRepetirContraseña.setBounds(71, 357, 227, 23);
+		getContentPane().add(txtRepetirContraseña);
 
 		// Jbutton cerrar. Simplemente cierra la aplicacion
-		JButton cerrar = new JButton("CERRAR");
-		cerrar.setBackground(SystemColor.controlShadow);
-		cerrar.setBounds(509, 430, 89, 23);
-		getContentPane().add(cerrar);
-		cerrar.addActionListener(new ActionListener() {
+		JButton btnCerrar = new JButton("CERRAR");
+		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnCerrar.setBackground(new Color(255, 255, 255));
+		btnCerrar.setBounds(185, 478, 137, 36);
+		getContentPane().add(btnCerrar);
+		btnCerrar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -159,21 +142,24 @@ public class VentanaCrearCuenta extends JFrame {
 			}
 		});
 
-		JButton recibircodigo = new JButton("Recibir codigo");
-		recibircodigo.setBackground(SystemColor.textHighlight);
-		recibircodigo.addActionListener(new ActionListener() {
+		JButton btnRecibirCodigo = new JButton("RECIBIR CÓDIGO");
+		btnRecibirCodigo.setForeground(new Color(255, 255, 255));
+		btnRecibirCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnRecibirCodigo.setBackground(new Color(233, 217, 27));
+		btnRecibirCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 			}
 		});
-		recibircodigo.setBounds(188, 368, 234, 45);
-		getContentPane().add(recibircodigo);
+		btnRecibirCodigo.setBounds(42, 412, 280, 45);
+		getContentPane().add(btnRecibirCodigo);
 
-		JButton Volverbtn = new JButton("VOLVER");
-		Volverbtn.setBackground(SystemColor.controlShadow);
-		Volverbtn.setBounds(10, 430, 89, 23);
-		getContentPane().add(Volverbtn);
-		Volverbtn.addActionListener(new ActionListener() {
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnVolver.setBackground(new Color(255, 255, 255));
+		btnVolver.setBounds(42, 478, 133, 37);
+		getContentPane().add(btnVolver);
+		btnVolver.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -185,39 +171,37 @@ public class VentanaCrearCuenta extends JFrame {
 			}
 		});
 
-		recibircodigo.addActionListener(new ActionListener() {
+		btnRecibirCodigo.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
 				// COMPROBACION DE QUE LOS CAMPOS ESTAN RELLENADOS
-				if (nombretxt.getText().length() == 0 || apellidotxt.getText().length() == 0
-						|| contra.getText().length() == 0 || comprobacion.getText().length() == 0
-						|| mailtxt.getText().length() == 0) {
+				if (txtUsername.getText().length() == 0 || txtContraseña.getText().length() == 0
+						|| txtRepetirContraseña.getText().length() == 0 || txtEmail.getText().length() == 0) {
 
 					JOptionPane.showMessageDialog(null, "Asegurese de que todos los campos estan completados", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
-					nombre.setForeground(Color.RED);
-					apellido.setForeground(Color.RED);
-					lblContrasea.setForeground(Color.RED);
-					lblcomprobar.setForeground(Color.RED);
-					gmailcom.setForeground(Color.RED);
+					lblUsername.setForeground(Color.RED);
+					lblContraseña.setForeground(Color.RED);
+					lblRepetirContraseña.setForeground(Color.RED);
+					lblEmail.setForeground(Color.RED);
 
 				}
 				// ERROR DE CONTRASE�A NO HA METIDO LAS DOS IGUALES
-				else if (!comprobacion.getText().equals(contra.getText())) {
+				else if (!txtRepetirContraseña.getText().equals(txtContraseña.getText())) {
 					JOptionPane.showMessageDialog(null, "Las contrase\u00F1as no coinciden", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
-					lblContrasea.setForeground(Color.RED);
-					lblcomprobar.setForeground(Color.RED);
+					lblContraseña.setForeground(Color.RED);
+					lblRepetirContraseña.setForeground(Color.RED);
 
 				}
 
 				// COMPROBACION USUARIO EXISTENTE O NO PARA ENVIAR CODIGO AL CORREO
-				else if (contra.getText().equals(comprobacion.getText())) {
+				else if (txtContraseña.getText().equals(txtRepetirContraseña.getText())) {
 
-					boolean usuariousado = Resource.nomcheck(nombretxt.getText());
+					boolean usuariousado = Resource.nomcheck(txtUsername.getText());
 
 					if (usuariousado == true) {
 
@@ -233,8 +217,8 @@ public class VentanaCrearCuenta extends JFrame {
 
 						new Thread(new Hilo()).start();
 						setVisible(false);
-						//Loading load = new Loading();
-						//load.setVisible(true);
+						Loading load = new Loading();
+						load.setVisible(true);
 					}
 
 				}
@@ -249,9 +233,7 @@ public class VentanaCrearCuenta extends JFrame {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-			String recipiente = mailtxt.getText();
-			//codigoverificacion = MandarMail.recibircodigo(recipiente);
+			codigoverificacion = (int) (Math.random() * 8999) + 1000;
 
 		}
 
@@ -263,17 +245,17 @@ public class VentanaCrearCuenta extends JFrame {
 	}
 
 	public static String returnnombre() {
-		String nombre = nombretxt.getText();
+		String nombre = txtUsername.getText();
 		return nombre;
 	}
 
 	public static String returnmail() {
-		String mail = mailtxt.getText();
+		String mail = txtEmail.getText();
 		return mail;
 	}
 
 	public static String returncontra() {
-		String contrasenya = contra.getText();
+		String contrasenya = txtContraseña.getText();
 		return contrasenya;
 	}
 

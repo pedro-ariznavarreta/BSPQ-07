@@ -1,10 +1,5 @@
 package es.deusto.spq.supermarket.client;
 
-
-
-import java.awt.BorderLayout;
-
-
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -15,25 +10,22 @@ import javax.swing.border.EmptyBorder;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
+
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import es.deusto.spq.supermarket.server.jdo.User;
+
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.SystemColor;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -41,19 +33,24 @@ import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
 public class VentanaLogin extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
 	private JFrame frame;
-	private JTextField textnombre_usuario;
+	private JTextField textEmail;
 	private JTextField textContraseña;
-	private static User usuarios;
+	private static Usuario usuarios;
 	private VentanaCrearCuenta cc = new VentanaCrearCuenta();
-	
+
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
 	final WebTarget userTarget = appTarget.path("usuarios");
-    final WebTarget userAllTarget = userTarget.path("all");
+	final WebTarget userAllTarget = userTarget.path("all");
 
 	/**
 	 * Launch the application.
@@ -76,47 +73,51 @@ public class VentanaLogin extends JFrame {
 	 */
 	public VentanaLogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 386, 523);
+		setBounds(100, 100, 375, 460);
 		contentPane = new JPanel();
+		contentPane.setForeground(new Color(38, 38, 38));
+		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblnombre_usuario = new JLabel("Nombre de usuario");
-		lblnombre_usuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblnombre_usuario.setBounds(53, 70, 129, 24);
-		contentPane.add(lblnombre_usuario);
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setForeground(new Color(233, 217, 27));
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUsername.setBounds(42, 70, 140, 24);
+		contentPane.add(lblUsername);
 
-		JLabel lblcontraseña = new JLabel("Contraseña");
-		lblcontraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblcontraseña.setBounds(53, 169, 140, 24);
-		contentPane.add(lblcontraseña);
+		JLabel lblContraseña = new JLabel("Contraseña");
+		lblContraseña.setForeground(new Color(233, 217, 27));
+		lblContraseña.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblContraseña.setBounds(42, 169, 140, 24);
+		contentPane.add(lblContraseña);
 
-		textnombre_usuario = new JTextField();
-		textnombre_usuario.setBounds(53, 113, 284, 24);
-		contentPane.add(textnombre_usuario);
-		textnombre_usuario.setColumns(10);
+		textEmail = new JTextField();
+		textEmail.setBounds(42, 107, 284, 24);
+		contentPane.add(textEmail);
+		textEmail.setColumns(10);
 
 		textContraseña = new JTextField();
 
 		// Passwordfield para la contraseï¿½a
 		textContraseña = new JPasswordField();
 		textContraseña.setColumns(10);
-		textContraseña.setBounds(53, 204, 284, 24);
+		textContraseña.setBounds(42, 203, 284, 24);
 		contentPane.add(textContraseña);
 
 		// Checkbox de mostrar contraseï¿½a
-		final JCheckBox showpass = new JCheckBox("Mostrar Contrase\u00F1a");
-		showpass.setForeground(SystemColor.textHighlight);
-		showpass.setBackground(UIManager.getColor("Button.highlight"));
-		showpass.setBounds(216, 242, 121, 23);
-		getContentPane().add(showpass);
-		showpass.addActionListener(new ActionListener() {
+		final JCheckBox lblShowpass = new JCheckBox("Mostrar contraseña");
+		lblShowpass.setForeground(new Color(233, 217, 27));
+		lblShowpass.setBackground(new Color(0, 0, 0));
+		lblShowpass.setBounds(186, 244, 140, 23);
+		getContentPane().add(lblShowpass);
+		lblShowpass.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (showpass.isSelected()) {
+				if (lblShowpass.isSelected()) {
 					((JPasswordField) textContraseña).setEchoChar((char) 0);
 				} else {
 					((JPasswordField) textContraseña).setEchoChar('*');
@@ -124,49 +125,53 @@ public class VentanaLogin extends JFrame {
 			}
 		});
 
-		JLabel lblLoginMecradonia = new JLabel("LOGIN MERCADONIA");
+		JLabel lblLoginMecradonia = new JLabel("LOGIN COOKMASTER");
+		lblLoginMecradonia.setBackground(new Color(255, 255, 255));
 		lblLoginMecradonia.setToolTipText("");
 		lblLoginMecradonia.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLoginMecradonia.setForeground(SystemColor.textHighlight);
-		lblLoginMecradonia.setFont(new Font("Leelawadee UI", Font.PLAIN, 24));
-		lblLoginMecradonia.setBounds(10, 0, 350, 59);
+		lblLoginMecradonia.setForeground(new Color(233, 217, 27));
+		lblLoginMecradonia.setFont(new Font("Leelawadee UI", Font.BOLD, 24));
+		lblLoginMecradonia.setBounds(10, 1, 350, 59);
 		contentPane.add(lblLoginMecradonia);
 
-		JButton cerrar = new JButton("CERRAR");
-		cerrar.addActionListener(new ActionListener() {
+		JButton btnCerrar = new JButton("CERRAR");
+		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		cerrar.setBackground(Color.LIGHT_GRAY);
-		cerrar.setBounds(200, 351, 137, 36);
-		contentPane.add(cerrar);
+		btnCerrar.setBackground(new Color(255, 255, 255));
+		btnCerrar.setBounds(189, 362, 140, 36);
+		contentPane.add(btnCerrar);
 
-		JButton crear = new JButton("REGISTRARSE");
-		crear.addActionListener(new ActionListener() {
+		JButton btnRegistrar = new JButton("REGISTRARSE");
+		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cc.setVisible(true);
 				setVisible(false);
 
 			}
 		});
-		crear.setBackground(Color.LIGHT_GRAY);
-		crear.setBounds(56, 351, 137, 36);
-		contentPane.add(crear);
+		btnRegistrar.setBackground(new Color(255, 255, 255));
+		btnRegistrar.setBounds(42, 362, 140, 36);
+		contentPane.add(btnRegistrar);
 
-		JButton loginbtn = new JButton("LOGIN");
-		loginbtn.addActionListener(new ActionListener() {
+		JButton btnLogin = new JButton("LOGIN");
+		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textnombre_usuario.getText().equals("admin") && textContraseña.getText().equals("admin")) {
-//					VentanaAdmin v = new VentanaAdmin();
-//					v.setVisible(true);
-//					dispose();
-				}else {
-					boolean result = login(textnombre_usuario.getText(), textContraseña.getText());
+				if (textEmail.getText().equals("admin") && textContraseña.getText().equals("admin")) {
+					// VentanaAdmin v = new VentanaAdmin();
+					// v.setVisible(true);
+					dispose();
+				} else {
+					boolean result = login(textEmail.getText(), textContraseña.getText());
 					if (result == true) {
 						JOptionPane.showMessageDialog(null, "Usuario Correcto");
-						//VentanaOpcion window1 = new VentanaOpcion(usuarios);
-						//window1.setVisible(true);
+						// VentanaOpcion window1 = new VentanaOpcion(usuarios);
+						// window1.setVisible(true);
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "Usuario incorrecto");
@@ -175,17 +180,18 @@ public class VentanaLogin extends JFrame {
 				}
 			}
 		});
-		loginbtn.setForeground(Color.WHITE);
-		loginbtn.setBackground(SystemColor.textHighlight);
-		loginbtn.setBounds(53, 297, 284, 43);
-		contentPane.add(loginbtn);
+		btnLogin.setForeground(Color.WHITE);
+		btnLogin.setBackground(new Color(233, 217, 27));
+		btnLogin.setBounds(42, 298, 284, 43);
+		contentPane.add(btnLogin);
 	}
 
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			WebTarget userNomTarget = userTarget.path("nom").queryParam("nick",usuario);
-			GenericType<Usuario> genericType = new GenericType<Usuario>() {};
-			
+			WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", usuario);
+			GenericType<Usuario> genericType = new GenericType<Usuario>() {
+			};
+
 			if (usuarios.getPassword().equals(contraseña) || !(usuarios == null)) {
 				return true;
 			} else {
@@ -195,5 +201,4 @@ public class VentanaLogin extends JFrame {
 			return false;
 	}
 
-	
 }
