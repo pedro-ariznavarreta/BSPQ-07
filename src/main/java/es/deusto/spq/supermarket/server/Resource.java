@@ -3,6 +3,12 @@ package es.deusto.spq.supermarket.server;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
@@ -22,6 +28,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
 
 @Path("/resource")
 @Produces(MediaType.APPLICATION_JSON)
@@ -98,7 +106,8 @@ public class Resource {
 				logger.info("Password set user: {}", user);
 			} else {
 				logger.info("Creating user: {}", user);
-				user = new User(userData.getLogin(), userData.getPassword());
+				user = new User(userData.getLogin(), userData.getPassword(),
+						userData.getEsTrabajador(),userData.getEsAdministrador());
 				pm.makePersistent(user);					 
 				logger.info("User created: {}", user);
 			}
@@ -121,4 +130,32 @@ public class Resource {
 	public Response sayHello() {
 		return Response.ok("Hello world!").build();
 	}
+	
+	@GET
+	@Path("/usuarios")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> devolverusuarios(){
+		List<User> usuarios = new ArrayList<>();
+		tx.begin();
+		usuarios.add(new User("Paco","fiestas",0,0));
+		try {
+			Extent todosUsuarios = pm.getExtent(User.class,false);	
+			Iterator it = todosUsuarios.iterator();
+		     
+		      while (it.hasNext()) {
+		         User dep = (User)it.next();
+		         usuarios.add(dep);
+		      }
+		      tx.commit();
+		} finally {
+	         if (tx.isActive()) {
+	             tx.rollback();
+	       }
+		
+		
+		
+	}
+		return usuarios;	
 }
+}
+

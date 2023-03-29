@@ -13,16 +13,36 @@ public class User {
 	@PrimaryKey
 	String login=null;
 	String password=null;
+	int esTrabajador = 0;
+	int esAdministrador = 0;
 	
+	public int getEsTrabajador() {
+		return esTrabajador;
+	}
+
+	public void setEsTrabajador(int esTrabajador) {
+		this.esTrabajador = esTrabajador;
+	}
+
+	public int getEsAdministrador() {
+		return esAdministrador;
+	}
+
+	public void setEsAdministrador(int esAdministrador) {
+		this.esAdministrador = esAdministrador;
+	}
+
 	@Persistent(mappedBy="user", dependentElement="true")
 	@Join
 	Set<Message> messages = new HashSet<>();
 	
 	
 	
-	public User(String login, String password) {
+	public User(String login, String password, int esTrabajador, int esAdministrador) {
 		this.login = login;
 		this.password = password;
+		this.esAdministrador = esAdministrador;
+		this.esTrabajador = esTrabajador;
 	}
 	
 	public void addMessage(Message message) {
@@ -43,6 +63,10 @@ public class User {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
 	}
 	
 	 public Set<Message> getMessages() {return this.messages;}
