@@ -17,11 +17,14 @@ import es.deusto.spq.supermarket.pojo.MessageData;
 import es.deusto.spq.supermarket.pojo.UserData;
 import es.deusto.spq.supermarket.server.jdo.Message;
 import es.deusto.spq.supermarket.server.jdo.User;
+import es.deusto.spq.supermarket.server.jdo.Usuario;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -157,5 +160,73 @@ public class Resource {
 	}
 		return usuarios;	
 }
+	@POST
+	@Path("reg")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void insertarUsuario(List<String> usuarioL) {
+		String nick = usuarioL.get(0);
+		String contraseña = usuarioL.get(1);
+		String email = usuarioL.get(2);
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Usuario usuario1 = new Usuario(nick, contraseña,email);
+			pm.makePersistent(usuario1);
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
+
+	@POST
+	@Path("elim")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void eliminarUsuario(List<String> usuarioL) {
+		String nick = usuarioL.get(0);
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		try (Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");) {
+			List<Usuario> user = q.executeList();
+			pm.deletePersistentAll(user);
+		} catch (Exception e) {
+			logger.catching(e);
+		} finally {
+			pm.close();
+		}
+	}
+
+	@GET
+	@Path("nomcheck")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static boolean nomcheck(@QueryParam("nick") String nick) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		boolean usuariousado = false;
+
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+
+			List<Usuario> usuariosl = q.executeList();
+
+			if (usuariosl.isEmpty()) {
+				usuariousado = false;
+			} else {
+				usuariousado = true;
+			}
+		} catch (Exception e) {
+			logger.catching(e);
+		} finally {
+			pm.close();
+		}
+		return usuariousado;
+	}
 }
 
