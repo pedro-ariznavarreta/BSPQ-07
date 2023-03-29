@@ -24,7 +24,7 @@ public class Loading extends JFrame {
 	private JLabel lblEnviado;
 	private JLabel lblEnviando;
 	private JButton btnAceptar;
-	//private VentanaVerificarCodigo cod = new VentanaVerificarCodigo();
+	private VentanaVerificarCodigo cod = new VentanaVerificarCodigo();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -93,7 +93,7 @@ public class Loading extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				setVisible(false);
-				//cod.setVisible(true);
+				cod.setVisible(true);
 			}
 		});
 
