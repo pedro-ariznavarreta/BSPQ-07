@@ -1,6 +1,39 @@
 target/
-*.log
+*.iml
 .project
 .settings/
 .classpath
+*.properties
 bin/
+
+*.log # Ignorar archivos de logs
+logs/
+log/
+logging.properties # Ignorar archivos de logs generados por Java Util Logging
+commons-logging.properties
+
+*.class # Ignorar archivos generados por el compilador Java
+
+# Ignorar archivos de Java
+*.jar
+*.war
+*.ear
+
+# Ignorar archivos de respaldo
+*~
+
+# Ignorar archivos de configuración del sistema
+*.ipr
+*.iws
+
+#POM
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Ignorar archivos de pruebas generados por JUnit
+test-results/
+
