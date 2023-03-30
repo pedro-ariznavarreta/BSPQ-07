@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
@@ -18,6 +18,8 @@ import es.deusto.spq.supermarket.server.Resource;
 
 import javax.swing.JTextField;
 import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class VentanaCrearCuenta extends JFrame {
@@ -81,7 +83,7 @@ public class VentanaCrearCuenta extends JFrame {
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistrarse.setForeground(new Color(233, 217, 27));
 		lblRegistrarse.setFont(new Font("Leelawadee UI", Font.BOLD, 24));
-		lblRegistrarse.setBounds(104, 10, 165, 45);
+		lblRegistrarse.setBounds(74, 39, 155, 36);
 		getContentPane().add(lblRegistrarse);
 
 		final JLabel lblUsername = new JLabel("Username");
@@ -153,12 +155,23 @@ public class VentanaCrearCuenta extends JFrame {
 		});
 		btnRecibirCodigo.setBounds(42, 412, 280, 45);
 		getContentPane().add(btnRecibirCodigo);
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(260, 21, 91, 54);
+		getContentPane().add(lblNewLabel);
+		ImageIcon icon = new ImageIcon("img/COOKMASTER.png");
+		Image img = icon.getImage();
+		Image scaledImg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImg);
+
+		lblNewLabel.setIcon(scaledIcon);
 
 		JButton btnVolver = new JButton("VOLVER");
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnVolver.setBackground(new Color(255, 255, 255));
 		btnVolver.setBounds(42, 478, 133, 37);
 		getContentPane().add(btnVolver);
+		
+		
 		btnVolver.addActionListener(new ActionListener() {
 
 			@Override
@@ -175,7 +188,6 @@ public class VentanaCrearCuenta extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 
 				// COMPROBACION DE QUE LOS CAMPOS ESTAN RELLENADOS
 				if (txtUsername.getText().length() == 0 || txtContraseña.getText().length() == 0

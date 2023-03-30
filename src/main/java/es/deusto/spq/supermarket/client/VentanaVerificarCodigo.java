@@ -53,6 +53,7 @@ public class VentanaVerificarCodigo extends JFrame {
 	 * Create the application.
 	 */
 	public VentanaVerificarCodigo() {
+		getContentPane().setBackground(new Color(0, 0, 0));
 		setTitle("INTRODUCIR CODIGO");
 		initialize();
 	}
@@ -68,16 +69,18 @@ public class VentanaVerificarCodigo extends JFrame {
 
 		// TEXTFIELD PARA INTRODUCIR CODIGO
 		textcodigo = new JTextField();
+		textcodigo.setBackground(new Color(255, 255, 255));
 		textcodigo.setBounds(163, 91, 92, 20);
 		getContentPane().add(textcodigo);
 		textcodigo.setColumns(10);
 
 		// JLABEL QUE INDICA AL USUARIO QUE HAY QUE INTRODUCIR CODIGO
 		JLabel titulo = new JLabel("INTRODUCE EL CODIGO PARA VERIFICAR TU CUENTA");
-		titulo.setForeground(SystemColor.textHighlight);
+		titulo.setBackground(new Color(255, 255, 0));
+		titulo.setForeground(new Color(255, 255, 0));
 		titulo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		titulo.setHorizontalAlignment(SwingConstants.CENTER);
-		titulo.setBounds(0, 34, 434, 20);
+		titulo.setBounds(0, 34, 426, 20);
 		getContentPane().add(titulo);
 
 		// LABEL DEL CODIGO

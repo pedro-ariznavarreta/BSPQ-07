@@ -22,7 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
@@ -127,13 +128,13 @@ public class VentanaLogin extends JFrame {
 			}
 		});
 
-		JLabel lblLoginMecradonia = new JLabel("LOGIN COOKMASTER");
+		JLabel lblLoginMecradonia = new JLabel("LOGIN");
 		lblLoginMecradonia.setBackground(new Color(255, 255, 255));
 		lblLoginMecradonia.setToolTipText("");
 		lblLoginMecradonia.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLoginMecradonia.setForeground(new Color(233, 217, 27));
 		lblLoginMecradonia.setFont(new Font("Leelawadee UI", Font.BOLD, 24));
-		lblLoginMecradonia.setBounds(10, 1, 350, 59);
+		lblLoginMecradonia.setBounds(26, 21, 109, 49);
 		contentPane.add(lblLoginMecradonia);
 
 		JButton btnCerrar = new JButton("CERRAR");
@@ -186,6 +187,18 @@ public class VentanaLogin extends JFrame {
 		btnLogin.setBackground(new Color(233, 217, 27));
 		btnLogin.setBounds(42, 298, 284, 43);
 		contentPane.add(btnLogin);
+		
+		JLabel labelImg = new JLabel();
+		labelImg.setBounds(170, 21, 140, 49);
+		contentPane.add(labelImg);
+
+		ImageIcon icon = new ImageIcon("img/COOKMASTER.png");
+		Image img = icon.getImage();
+		Image scaledImg = img.getScaledInstance(labelImg.getWidth(), labelImg.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImg);
+
+		labelImg.setIcon(scaledIcon);
+
 	}
 
 	public boolean login(String usuario, String contraseña) {

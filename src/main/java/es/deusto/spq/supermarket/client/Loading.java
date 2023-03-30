@@ -6,17 +6,17 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 
 public class Loading extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -26,6 +26,7 @@ public class Loading extends JFrame {
 	private JLabel lblEnviando;
 	private JButton btnAceptar;
 	private VentanaVerificarCodigo cod = new VentanaVerificarCodigo();
+	private JLabel lblNewLabel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -40,18 +41,13 @@ public class Loading extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
 	public Loading() {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		setTitle("ENVIANDO CÓDIGO VERIFICACION");
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,12 +60,22 @@ public class Loading extends JFrame {
 		getContentPane().add(progressBar);
 		progressBar.setStringPainted(true);
 		new Thread(new Hilo()).start();
+		
+		lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(72, 24, 275, 64);
+		getContentPane().add(lblNewLabel);
+		
+		ImageIcon icon = new ImageIcon("img/COOKMASTER.png");
+		Image img = icon.getImage();
+		Image scaledImg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImg);
+		lblNewLabel.setIcon(scaledIcon);
 
 		// HAREMOS MAS VISUAL LA VENTANA MEDIANTE ESTOS JLABEL
 		lblEnviando = new JLabel("Enviando código...");
 		lblEnviando.setForeground(new Color(233, 217, 27));
 		lblEnviando.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblEnviando.setBounds(155, 109, 125, 14);
+		lblEnviando.setBounds(155, 109, 143, 14);
 		getContentPane().add(lblEnviando);
 
 		lblEnviado = new JLabel("Código enviado ✓");
@@ -87,6 +93,8 @@ public class Loading extends JFrame {
 		btnAceptar.setBackground(new Color(233, 217, 27));
 		btnAceptar.setBounds(123, 171, 156, 34);
 		getContentPane().add(btnAceptar);
+		
+		
 		btnAceptar.setVisible(false);
 		btnAceptar.addActionListener(new ActionListener() {
 
