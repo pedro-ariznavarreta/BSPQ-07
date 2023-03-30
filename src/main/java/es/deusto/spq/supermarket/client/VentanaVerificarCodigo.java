@@ -28,7 +28,7 @@ import java.awt.Color;
 public class VentanaVerificarCodigo extends JFrame {
 	private JTextField textcodigo;
 	Client cliente = ClientBuilder.newClient();
-	final WebTarget appTarget = cliente.target("http://localhost:8080/res/resource");
+	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	//final WebTarget userTarget = appTarget.path("usuarios");
 	public int codigoverificacion;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
