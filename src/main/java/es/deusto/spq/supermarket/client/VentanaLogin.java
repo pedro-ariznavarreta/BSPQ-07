@@ -1,6 +1,7 @@
 package es.deusto.spq.supermarket.client;
 
 import java.awt.Color;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 
 import es.deusto.spq.supermarket.server.jdo.Usuario;
+import javax.ws.rs.core.MediaType;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,7 +50,7 @@ public class VentanaLogin extends JFrame {
 	private VentanaCrearCuenta cc = new VentanaCrearCuenta();
 
 	Client cliente = ClientBuilder.newClient();
-	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
+	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget userTarget = appTarget.path("usuarios");
 	final WebTarget userAllTarget = userTarget.path("all");
 
@@ -188,10 +190,11 @@ public class VentanaLogin extends JFrame {
 
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
-			WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", usuario);
+			WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", usuario);
+			System.out.println(userNomTarget);
 			GenericType<Usuario> genericType = new GenericType<Usuario>() {
 			};
-
+			usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 			if (usuarios.getPassword().equals(contraseña) || !(usuarios == null)) {
 				return true;
 			} else {

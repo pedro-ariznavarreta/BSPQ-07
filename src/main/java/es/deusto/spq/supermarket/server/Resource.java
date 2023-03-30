@@ -160,8 +160,33 @@ public class Resource {
 	}
 		return usuarios;	
 }
+	
+	@GET
+	@Path("/nom")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static Usuario getUsuariosLogin(@QueryParam("nick") String nick) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		Usuario usuarios = null;
+
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+
+			List<Usuario> usuariosl = q.executeList();
+
+			if(!usuariosl.isEmpty())
+				usuarios = usuariosl.get(0);
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		} finally {
+			pm.close();
+		}
+
+		return usuarios;
+	}
 	@POST
-	@Path("reg")
+	@Path("/reg")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public static void insertarUsuario(List<String> usuarioL) {
 		String nick = usuarioL.get(0);
@@ -228,5 +253,27 @@ public class Resource {
 		}
 		return usuariousado;
 	}
+	
+	
+	
+	@GET
+	@Path("all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Usuario> getUsuarios() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Usuario> usuarios = null;
+
+		try {
+			Query<Usuario> q = pm.newQuery(Usuario.class);
+			usuarios = q.executeList();
+		} catch (Exception e) {
+			
+		} finally {
+			pm.close();
+		}
+		return usuarios;
+	}
 }
+
 

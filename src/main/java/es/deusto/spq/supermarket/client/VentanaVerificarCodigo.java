@@ -28,8 +28,8 @@ import java.awt.Color;
 public class VentanaVerificarCodigo extends JFrame {
 	private JTextField textcodigo;
 	Client cliente = ClientBuilder.newClient();
-	final WebTarget appTarget = cliente.target("http://localhost:8080/myapp");
-	final WebTarget userTarget = appTarget.path("usuarios");
+	final WebTarget appTarget = cliente.target("http://localhost:8080/res/resource");
+	//final WebTarget userTarget = appTarget.path("usuarios");
 	public int codigoverificacion;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -125,7 +125,7 @@ public class VentanaVerificarCodigo extends JFrame {
 
 	public void crearCuenta(String usuario, String contraseña, String mail) {
 
-		WebTarget userRegTarget = userTarget.path("reg");
+		WebTarget userRegTarget = appTarget.path("reg");
 		List<String> usuarioL = new ArrayList<>();
 		usuarioL.add(usuario);
 		usuarioL.add(contraseña);
