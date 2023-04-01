@@ -44,7 +44,6 @@ public class VentanaLogin extends JFrame {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
-	private JFrame frame;
 	private JTextField textEmail;
 	private JTextField textContraseña;
 	private static Usuario usuarios;
@@ -169,6 +168,10 @@ public class VentanaLogin extends JFrame {
 					// VentanaAdmin v = new VentanaAdmin();
 					// v.setVisible(true);
 					dispose();
+				} else if (textEmail.getText().equals("") || textContraseña.getText().equals("")) {
+					
+					JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+	
 				} else {
 				int valorRol = comprobarRol(textEmail.getText(), textContraseña.getText());
 				valorRol = 2;																					    //QUITAR LUEGO !!!!!!!!
@@ -190,9 +193,6 @@ public class VentanaLogin extends JFrame {
 								}
 							}
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-						JOptionPane.showMessageDialog(null, "Error");
 					}
 				}
 			}

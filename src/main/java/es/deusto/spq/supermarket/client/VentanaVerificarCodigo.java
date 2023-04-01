@@ -110,11 +110,13 @@ public class VentanaVerificarCodigo extends JFrame {
 					String contrasenya = VentanaCrearCuenta.returncontra();
 					String nombre = VentanaCrearCuenta.returnnombre();
 					String mail = VentanaCrearCuenta.returnmail();
+					Integer trabajador = VentanaCrearCuenta.returntrabajador();
+					Integer gerente = VentanaCrearCuenta.returngerente();
 
 					setVisible(false);
 					System.out.println("Password OK");
 
-					crearCuenta(nombre, contrasenya, mail);
+					crearCuenta(nombre, contrasenya, mail, trabajador, gerente);
 
 					JOptionPane.showMessageDialog(null, "Cuenta creada correctamente. Inicie sesion.", "CUENTA CREADA",
 							JOptionPane.DEFAULT_OPTION);
@@ -126,13 +128,16 @@ public class VentanaVerificarCodigo extends JFrame {
 		});
 	}
 
-	public void crearCuenta(String usuario, String contraseña, String mail) {
+	public void crearCuenta(String usuario, String contraseña, String mail, Integer trabajador, Integer gerente) {
 
 		WebTarget userRegTarget = appTarget.path("reg");
 		List<String> usuarioL = new ArrayList<>();
 		usuarioL.add(usuario);
 		usuarioL.add(contraseña);
 		usuarioL.add(mail);
+		usuarioL.add(String.valueOf(trabajador));
+		usuarioL.add(String.valueOf(gerente));
+		
 		userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 
 	}

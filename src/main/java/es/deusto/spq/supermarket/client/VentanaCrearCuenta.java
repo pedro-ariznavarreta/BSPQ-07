@@ -270,5 +270,11 @@ public class VentanaCrearCuenta extends JFrame {
 		String contrasenya = txtContraseña.getText();
 		return contrasenya;
 	}
+	public static Integer returntrabajador() {
+		return 0;
+	}
+	public static Integer returngerente() {
+		return 0;
+	}
 
 }
