@@ -127,39 +127,25 @@ public class Resource {
 		}
 	}
 
-	@GET
-	@Path("/hello")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response sayHello() {
-		return Response.ok("Hello world!").build();
-	}
 	
 	@GET
 	@Path("/usuarios")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> devolverusuarios(){
-		List<User> usuarios = new ArrayList<>();
-		tx.begin();
-		usuarios.add(new User("Paco","fiestas",0,0));
+	public static List<Usuario> devolverUsuarios(){
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Usuario> todosUsuarios = null;
+
 		try {
-			Extent todosUsuarios = pm.getExtent(User.class,false);	
-			Iterator it = todosUsuarios.iterator();
-		     
-		      while (it.hasNext()) {
-		         User dep = (User)it.next();
-		         usuarios.add(dep);
-		      }
-		      tx.commit();
+			Query<Usuario> q = pm.newQuery(Usuario.class);
+			todosUsuarios = q.executeList();
+		} catch (Exception e) {
+			
 		} finally {
-	         if (tx.isActive()) {
-	             tx.rollback();
-	       }
-		
-		
-		
+			pm.close();
+		}
+		return todosUsuarios;
 	}
-		return usuarios;	
-}
 	
 	@GET
 	@Path("/nom")
@@ -192,12 +178,16 @@ public class Resource {
 		String nick = usuarioL.get(0);
 		String contraseña = usuarioL.get(1);
 		String email = usuarioL.get(2);
+		String trabajador = usuarioL.get(3);
+		String gerente = usuarioL.get(4);
+		int a = Integer.parseInt(trabajador);
+		int b = Integer.parseInt(gerente);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			Usuario usuario1 = new Usuario(nick, contraseña,email);
+			Usuario usuario1 = new Usuario(nick, contraseña,email,a,b);
 			pm.makePersistent(usuario1);
 			tx.commit();
 		} finally {
@@ -252,6 +242,33 @@ public class Resource {
 			pm.close();
 		}
 		return usuariousado;
+	}
+	@GET
+	@Path("rol")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static int rol(@QueryParam("nick") String nick) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		int valor=0;
+
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+
+			List<Usuario> usuariosl = q.executeList();
+
+			if(usuariosl.get(0).getTrabajador() == 1) {
+				valor = 1;	
+			}
+			if(usuariosl.get(0).getGerente()== 1) {
+				valor = 2;
+			}			
+			
+		} catch (Exception e) {
+			logger.catching(e);
+		} finally {
+			pm.close();
+		}
+		return valor;
 	}
 	
 	

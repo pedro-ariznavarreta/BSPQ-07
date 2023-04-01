@@ -11,13 +11,17 @@ public class Usuario {
 	private String username;
 	private String password;
 	private String email;
+	private int trabajador;
+	private int gerente;
 	
 
 	
-	public Usuario(String Usuario, String password, String email) {
+	public Usuario(String Usuario, String password, String email,int trabajador,int gerente) {
 		this.username = Usuario;
 		this.password = password;
 		this.email = email;
+		this.gerente = 0;
+		this.trabajador = 0;
 	}
 
 	public Usuario() {
@@ -52,6 +56,22 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuarios [username=" + username + ", password=" + password + "]";
+	}
+
+	public int getTrabajador() {
+		return trabajador;
+	}
+
+	public void setTrabajador(int trabajador) {
+		this.trabajador = trabajador;
+	}
+
+	public int getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(int gerente) {
+		this.gerente = gerente;
 	}
 
 }

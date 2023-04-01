@@ -170,12 +170,26 @@ public class VentanaLogin extends JFrame {
 					// v.setVisible(true);
 					dispose();
 				} else {
+				int valorRol = comprobarRol(textEmail.getText(), textContraseña.getText());
+				valorRol = 2;																					    //QUITAR LUEGO !!!!!!!!
 					boolean result = login(textEmail.getText(), textContraseña.getText());
 					if (result == true) {
 						JOptionPane.showMessageDialog(null, "Usuario Correcto");
-						// VentanaOpcion window1 = new VentanaOpcion(usuarios);
-						// window1.setVisible(true);
+						
 						dispose();
+						if(valorRol == 0) {  //es cliente
+							dispose();
+						}else {
+							if(valorRol == 1) {   //es trabajador
+								dispose();
+								new VentanaTrabajador();
+							}else {
+								if(valorRol == 2) {    //es gerente
+									dispose();
+									new VentanaGerente();
+								}
+							}
+						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Usuario incorrecto");
 						JOptionPane.showMessageDialog(null, "Error");
@@ -216,5 +230,21 @@ public class VentanaLogin extends JFrame {
 		} else
 			return false;
 	}
+	
+	public int comprobarRol(String usuario, String contraseña) {
+		WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", usuario);
+		System.out.println(userNomTarget);
+		GenericType<Usuario> genericType = new GenericType<Usuario>() {	};
+		usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		int valor = 0;
+		if(usuarios.getTrabajador() == 1) {
+			valor = 1;
+		}
+		if(usuarios.getGerente()==1) {
+			valor = 2;
+		}
+		return valor;
+	}
 
 }
+
