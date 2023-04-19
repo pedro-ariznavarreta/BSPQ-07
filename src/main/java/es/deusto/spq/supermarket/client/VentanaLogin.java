@@ -165,8 +165,7 @@ public class VentanaLogin extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textEmail.getText().equals("admin") && textContraseña.getText().equals("admin")) {
-					// VentanaAdmin v = new VentanaAdmin();
-					// v.setVisible(true);
+					
 					dispose();
 				} else if (textEmail.getText().equals("") || textContraseña.getText().equals("")) {
 					
