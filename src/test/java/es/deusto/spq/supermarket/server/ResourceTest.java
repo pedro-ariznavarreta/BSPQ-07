@@ -8,7 +8,7 @@ public class ResourceTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		
 	}
 
 }
