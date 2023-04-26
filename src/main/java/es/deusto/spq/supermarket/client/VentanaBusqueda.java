@@ -157,16 +157,19 @@ public class VentanaBusqueda extends JFrame {
 		btnBuscar.setBackground(new Color(255, 255, 0));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panel.setVisible(true);
-				for(int i = 0; i< tableModel.getRowCount(); i++) {
-					tableModel.removeRow(i);
-				}
-				productos = busquedaProd(textBuscador.getText());
-				for (Producto p : productos) {
-					tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
-				}
-			}
+		        panel.setVisible(true);
+		        productos = busquedaProd(textBuscador.getText());
+		        while(tableModel.getRowCount() > 0) {
+		            tableModel.removeRow(0);
+		        }
+		        for (Producto p : productos) {
+		            if (p.getNombre().toLowerCase().contains(textBuscador.getText().toLowerCase())) {
+		                tableModel.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio()});
+		            }
+		        }
+		    }
 		});
+		
 		btnBuscar.setBounds(381, 41, 85, 21);
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnBuscar);
