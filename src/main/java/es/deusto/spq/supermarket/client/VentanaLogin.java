@@ -173,14 +173,16 @@ public class VentanaLogin extends JFrame {
 	
 				} else {
 				int valorRol = comprobarRol(textEmail.getText(), textContraseña.getText());
-				valorRol = 2;																					    //QUITAR LUEGO !!!!!!!!
+				valorRol = 0;																					    //QUITAR LUEGO !!!!!!!!
 					boolean result = login(textEmail.getText(), textContraseña.getText());
 					if (result == true) {
 						JOptionPane.showMessageDialog(null, "Usuario Correcto");
 						
 						dispose();
 						if(valorRol == 0) {  //es cliente
-							dispose();
+							 VentanaBusqueda window1= new VentanaBusqueda(usuarios);
+							 window1.setVisible(true);
+							 dispose();
 						}else {
 							if(valorRol == 1) {   //es trabajador
 								dispose();
