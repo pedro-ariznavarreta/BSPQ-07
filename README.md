@@ -14,6 +14,10 @@ Make sure that the database was correctly configured. Use the contents of the fi
 Run the following command to create database schema for this sample.
 
       mvn datanucleus:schema-create
+      
+Para añadir los nuevos datos
+
+    mvn exec:java -P datos
 
 To launch the server run the command
 
