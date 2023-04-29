@@ -10,11 +10,19 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
+import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -135,8 +143,7 @@ public class VentanaCrearCuentaGerente extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.exit(0);
+				dispose();
 			}
 		});
 
@@ -210,11 +217,17 @@ public class VentanaCrearCuentaGerente extends JFrame {
 						JOptionPane.showMessageDialog(null, "Este usuario ya esta usado, use otro", "ERROR",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
-						/**
-						 * 
-						 * MUESTRA LA VENTANA DE LOADING MAS ADELANTE SE MANDARA EL CODIGO AUNQUE SE
-						 * SIMULARA COMO QUE SE ESTA MANDANDO A CONTINUACION
-						 */
+						Client cliente = ClientBuilder.newClient();
+						final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
+						
+	 	                final WebTarget trabajadorGerenteTar = appTarget.path("regGerente"); //Para registrar al gerente
+	 	               List<String> trabajadorGerente = new ArrayList<>();
+	 	               trabajadorGerente.add(txtUsername.getText());
+	 	               trabajadorGerente.add(txtContraseña.getText());
+	 	               trabajadorGerente.add(txtEmail.getText());
+	 	               trabajadorGerente.add(String.valueOf(0));
+	 	               trabajadorGerente.add(String.valueOf(1));
+	 	               trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
 
 						JOptionPane.showMessageDialog(btnVolver, "Gerente registrado correctamente");
 						dispose();
