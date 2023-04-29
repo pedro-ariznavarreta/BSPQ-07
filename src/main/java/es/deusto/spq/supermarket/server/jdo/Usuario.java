@@ -20,8 +20,8 @@ public class Usuario {
 		this.username = Usuario;
 		this.password = password;
 		this.email = email;
-		this.gerente = 0;
-		this.trabajador = 0;
+		this.gerente = gerente;
+		this.trabajador = trabajador;
 	}
 
 	public Usuario() {
@@ -53,10 +53,6 @@ public class Usuario {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuarios [username=" + username + ", password=" + password + "]";
-	}
 
 	public int getTrabajador() {
 		return trabajador;

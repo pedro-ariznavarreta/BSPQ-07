@@ -204,15 +204,39 @@ public class Resource {
 		String nick = usuarioL.get(0);
 		String contraseña = usuarioL.get(1);
 		String email = usuarioL.get(2);
-		String trabajador = usuarioL.get(3);
-		String gerente = usuarioL.get(4);
-		int a = Integer.parseInt(trabajador);
-		int b = Integer.parseInt(gerente);
+		int a =0;
+		int b = 1;
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
+			Usuario usuario1 = new Usuario(nick, contraseña, email, a, b);
+			pm.makePersistent(usuario1);
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
+	@POST
+	@Path("/regTrabajador")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void insertarTrabajador(List<String> usuarioL) {
+		String nick = usuarioL.get(0);
+		String contraseña = usuarioL.get(1);
+		String email = usuarioL.get(2);
+		int a = 1;
+		int b = 0;
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			
 			Usuario usuario1 = new Usuario(nick, contraseña, email, a, b);
 			pm.makePersistent(usuario1);
 			tx.commit();

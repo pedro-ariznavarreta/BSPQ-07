@@ -5,6 +5,7 @@ target/
 .classpath
 *.properties
 bin/
+datanucleus.log
 
 *.log # Ignorar archivos de logs
 logs/
