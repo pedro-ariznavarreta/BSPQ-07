@@ -22,7 +22,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class VentanaCrearCuentaTrabajador extends JFrame {
+public class VentanaCrearCuentaGerente extends JFrame {
 	/**
 	 * 
 	 */
@@ -44,7 +44,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaCrearCuentaTrabajador signup = new VentanaCrearCuentaTrabajador();
+					VentanaCrearCuentaGerente signup = new VentanaCrearCuentaGerente();
 					signup.setVisible(true);
 				} catch (Exception e) {
 					LOGGER.severe(e.getMessage());
@@ -56,15 +56,10 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public VentanaCrearCuentaTrabajador() {
+	public VentanaCrearCuentaGerente() {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		initialize();
 	}
-
-	/**
-	 * Inicializamos todos los elementos de la ventana crearcuenta los cuales
-	 * separaremos mas adelante mediante mas usuarios
-	 */
 
 	private void initialize() {
 
@@ -79,7 +74,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 
 		// Inizializamos todos los Jlabel de dentro de la ventana y los retocamos para
 		// que sea mas bonitos visualmente hablando
-		JLabel lblRegistrarse = new JLabel("REGISTRARSE COMO TRABAJADOR");
+		JLabel lblRegistrarse = new JLabel("REGISTRARSE COMO GERENTE");
 		lblRegistrarse.setToolTipText("");
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistrarse.setForeground(new Color(233, 217, 27));
@@ -145,7 +140,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 			}
 		});
 
-		JButton btnRecibirCodigo = new JButton("REGISTRARSE");
+		JButton btnRecibirCodigo = new JButton("REGISTRAR");
 		btnRecibirCodigo.setForeground(new Color(255, 255, 255));
 		btnRecibirCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnRecibirCodigo.setBackground(new Color(233, 217, 27));
@@ -221,7 +216,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 						 * SIMULARA COMO QUE SE ESTA MANDANDO A CONTINUACION
 						 */
 
-						JOptionPane.showMessageDialog(btnVolver, "Trabajador registrado correctamente");
+						JOptionPane.showMessageDialog(btnVolver, "Gerente registrado correctamente");
 						dispose();
 					}
 

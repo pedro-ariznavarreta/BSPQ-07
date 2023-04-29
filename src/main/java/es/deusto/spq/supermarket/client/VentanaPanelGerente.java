@@ -121,7 +121,8 @@ public class VentanaPanelGerente extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				new VentanaCrearCuentaTrabajador();
+				
 			}
 		});
 		
@@ -138,7 +139,7 @@ public class VentanaPanelGerente extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				new VentanaCrearCuentaGerente();
 			}
 		});
 		
