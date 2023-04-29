@@ -152,22 +152,51 @@ public class Resource {
 		PersistenceManager pm = pmf.getPersistenceManager();
 
 		Usuario usuarios = null;
-
+		//sUsuario Inigo = new Usuario("Inigo","Susilla","aaaa",0,1);
 		try {
+			
 			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 
 			List<Usuario> usuariosl = q.executeList();
-
-			if (!usuariosl.isEmpty())
+			if (!usuariosl.isEmpty()) {
 				usuarios = usuariosl.get(0);
+			}
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		} finally {
 			pm.close();
 		}
-
+		
 		return usuarios;
 	}
+	
+	@GET
+	@Path("/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static Usuario getLogin(@QueryParam("nick") String nick) { //Login para trabajadores y gerentes
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		Usuario usuarios = null;
+		//sUsuario Inigo = new Usuario("Inigo","Susilla","aaaa",0,1);
+		try {
+			System.out.println(nick);
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
+			
+			List<Usuario> usuariosl = q.executeList();
+			if (!usuariosl.isEmpty()) {
+				usuarios = usuariosl.get(0);
+			}
+			q.close();
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		} finally {
+			pm.close();
+		}
+		
+		return usuarios;
+	}
+	
 
 	@POST
 	@Path("/reg")

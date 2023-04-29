@@ -32,6 +32,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.GridLayout;
 
 public class VentanaPanelGerente extends JFrame {
 	/**
@@ -76,6 +80,7 @@ public class VentanaPanelGerente extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 745, 576);
+		setSize(800,200);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,19 +91,32 @@ public class VentanaPanelGerente extends JFrame {
 		
 		JPanel panelCentral = new JPanel();
 		contentPane.add(panelCentral, BorderLayout.NORTH);
-		panelCentral.setLayout(new BorderLayout(0, 0));
+		panelCentral.setLayout(new GridLayout(2, 3, 0, 0));
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setForeground(Color.WHITE);
+		panel_1.setBackground(Color.BLACK);
+		
+		JLabel PanelGerente = new JLabel("PANEL DE CONTROL DEL GERENTE");
+		PanelGerente.setForeground(Color.WHITE);
+		panel_1.add(PanelGerente);
 		panelCentral.add(panel_1);
 		
-		JLabel PanelGerente = new JLabel("Panel de control del gerente");
-		panel_1.add(PanelGerente);
-		
 		JPanel panel = new JPanel();
-		panelCentral.add(panel, BorderLayout.NORTH);
+		panel.setBackground(Color.BLACK);
+		panelCentral.add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton BotonRegTrab = new JButton("Registrar Trabajador");
+		JPanel panelRegistrar = new JPanel();
+		panelRegistrar.setBackground(Color.BLACK);
+		panel.add(panelRegistrar);
+		
+		JButton BotonRegTrab = new JButton("REGISTRAR TRABAJADOR");
+		BotonRegTrab.setForeground(Color.BLACK);
+		panelRegistrar.add(BotonRegTrab);
+		BotonRegTrab.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		BotonRegTrab.setBackground(Color.YELLOW);
+		BotonRegTrab.setBounds(301, 472, 137, 29);
 		BotonRegTrab.addActionListener(new ActionListener() {
 
 			@Override
@@ -106,9 +124,16 @@ public class VentanaPanelGerente extends JFrame {
 				dispose();
 			}
 		});
-		panel.add(BotonRegTrab);
 		
-		JButton BotonRegGer = new JButton("Regitrar Gerente");
+		JPanel panelRegistrarGerente = new JPanel();
+		panelRegistrarGerente.setBackground(Color.BLACK);
+		panel.add(panelRegistrarGerente);
+		
+		JButton BotonRegGer = new JButton("REGISTRAR GERENTE");
+		panelRegistrarGerente.add(BotonRegGer);
+		BotonRegGer.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		BotonRegGer.setBackground(Color.YELLOW);
+		BotonRegGer.setBounds(301, 472, 137, 29);
 		BotonRegGer.addActionListener(new ActionListener() {
 
 			@Override
@@ -116,9 +141,16 @@ public class VentanaPanelGerente extends JFrame {
 				dispose();
 			}
 		});
-		panel.add(BotonRegGer);
 		
-		JButton botonProductos = new JButton("Ajustes de productos");
+		JPanel panelAjustes = new JPanel();
+		panelAjustes.setBackground(Color.BLACK);
+		panel.add(panelAjustes);
+		
+		JButton botonProductos = new JButton("AJUSTES DE PRODUCTOS");
+		panelAjustes.add(botonProductos);
+		botonProductos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		botonProductos.setBackground(Color.YELLOW);
+		botonProductos.setBounds(301, 472, 137, 29);
 		botonProductos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -127,7 +159,6 @@ public class VentanaPanelGerente extends JFrame {
 				dispose();
 			}
 		});
-		panel.add(botonProductos);
 		
 		
 	

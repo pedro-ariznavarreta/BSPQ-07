@@ -128,57 +128,7 @@ public class VentanaGerente extends JFrame {
 	}
 	
 	
-	public void cargarCsvLocal() {
-		
-		Client cliente = ClientBuilder.newClient();
-		final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
-		final String csvAdmins = "sql/csvTrabajadores.csv";
-
-		
-		 try {
-	            Scanner lectorCSV = new Scanner(new File(csvAdmins));
-	            
-	            while (lectorCSV.hasNextLine()) {
-	                String fila = lectorCSV.nextLine();
-	                String[] valores = fila.split(",");
-	                List<String> trabajadorGerente = new ArrayList<>();
-	                trabajadorGerente.add(valores[0]);
-	        		trabajadorGerente.add(valores[1]);
-	        		trabajadorGerente.add(valores[2]);
-	        		trabajadorGerente.add(String.valueOf(valores[3]));
-	        		trabajadorGerente.add(String.valueOf(valores[4]));
-	        		
-	        		boolean usuariousado = Resource.nomcheck(valores[0]);
-
-					if (usuariousado == true) {
-						
-						//No hace nada si ya esta en la BBDD
-					}else {
-	        		
-	        		
-	                if(valores[3].equals("1")) {
-	                	 final WebTarget trabajadorGerenteTar = appTarget.path("regTrabajador"); //Para registrar al trabajador
-	                	trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
-	                	System.out.println(trabajadorGerente);
-	                }
- 	                if(valores[4].equals("1")) {
- 	                   final WebTarget trabajadorGerenteTar = appTarget.path("regGerente"); //Para registrar al gerente
- 	                	trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
- 	                	System.out.println(trabajadorGerente);
- 	                }
-	        		
-					}
-	                
-	               
-	               
-	            }
-	            lectorCSV.close();
-	            
-	        } catch (FileNotFoundException e) {
-	            System.out.println("El archivo no existe o no se puede abrir.");
-	            e.printStackTrace();
-	        }
-	}
+	
 
 	/**
 	 * Create the frame.
@@ -318,7 +268,6 @@ public class VentanaGerente extends JFrame {
 			}
 		});
 		
-		cargarCsvLocal();
 
 	}
 }

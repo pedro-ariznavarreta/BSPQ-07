@@ -11,10 +11,11 @@ import javax.swing.border.EmptyBorder;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 
+import es.deusto.spq.supermarket.server.Resource;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import javax.ws.rs.core.MediaType;
 
@@ -25,9 +26,14 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JTextField;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
@@ -47,6 +53,7 @@ public class VentanaLogin extends JFrame {
 	private JTextField textEmail;
 	private JTextField textContraseña;
 	private static Usuario usuarios;
+	private ArrayList<Usuario> usuariosTrabajadores = new ArrayList<>();
 	private VentanaCrearCuenta cc = new VentanaCrearCuenta();
 
 	Client cliente = ClientBuilder.newClient();
@@ -74,6 +81,7 @@ public class VentanaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaLogin() {
+		cargarCsvLocal();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 375, 460);
 		contentPane = new JPanel();
@@ -162,6 +170,9 @@ public class VentanaLogin extends JFrame {
 
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+
+		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textEmail.getText().equals("admin") && textContraseña.getText().equals("admin")) {
@@ -172,15 +183,15 @@ public class VentanaLogin extends JFrame {
 					JOptionPane.showMessageDialog(null, "Usuario incorrecto");
 	
 				} else {
-				int valorRol = comprobarRol(textEmail.getText(), textContraseña.getText());
-				valorRol = 0;																					    //QUITAR LUEGO !!!!!!!!
-					boolean result = login(textEmail.getText(), textContraseña.getText());
+				int valorRol = comprobarRol(textEmail.getText(), textContraseña.getText());																				    //QUITAR LUEGO !!!!!!!!	
+				boolean result = login(textEmail.getText(), textContraseña.getText());
 					if (result == true) {
 						JOptionPane.showMessageDialog(null, "Usuario Correcto");
 						
 						dispose();
 						if(valorRol == 0) {  //es cliente
-							 VentanaBusqueda window1= new VentanaBusqueda(usuarios);
+							Usuario u = new Usuario();
+							 VentanaBusqueda window1= new VentanaBusqueda(u);
 							 window1.setVisible(true);
 							 dispose();
 						}else {
@@ -233,8 +244,7 @@ public class VentanaLogin extends JFrame {
 	}
 	
 	public int comprobarRol(String usuario, String contraseña) {
-		WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", usuario);
-		System.out.println(userNomTarget);
+		WebTarget userNomTarget = appTarget.path("login").queryParam("nick", usuario);
 		GenericType<Usuario> genericType = new GenericType<Usuario>() {	};
 		usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		int valor = 0;
@@ -245,6 +255,57 @@ public class VentanaLogin extends JFrame {
 			valor = 2;
 		}
 		return valor;
+	}
+public void cargarCsvLocal() {
+		
+		Client cliente = ClientBuilder.newClient();
+		final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
+		final String csvAdmins = "sql/csvTrabajadores.csv";
+
+		
+		 try {
+	            Scanner lectorCSV = new Scanner(new File(csvAdmins));
+	            
+	            while (lectorCSV.hasNextLine()) {
+	                String fila = lectorCSV.nextLine();
+	                String[] valores = fila.split(",");
+	                List<String> trabajadorGerente = new ArrayList<>();
+	                trabajadorGerente.add(valores[0]);
+	        		trabajadorGerente.add(valores[1]);
+	        		trabajadorGerente.add(valores[2]);
+	        		trabajadorGerente.add(String.valueOf(valores[3]));
+	        		trabajadorGerente.add(String.valueOf(valores[4]));
+	        		
+	        		System.out.println(valores[0]);
+	        		
+	        		boolean usuariousado = Resource.nomcheck(valores[0]);
+
+					if (usuariousado == true) {
+						
+						//No hace nada si ya esta en la BBDD
+					}else {
+	        		
+	        		
+	                if(valores[3].equals("1")) {
+	                	 final WebTarget trabajadorGerenteTar = appTarget.path("regTrabajador"); //Para registrar al trabajador
+	                	trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
+	                }
+ 	                if(valores[4].equals("1")) {
+ 	                   final WebTarget trabajadorGerenteTar = appTarget.path("regGerente"); //Para registrar al gerente
+ 	                	trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
+ 	                }
+	        		
+					}
+	                
+	               
+	               
+	            }
+	            lectorCSV.close();
+	            
+	        } catch (FileNotFoundException e) {
+	            System.out.println("El archivo no existe o no se puede abrir.");
+	            e.printStackTrace();
+	        }
 	}
 
 }
