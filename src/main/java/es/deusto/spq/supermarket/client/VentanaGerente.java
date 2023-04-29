@@ -207,11 +207,6 @@ public class VentanaGerente extends JFrame {
 		btnBorrarProducto.setBackground(new Color(255, 255, 0));
 		btnBorrarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaLogin log = new VentanaLogin();
-				log.setVisible(true);
-				setVisible(false);
-				VentanaLogin v2 = new VentanaLogin();
-				v2.setVisible(true);
 
 				dispose();
 			}
@@ -245,6 +240,15 @@ public class VentanaGerente extends JFrame {
 		btnAnadirProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAnadirProducto.setBackground(Color.YELLOW);
 		btnAnadirProducto.setBounds(301, 472, 137, 29);
+		btnAnadirProducto.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new VentanaAñadirProductoG();
+			}
+		});	
+		
+		
 		contentPane.add(btnAnadirProducto);
 		
 		JButton btnModificarProducto = new JButton("Modificar Producto");

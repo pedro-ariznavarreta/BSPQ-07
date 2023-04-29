@@ -277,6 +277,25 @@ public class Resource {
 		}
 
 	}
+	//Devuelve los productos
+	@GET
+	@Path("/productos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Producto> devolverProductos() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		List<Producto> todosProductos = null;
+
+		try {
+			Query<Producto> q = pm.newQuery(Producto.class);
+			todosProductos = q.executeList();
+		} catch (Exception e) {
+
+		} finally {
+			pm.close();
+		}
+		return todosProductos;
+	}
 
 	@POST
 	@Path("elim")
