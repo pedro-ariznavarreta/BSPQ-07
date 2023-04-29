@@ -49,7 +49,81 @@ public class Resource {
 		this.tx = pm.currentTransaction();
 	}
 
+	@POST
+	@Path("/sayMessage")
+	public Response sayMessage(DirectMessage directMessage) {
+		User user = null;
+		try {
+			tx.begin();
+			logger.info("Creating query ...");
 
+			try (Query<?> q = pm.newQuery("SELECT FROM " + User.class.getName() + " WHERE login == \""
+					+ directMessage.getUserData().getLogin() + "\" &&  password == \""
+					+ directMessage.getUserData().getPassword() + "\"")) {
+				q.setUnique(true);
+				user = (User) q.execute();
+
+				logger.info("User retrieved: {}", user);
+				if (user != null) {
+					Message message = new Message(directMessage.getMessageData().getMessage());
+					user.getMessages().add(message);
+					pm.makePersistent(user);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		}
+
+		if (user != null) {
+			cont++;
+			logger.info(" * Client number: {}", cont);
+			MessageData messageData = new MessageData();
+			messageData.setMessage(directMessage.getMessageData().getMessage());
+			return Response.ok(messageData).build();
+		} else {
+			return Response.status(Status.BAD_REQUEST)
+					.entity("Login details supplied for message delivery are not correct").build();
+		}
+	}
+
+	@POST
+	@Path("/register")
+	public Response registerUser(UserData userData) {
+		try {
+			tx.begin();
+			logger.info("Checking whether the user already exits or not: '{}'", userData.getLogin());
+			User user = null;
+			try {
+				user = pm.getObjectById(User.class, userData.getLogin());
+			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
+				logger.info("Exception launched: {}", jonfe.getMessage());
+			}
+			logger.info("User: {}", user);
+			if (user != null) {
+				logger.info("Setting password user: {}", user);
+				user.setPassword(userData.getPassword());
+				logger.info("Password set user: {}", user);
+			} else {
+				logger.info("Creating user: {}", user);
+				user = new User(userData.getLogin(), userData.getPassword(), userData.getEsTrabajador(),
+						userData.getEsAdministrador());
+				pm.makePersistent(user);
+				logger.info("User created: {}", user);
+			}
+			tx.commit();
+			return Response.ok().build();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+
+		}
+	}
 
 	@GET
 	@Path("/usuarios")
@@ -122,9 +196,37 @@ public class Resource {
 		}
 
 	}
+	
+	@POST
+	@Path("/regGerente")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void insertarGerente(List<String> usuarioL) {
+		String nick = usuarioL.get(0);
+		String contraseña = usuarioL.get(1);
+		String email = usuarioL.get(2);
+		String trabajador = usuarioL.get(3);
+		String gerente = usuarioL.get(4);
+		int a = Integer.parseInt(trabajador);
+		int b = Integer.parseInt(gerente);
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Usuario usuario1 = new Usuario(nick, contraseña, email, a, b);
+			pm.makePersistent(usuario1);
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
 
 	@POST
-	@Path("/elim")
+	@Path("elim")
 	@Produces(MediaType.APPLICATION_JSON)
 	public static void eliminarUsuario(List<String> usuarioL) {
 		String nick = usuarioL.get(0);
@@ -142,7 +244,7 @@ public class Resource {
 	}
 
 	@GET
-	@Path("/nomcheck")
+	@Path("nomcheck")
 	@Produces(MediaType.APPLICATION_JSON)
 	public static boolean nomcheck(@QueryParam("nick") String nick) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");

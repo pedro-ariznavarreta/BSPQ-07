@@ -190,7 +190,7 @@ public class VentanaLogin extends JFrame {
 							}else {
 								if(valorRol == 2) {    //es gerente
 									dispose();
-									new VentanaGerente();
+									new VentanaGerente(null, valorRol);
 								}
 							}
 						}
