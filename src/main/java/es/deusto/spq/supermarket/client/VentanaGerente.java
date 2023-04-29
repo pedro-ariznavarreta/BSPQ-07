@@ -187,6 +187,7 @@ public class VentanaGerente extends JFrame {
 	 */
 	private void initialize() {
 
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 745, 576);
 		contentPane = new JPanel();
