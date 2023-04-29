@@ -252,9 +252,9 @@ public class VentanaGerente extends JFrame {
 			}
 		});
 
-		JButton btnVolver = new JButton("Finalizar");
-		btnVolver.setBackground(new Color(255, 255, 0));
-		btnVolver.addActionListener(new ActionListener() {
+		JButton btnBorrarProducto = new JButton("Borrar Producto");
+		btnBorrarProducto.setBackground(new Color(255, 255, 0));
+		btnBorrarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin log = new VentanaLogin();
 				log.setVisible(true);
@@ -267,9 +267,9 @@ public class VentanaGerente extends JFrame {
 		});
 
 
-		btnVolver.setBounds(44, 468, 91, 32);
-		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		contentPane.add(btnVolver);
+		btnBorrarProducto.setBounds(44, 468, 137, 32);
+		btnBorrarProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		contentPane.add(btnBorrarProducto);
 
 
 		JScrollPane scroll = new JScrollPane((Component) null);
@@ -289,6 +289,18 @@ public class VentanaGerente extends JFrame {
 		tableModel.addColumn("Stock");
 		tableModel.addColumn("Precio");
 		scroll.setViewportView(table);
+		
+		JButton btnAnadirProducto = new JButton("Añadir Producto");
+		btnAnadirProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAnadirProducto.setBackground(Color.YELLOW);
+		btnAnadirProducto.setBounds(301, 472, 137, 29);
+		contentPane.add(btnAnadirProducto);
+		
+		JButton btnModificarProducto = new JButton("Modificar Producto");
+		btnModificarProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnModificarProducto.setBackground(Color.YELLOW);
+		btnModificarProducto.setBounds(526, 472, 151, 29);
+		contentPane.add(btnModificarProducto);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
