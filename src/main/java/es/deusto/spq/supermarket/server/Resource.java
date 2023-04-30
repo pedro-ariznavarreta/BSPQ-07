@@ -179,9 +179,7 @@ public class Resource {
 		PersistenceManager pm = pmf.getPersistenceManager();
 
 		Usuario usuarios = null;
-		//sUsuario Inigo = new Usuario("Inigo","Susilla","aaaa",0,1);
 		try {
-			System.out.println(nick);
 			Query<Usuario> q = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE username== '" + nick + "'");
 			
 			List<Usuario> usuariosl = q.executeList();
@@ -230,10 +228,10 @@ public class Resource {
 	@POST
 	@Path("/regGerente")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public static void insertarGerente(List<String> usuarioL) {
-		String nick = usuarioL.get(0);
-		String contraseña = usuarioL.get(1);
-		String email = usuarioL.get(2);
+	public static void insertarGerente(List<String> usuarioG) {
+		String nick = usuarioG.get(0);
+		String contraseña = usuarioG.get(1);
+		String email = usuarioG.get(2);
 		int a =0;
 		int b = 1;
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
@@ -255,10 +253,10 @@ public class Resource {
 	@POST
 	@Path("/regTrabajador")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public static void insertarTrabajador(List<String> usuarioL) {
-		String nick = usuarioL.get(0);
-		String contraseña = usuarioL.get(1);
-		String email = usuarioL.get(2);
+	public static void insertarTrabajador(List<String> usuarioT) {
+		String nick = usuarioT.get(0);
+		String contraseña = usuarioT.get(1);
+		String email = usuarioT.get(2);
 		int a = 1;
 		int b = 0;
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");

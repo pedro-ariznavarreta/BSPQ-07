@@ -53,7 +53,6 @@ public class VentanaLogin extends JFrame {
 	private JTextField textEmail;
 	private JTextField textContraseña;
 	private static Usuario usuarios;
-	private ArrayList<Usuario> usuariosTrabajadores = new ArrayList<>();
 	private VentanaCrearCuenta cc = new VentanaCrearCuenta();
 
 	Client cliente = ClientBuilder.newClient();
@@ -200,8 +199,9 @@ public class VentanaLogin extends JFrame {
 								new VentanaTrabajador();
 							}else {
 								if(valorRol == 2) {    //es gerente
+									
+									new VentanaPanelGerente(usuarios);
 									dispose();
-									new VentanaGerente(null, valorRol);
 								}
 							}
 						}
