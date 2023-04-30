@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 import categories.PerformanceTest;
 import es.deusto.spq.supermarket.client.VentanaBusqueda;
 import es.deusto.spq.supermarket.server.Main;
-import es.deusto.spq.supermarket.server.jdo.Producto;
+import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 
@@ -32,7 +32,7 @@ public class VentanaBusquedaTest {
 	private HttpServer server;
 	private WebTarget appTarget;
 	private Usuario usuario = Mockito.mock(Usuario.class);
-	private Producto producto = Mockito.mock(Producto.class);
+	private Product producto = Mockito.mock(Product.class);
 	private static int cantidad;
 
     @Before
@@ -59,11 +59,11 @@ public class VentanaBusquedaTest {
 	@Test
 	public void testBusquedaProd() {
 		
-		List<Producto> listProd = Arrays.asList(
-    			new Producto("Platano", "Deliciosa", 3, "pedro", 100));
+		List<Product> listProd = Arrays.asList(
+    			new Product("Platano", "Deliciosa", 3, "pedro", 100));
 		Usuario us = new Usuario();
 		VentanaBusqueda vent = new VentanaBusqueda(us);
-		List<Producto> productos = vent.busquedaProd("Platano");
+		List<Product> productos = vent.busquedaProd("Platano");
 		
 		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
 		

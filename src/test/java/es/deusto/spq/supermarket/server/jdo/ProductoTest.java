@@ -9,11 +9,11 @@ import org.junit.Test;
 
 public class ProductoTest {
 
-	private Producto p;
+	private Product p;
 	
 	@Before
 	public void crearProducto() {
-		p = new Producto("Platano", "Deliciosa", 3, "pedro", 100);
+		p = new Product("Platano", "Deliciosa", 3, "pedro", 100);
 		
 	}
 	

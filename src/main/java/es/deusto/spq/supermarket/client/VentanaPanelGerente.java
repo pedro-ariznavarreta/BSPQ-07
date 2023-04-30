@@ -21,7 +21,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
-import es.deusto.spq.supermarket.server.jdo.Producto;
+import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;

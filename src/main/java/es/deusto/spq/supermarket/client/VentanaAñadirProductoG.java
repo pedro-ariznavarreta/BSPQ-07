@@ -42,13 +42,12 @@ public class VentanaAñadirProductoG extends JFrame {
 	public static JTextField txtCod;
 	public static JTextField txtDesc;
 	public static JTextField txtPrecio;
-	public static JTextField codigotext;
 	public static int codigoverificacion;
 	private JTextField txtCant;
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
-	final WebTarget userTarget = appTarget.path("productos");
+	final WebTarget userTarget = appTarget.path("regProductos");
 
 	/**
 	 * Launch the application.
@@ -196,6 +195,7 @@ public class VentanaAñadirProductoG extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 				Usuario u = new Usuario();
 				new VentanaGerente(u);
 				dispose();
@@ -207,19 +207,42 @@ public class VentanaAñadirProductoG extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				List<String> productos = new ArrayList<>();
-				productos.add(txtNom.getText());
-				productos.add(txtDesc.getText());
-				productos.add(txtCod.getText());
-				productos.add(txtPrecio.getText());
-				productos.add(txtCant.getText());
-				userTarget.request().post(Entity.entity(productos, MediaType.APPLICATION_JSON));
+				// COMPROBACION DE QUE LOS CAMPOS ESTAN RELLENADOS
+				if (txtNom.getText().length() == 0 || txtCod.getText().length() == 0
+						|| txtDesc.getText().length() == 0 || txtPrecio.getText().length() == 0 || txtCant.getText().length() == 0) {
 
-				JOptionPane.showMessageDialog(btnVolver, "Producto añadido correctamente");
+					JOptionPane.showMessageDialog(null, "Asegurese de que todos los campos estan completados", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					lblRegistrarse.setForeground(Color.RED);
+					lblNomProducto.setForeground(Color.RED);
+					lblDescripcion.setForeground(Color.RED);
+					lblPrecio.setForeground(Color.RED);
+					lblCodigo.setForeground(Color.RED);
 
-			}
+				}
 
+					boolean usuariousado = Resource.nomcheck(txtCod.getText());
+
+					if (usuariousado == true) {
+
+						System.out.println("Producto Repetido");
+						JOptionPane.showMessageDialog(null, "Este producto ya esta registrado, use otro", "ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						
+	 	               List<String> producto = new ArrayList<>();
+	 	               producto.add(txtNom.getText());
+	 	               producto.add(txtCod.getText());
+	 	               producto.add(txtDesc.getText());
+	 	               producto.add(txtPrecio.getText());
+	 	               producto.add(txtCant.getText());
+	 	               
+	 	               userTarget.request().post(Entity.entity(producto, MediaType.APPLICATION_JSON));
+
+						JOptionPane.showMessageDialog(btnVolver, "Producto registrado correctamente");
+						dispose();
+					}
+				}
 		});
-
 	}
 }

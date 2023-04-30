@@ -14,6 +14,7 @@ import es.deusto.spq.supermarket.pojo.DirectMessage;
 import es.deusto.spq.supermarket.pojo.MessageData;
 import es.deusto.spq.supermarket.pojo.UserData;
 import es.deusto.spq.supermarket.server.jdo.Message;
+import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.User;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
@@ -277,7 +278,34 @@ public class Resource {
 		}
 
 	}
-	//Devuelve los productos
+	@POST
+	@Path("/regProductos")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void insertarProductos(List<String> productos) {
+		String nom = productos.get(0);
+		String cod = productos.get(1);
+		String desc = productos.get(2);
+		String precio = productos.get(3);
+		String cant = productos.get(4);
+		
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			Producto producto1 = new Producto(nom, cod, desc, precio, cant);
+			pm.makePersistent(producto1);
+			tx.commit();
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
+		
+	//Devuelve los productos en una lista
 	@GET
 	@Path("/productos")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -392,12 +420,12 @@ public class Resource {
 	@GET
 	@Path("/nomP")
 	@Produces(MediaType.APPLICATION_JSON)
-	public static List<Producto> getProductosNom(@QueryParam("nombre") String nombre) {
+	public static List<Product> getProductosNom(@QueryParam("nombre") String nombre) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
-		List<Producto> productos = null;
+		List<Product> productos = null;
 		try {
-			Query<Producto> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE nombre== '" + nombre + "'");
+			Query<Product> q = pm.newQuery("SELECT FROM " + Product.class.getName() + " WHERE nombre== '" + nombre + "'");
 
 			productos = q.executeList();
 		} catch (Exception e) {
@@ -412,13 +440,13 @@ public class Resource {
 	@GET
 	@Path("/allP")
 	@Produces(MediaType.APPLICATION_JSON)
-	public static List<Producto> getProductos() {
+	public static List<Product> getProductos() {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		Query<Producto> q = pm.newQuery(Producto.class);
+		Query<Product> q = pm.newQuery(Product.class);
 
-		List<Producto> productos = q.executeList();
+		List<Product> productos = q.executeList();
 
 		pm.close();
 

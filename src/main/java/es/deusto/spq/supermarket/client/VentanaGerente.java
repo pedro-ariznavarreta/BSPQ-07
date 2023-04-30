@@ -35,7 +35,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
-import es.deusto.spq.supermarket.server.jdo.Producto;
+import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -55,8 +55,8 @@ public class VentanaGerente extends JFrame {
 	private DefaultTableModel tableModel_ofertas = new DefaultTableModel();
 	private static Usuario usuario;
 	private static int cantidad;
-	private static List<Producto> productos;
-	private static List<Producto> listaFavoritos = new ArrayList<>();
+	private static List<Product> productos;
+	private static List<Product> listaFavoritos = new ArrayList<>();
 
 	private JPanel panel;
 
@@ -98,16 +98,16 @@ public class VentanaGerente extends JFrame {
 		initialize();
 	}
 
-	public List<Producto> busquedaProd(String producto) {
-		List<Producto> productos = null;
+	public List<Product> busquedaProd(String producto) {
+		List<Product> productos = null;
 
 		if (producto.equals("")) {
-			GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {
+			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
 			};
 			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		} else {
 			WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", producto);
-			GenericType<List<Producto>> genericType = new GenericType<List<Producto>>() {
+			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
 			};
 			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		}
@@ -121,7 +121,7 @@ public class VentanaGerente extends JFrame {
 		tableModel.setRowCount(0);
 
 		// Llenamos la tabla con los productos favoritos
-		for (Producto p : listaFavoritos) {
+		for (Product p : listaFavoritos) {
 			Object[] fila = { p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio() };
 			tableModel.addRow(fila);
 		}
@@ -180,7 +180,7 @@ public class VentanaGerente extends JFrame {
 				while (tableModel.getRowCount() > 0) {
 					tableModel.removeRow(0);
 				}
-				for (Producto p : productos) {
+				for (Product p : productos) {
 					if (p.getNombre().toLowerCase().contains(textBuscador.getText().toLowerCase())) {
 						tableModel.addRow(new Object[] { p.getCodigo(), p.getNombre(), p.getDescripcion(),
 								p.getCantidad(), p.getPrecio() });
@@ -261,7 +261,7 @@ public class VentanaGerente extends JFrame {
 				if (e.getClickCount() == 2) {
 					JTable target = (JTable) e.getSource();
 					int row = target.getSelectedRow();
-					Producto productoSeleccionado = productos.get(row);
+					Product productoSeleccionado = productos.get(row);
 					int opcion = JOptionPane.showConfirmDialog(null, "¿Añadir a favoritos?", "Confirmar",
 							JOptionPane.YES_NO_OPTION);
 					if (opcion == JOptionPane.YES_OPTION) {
