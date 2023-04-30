@@ -10,6 +10,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -59,6 +62,25 @@ public class VentanaCrearCuentaGerente extends JFrame {
 				}
 			}
 		});
+	}
+	public void escribirEnElCsv(Usuario u){
+		try {
+			FileWriter fileWriter = new FileWriter("sql/csvTrabajadores.csv", true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			String datos = u.getUsername() + "," +u.getPassword()+","+u.getEmail()+",0,1";
+			String datosUnidos = String.join(",", datos);
+			
+			bufferedWriter.write(datosUnidos);
+			bufferedWriter.newLine();
+			
+			bufferedWriter.close();
+		    fileWriter.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -227,6 +249,17 @@ public class VentanaCrearCuentaGerente extends JFrame {
 	 	               trabajadorGerente.add(txtEmail.getText());
 	 	               trabajadorGerente.add(String.valueOf(0));
 	 	               trabajadorGerente.add(String.valueOf(1));
+	 	               
+	 	              Usuario u = new Usuario(
+	            		   		trabajadorGerente.get(0),
+	            		   		trabajadorGerente.get(1),
+	            		   		trabajadorGerente.get(2),
+	            		   		Integer.parseInt(trabajadorGerente.get(3)),
+	            		   		Integer.parseInt(trabajadorGerente.get(4)));
+	               
+	              escribirEnElCsv(u); //Guardamos en local antes de subir a la nube
+	 	               
+	 	               
 	 	               trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
 
 						JOptionPane.showMessageDialog(btnVolver, "Gerente registrado correctamente");
