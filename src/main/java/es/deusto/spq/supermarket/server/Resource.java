@@ -340,6 +340,25 @@ public class Resource {
 			pm.close();
 		}
 	}
+	
+	//Eliminar productos de la base de datos ~
+	@POST
+	@Path("elimProductos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static void eliminarProducto(List<String> producto) {
+		//String nick = producto.get(0);
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		try (Query<Producto> q = pm.newQuery("DELETE * FROM " + Producto.class.getName());) {
+			List<Producto> user = q.executeList();
+			pm.deletePersistentAll(user);
+		} catch (Exception e) {
+			logger.catching(e);
+		} finally {
+			pm.close();
+		}
+	}
 
 	@GET
 	@Path("nomcheck")
@@ -367,7 +386,35 @@ public class Resource {
 		}
 		return usuariousado;
 	}
+	
+	@GET
+	@Path("codcheck")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static boolean codcheck(@QueryParam("nick") String nick) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
 
+		boolean usuariousado = false;
+
+		try {
+			Query<Usuario> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE cod== '" + nick + "'");
+
+			List<Usuario> usuariosl = q.executeList();
+
+			if (usuariosl.isEmpty()) {
+				usuariousado = false;
+			} else {
+				usuariousado = true;
+			}
+		} catch (Exception e) {
+			logger.catching(e);
+		} finally {
+			pm.close();
+		}
+		return usuariousado;
+	}
+	
+	
 	@GET
 	@Path("rol")
 	@Produces(MediaType.APPLICATION_JSON)

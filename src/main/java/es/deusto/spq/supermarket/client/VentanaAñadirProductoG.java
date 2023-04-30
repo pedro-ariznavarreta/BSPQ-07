@@ -218,18 +218,12 @@ public class VentanaAñadirProductoG extends JFrame {
 					lblDescripcion.setForeground(Color.RED);
 					lblPrecio.setForeground(Color.RED);
 					lblCodigo.setForeground(Color.RED);
-
-				}
-
-					boolean usuariousado = Resource.nomcheck(txtCod.getText());
-
-					if (usuariousado == true) {
-
-						System.out.println("Producto Repetido");
-						JOptionPane.showMessageDialog(null, "Este producto ya esta registrado, use otro", "ERROR",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						
+				}else if (Resource.codcheck(txtCod.getText())){
+					System.out.println("Producto Repetido");
+					JOptionPane.showMessageDialog(null, "Este producto ya esta registrado, use otro", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					lblCodigo.setForeground(Color.RED);
+				}else {
 	 	               List<String> producto = new ArrayList<>();
 	 	               producto.add(txtNom.getText());
 	 	               producto.add(txtCod.getText());
@@ -241,8 +235,8 @@ public class VentanaAñadirProductoG extends JFrame {
 
 						JOptionPane.showMessageDialog(btnVolver, "Producto registrado correctamente");
 						dispose();
-					}
 				}
+			}
 		});
 	}
 }
