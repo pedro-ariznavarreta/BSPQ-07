@@ -46,13 +46,14 @@ public class VentanaVerificarCodigoTest {
 	        // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
 
 	        appTarget = c.target(Main.BASE_URI);
+	        usuarioTarget = appTarget.path("resource");
 	    }
 
 	    @After
 	    public void tearDown() throws Exception {
 	    	
 	    	List<String> user = Arrays.asList("pedro");
-	    	WebTarget userElimTarget = appTarget.path("elim");
+	    	WebTarget userElimTarget = usuarioTarget.path("elim");
 	    	userElimTarget.request().post(Entity.entity(user, MediaType.APPLICATION_JSON));
 	    	
 	        server.stop();
@@ -60,16 +61,16 @@ public class VentanaVerificarCodigoTest {
 		@Test
 		public void testCrearCuenta() {
 			
-//			VentanaVerificarCodigo v = new VentanaVerificarCodigo();
-//			v.crearCuenta("pedro", "1234","pedro.ariznavarreta@opendeusto.es", 0, 0);
-//			
-//			 
-//			WebTarget usuarioNomTarget = appTarget.path("nom").queryParam("nick", "pedro");
-//			GenericType<Usuario> genericType = new GenericType<Usuario>() {
-//			};
-//			Usuario u = usuarioNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-//			
-//			assertEquals("pedro", u.getUsername());
+			VentanaVerificarCodigo v = new VentanaVerificarCodigo();
+			v.crearCuenta("pedro", "1234","pedro.ariznavarreta@opendeusto.es", 0, 0);
+			
+			 
+			WebTarget usuarioNomTarget = usuarioTarget.path("nom").queryParam("nick", "pedro");
+			GenericType<Usuario> genericType = new GenericType<Usuario>() {
+			};
+			Usuario u = usuarioNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+			
+			assertEquals("pedro", u.getUsername());
 
 		}
 
