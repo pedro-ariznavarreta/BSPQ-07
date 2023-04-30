@@ -199,9 +199,9 @@ public class VentanaBusqueda extends JFrame {
 		btnVolver.setBackground(new Color(255, 255, 0));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaLogin log = new VentanaLogin();
-				log.setVisible(true);
-				setVisible(false);
+				//VentanaLogin log = new VentanaLogin();
+				//log.setVisible(true);
+				//setVisible(false);
 				VentanaLogin v2 = new VentanaLogin();
 				v2.setVisible(true);
 

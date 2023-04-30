@@ -187,27 +187,31 @@ public class VentanaLogin extends JFrame {
 					if (result == true) {
 						JOptionPane.showMessageDialog(null, "Usuario Correcto");
 						
-						dispose();
+						//dispose();
 						if(valorRol == 0) {  //es cliente
 							Usuario u = new Usuario();
 							 VentanaBusqueda window1= new VentanaBusqueda(u);
 							 window1.setVisible(true);
-							 dispose();
-						}else {
-							if(valorRol == 1) {   //es trabajador
-								dispose();
+							 
+						}else if(valorRol == 1) {   //es trabajador
+								
 								new VentanaTrabajador();
-							}else {
-								if(valorRol == 2) {    //es gerente
-									
-									new VentanaPanelGerente(usuarios);
-									dispose();
+						}else if(valorRol == 2) {    //es gerente
+								//Usuario u = new Usuario();
+								//System.out.println("ENTRA EN GERENTE");
+								//new VentanaPanelGerente(u);
+								
+								Usuario uu = new Usuario();
+								VentanaPanelGerente window= new VentanaPanelGerente(uu);
+								window.setVisible(true);
+							
 								}
+						dispose();
 							}
 						}
 					}
-				}
-			}
+				
+			
 		});
 		btnLogin.setForeground(Color.WHITE);
 		btnLogin.setBackground(new Color(233, 217, 27));
@@ -230,7 +234,7 @@ public class VentanaLogin extends JFrame {
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
 			WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", usuario);
-			System.out.println(userNomTarget);
+			//System.out.println(userNomTarget);
 			GenericType<Usuario> genericType = new GenericType<Usuario>() {
 			};
 			usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
@@ -247,6 +251,7 @@ public class VentanaLogin extends JFrame {
 		WebTarget userNomTarget = appTarget.path("login").queryParam("nick", usuario);
 		GenericType<Usuario> genericType = new GenericType<Usuario>() {	};
 		usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		//System.out.println(usuarios.getEmail());
 		int valor = 0;
 		if(usuarios.getTrabajador() == 1) {
 			valor = 1;
@@ -276,7 +281,7 @@ public void cargarCsvLocal() {
 	        		trabajadorGerente.add(String.valueOf(valores[3]));
 	        		trabajadorGerente.add(String.valueOf(valores[4]));
 	        		
-	        		System.out.println(valores[0]);
+	        		//System.out.println(valores[0]);
 	        		
 	        		boolean usuariousado = Resource.nomcheck(valores[0]);
 
