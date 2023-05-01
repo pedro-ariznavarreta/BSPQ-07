@@ -7,9 +7,6 @@ Run the following command to build everything and enhance the DB classes:
 
       mvn clean compile
 
-Para probar los test unitarios introduzca este comando:
-
-      mvn test
 
 Make sure that the database was correctly configured. Use the contents of the file *create-message.sql* to create the database and grant privileges. For example,
 
@@ -22,6 +19,10 @@ Run the following command to create database schema for this sample.
 Para añadir los nuevos datos
 
     mvn exec:java -P datos
+    
+Para probar los test unitarios introduzca este comando:
+
+      mvn test
 
 To launch the server run the command
 
