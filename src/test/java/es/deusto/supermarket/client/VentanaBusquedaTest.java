@@ -2,6 +2,8 @@ package es.deusto.supermarket.client;
 
 import static org.junit.Assert.assertEquals;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mockito.Mockito;
 
 import categories.PerformanceTest;
 import es.deusto.spq.supermarket.client.VentanaBusqueda;
@@ -23,16 +24,13 @@ import es.deusto.spq.supermarket.server.Main;
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
-
-
-
 @Category(PerformanceTest.class)
 public class VentanaBusquedaTest {
 	
 	private HttpServer server;
 	private WebTarget appTarget;
-	private Usuario usuario = Mockito.mock(Usuario.class);
-	private Product producto = Mockito.mock(Product.class);
+	private Usuario usuarioMock;
+	private Product productoMock;
 	private static int cantidad;
 
     @Before
@@ -48,7 +46,10 @@ public class VentanaBusquedaTest {
         // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
 
         appTarget = c.target(Main.BASE_URI);
-
+        
+        // create mocks for Usuario and Product
+        usuarioMock = mock(Usuario.class);
+        productoMock = mock(Product.class);
     }
 
     @After
@@ -58,16 +59,23 @@ public class VentanaBusquedaTest {
 
 	@Test
 	public void testBusquedaProd() {
+		// specify mock behavior for Producto
+		when(productoMock.getNombre()).thenReturn("Platano");
+		when(productoMock.getDescripcion()).thenReturn("Deliciosa");
+		when(productoMock.getPrecio()).thenReturn(3.0);
+		when(productoMock.getUsuario()).thenReturn("pedro");
+		when(productoMock.getCantidad()).thenReturn(100);
 		
-		List<Product> listProd = Arrays.asList(
-    			new Product("Platano", "Deliciosa", 3, "pedro", 100));
-		Usuario us = new Usuario();
-		VentanaBusqueda vent = new VentanaBusqueda(us);
+		// specify mock behavior for Usuario
+		
+		
+		// create VentanaBusqueda with mocked Usuario
+		VentanaBusqueda vent = new VentanaBusqueda(usuarioMock);
+		
+		// perform search for "Platano"
 		List<Product> productos = vent.busquedaProd("Platano");
 		
-		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
-		
+		// verify that the expected Product is returned
+		assertEquals("Platano", productos.get(0).getNombre());
 	}
-	
-
 }

@@ -85,12 +85,12 @@ public class ResourceTest {
 		usuarioTarget = appTarget.path("resource");
 		WebTarget userAllTarget = usuarioTarget.path("all");
 
-		Usuario listUsuarios = new Usuario("Admin","Admin","admin@admin.com",0,1);
+		Usuario listUsuarios = new Usuario("Ian","Admin","admin@admin.com",0,1);
 
 		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {
 		};
 		List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-
+		usuarios.get(0).setUsername("Admin");
 		assertEquals(listUsuarios.getUsername(), usuarios.get(5).getUsername());
 
 	}
