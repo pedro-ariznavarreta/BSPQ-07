@@ -85,7 +85,7 @@ public class ResourceTest {
 		usuarioTarget = appTarget.path("resource");
 		WebTarget userAllTarget = usuarioTarget.path("all");
 
-		Usuario listUsuarios = new Usuario("p", "1234", "p.email", 0, 0);
+		Usuario listUsuarios = new Usuario("Admin","Admin","admin@admin.com",0,1);
 
 		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {
 		};
