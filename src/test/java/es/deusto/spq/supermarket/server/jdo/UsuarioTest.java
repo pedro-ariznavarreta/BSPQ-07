@@ -11,7 +11,14 @@ public class UsuarioTest {
 	
 	Usuario c1=new Usuario("Jon","jf", "jf",0,0);
 	Usuario c2= new Usuario();
-
+	public void Constructor() {
+	Usuario usuario = new Usuario("testUser", "password", "testuser@example.com", 1, 0);
+	assertEquals("testUser", usuario.getUsername());
+	assertEquals("password", usuario.getPassword());
+	assertEquals("testuser@example.com", usuario.getEmail());
+	assertEquals(1, usuario.getTrabajador());
+	assertEquals(0, usuario.getGerente());
+	}
 	@Test
 	public void GetUsername() {
 		assertEquals("Jon", c1.getUsername());

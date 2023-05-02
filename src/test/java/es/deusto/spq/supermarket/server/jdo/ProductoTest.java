@@ -11,12 +11,22 @@ public class ProductoTest {
 
 	private Product p;
 	
+	
+	
 	@Before
 	public void crearProducto() {
 		p = new Product("Platano", "Deliciosa", 3, "pedro", 100);
 		
 	}
-	
+	@Test
+	public void testConstructor() {
+	Producto p = new Producto("Leche", "001", "Leche entera", "1.20", "10");
+	assert p.getnom().equals("Leche");
+	assert p.getcod().equals("001");
+	assert p.getdesc().equals("Leche entera");
+	assert p.getPrecio().equals("1.20");
+	assert p.getCant().equals("10");
+	}
 	@Test
 	public void testGetNombre() {
 		assertEquals("Platano", p.getNombre());
@@ -73,5 +83,12 @@ public class ProductoTest {
 		assertEquals(10, p.getCantidad());
 	}
 
+
+	@Test
+	public void testComrpobarProductosDifrentes() {
+	Producto p1 = new Producto("Leche", "001", "Leche entera", "1.20", "10");
+	Producto p2 = new Producto("Queso", "002", "Queso manchego", "2.50", "5");
+	assert !p1.equals(p2);
+	}
 	
 }
