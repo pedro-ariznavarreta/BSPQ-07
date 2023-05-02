@@ -80,7 +80,7 @@ public class VentanaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaLogin() {
-		cargarCsvLocal();
+		//cargarCsvLocal();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 375, 460);
 		contentPane = new JPanel();

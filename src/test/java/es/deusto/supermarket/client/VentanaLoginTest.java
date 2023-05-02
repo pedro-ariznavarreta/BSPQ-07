@@ -50,77 +50,65 @@ public class VentanaLoginTest {
 
     @Before
     public void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//
-//        // prepare static mock of ClientBuilder
-//        try (MockedStatic<ClientBuilder> clientBuilder = Mockito.mockStatic(ClientBuilder.class)) {
-//            clientBuilder.when(ClientBuilder::newClient).thenReturn(client);
-//            when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
-//
-//            vL = new VentanaLogin();
-//
-//            // Simulate response from database query
+        MockitoAnnotations.openMocks(this);
+
+        // prepare static mock of ClientBuilder
+        try (MockedStatic<ClientBuilder> clientBuilder = Mockito.mockStatic(ClientBuilder.class)) {
+            clientBuilder.when(ClientBuilder::newClient).thenReturn(client);
+            when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
+
+            vL = new VentanaLogin();
+
+            // Simulate response from database query
             
-        
+        }
     }
     
     @Test
     public void testLoginWithValidUserAndPassword() {
-//        String usuario = "usuario";
-//        String contraseña = "contraseña";
-//        Usuario usu = new Usuario("usuario", "contraseña", "contraseña", 0, 0);
-//        when(us.getPassword()).thenReturn("contraseña");
-//        
-//        when(webTarget.path("nom").queryParam("nick", "usuario")
-//                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
-//                .thenReturn(us);
-//
-//        boolean resultado = vL.login(usuario, contraseña);
-//
-//        assertTrue(resultado);
+        String usuario = "usuario";
+        String contraseña = "contraseña";
+        Usuario usu = new Usuario("usuario", "contraseña", "contraseña", 0, 0);
+        when(us.getPassword()).thenReturn("contraseña");
+        
+        when(webTarget.path("nom").queryParam("nick", "usuario")
+                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
+                .thenReturn(us);
+
+        boolean resultado = vL.login(usuario, contraseña);
+
+        assertTrue(resultado);
     }
 
     @Test
     public void testLoginWithInvalidUser() {
-//        String usuario = "";
-//        String contraseña = "contraseña";
-//        
-//        when(webTarget.path("nom").queryParam("nick", "usuario")
-//                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
-//                .thenReturn(us);
-//
-//        boolean resultado = vL.login(usuario, contraseña);
-//
-//        assertFalse(resultado);
+        String usuario = "";
+        String contraseña = "contraseña";
+        
+        when(webTarget.path("nom").queryParam("nick", "usuario")
+                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
+                .thenReturn(us);
+
+        boolean resultado = vL.login(usuario, contraseña);
+
+        assertFalse(resultado);
     }
 
     @Test
     public void testLoginWithInvalidPassword() {
-//        String usuario = "usuario";
-//        String contraseña = "";
-//        
-//        when(webTarget.path("nom").queryParam("nick", "usuario")
-//                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
-//                .thenReturn(us);
-//
-//        boolean resultado = vL.login(usuario, contraseña);
-//
-//        assertFalse(resultado);
+        String usuario = "usuario";
+        String contraseña = "";
+        
+        when(webTarget.path("nom").queryParam("nick", "usuario")
+                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
+                .thenReturn(us);
+
+        boolean resultado = vL.login(usuario, contraseña);
+
+        assertFalse(resultado);
     }
 
-    @Test
-    public void testLoginWithNullUserAndPassword() {
-//        String usuario = null;
-//        String contraseña = null;
-//        
-//        when(webTarget.path("nom").queryParam("nick", "usuario")
-//                .request(MediaType.APPLICATION_JSON).get(new GenericType<Usuario>() {}))
-//                .thenReturn(us);
-//
-//        boolean resultado = vL.login(usuario, contraseña);
-//
-//        assertFalse(resultado);
-    }
+
 
 }
 
