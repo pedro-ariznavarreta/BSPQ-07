@@ -3,6 +3,10 @@ new VentanaTrabajador()Jersey + DataNucleus + MySQL
 
 This example relies on the DataNucleus Maven plugin. Check the database configuration in the *datanucleus.properties* file and the JDBC driver dependency specified in the *pom.xml* file. In addition, the project contains the server and client example codes.
 
+Para probar los test unitarios introduzca este comando:
+
+      mvn test
+
 Run the following command to build everything and enhance the DB classes:
 
       mvn clean compile
@@ -20,9 +24,7 @@ Para añadir los nuevos datos
 
     mvn exec:java -P datos
     
-Para probar los test unitarios introduzca este comando:
 
-      mvn test
 
 To launch the server run the command
 

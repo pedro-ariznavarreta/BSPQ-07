@@ -36,6 +36,10 @@ public class PrepararDatos {
 
 			Usuario usuario1 = new Usuario("pedro", "1234","pedro.ariznavarreta@opendeusto.es", 0, 0);
 			pm.makePersistent(usuario1);
+			Usuario usuario2 = new Usuario("admin", "admin","admin@opendeusto.es", 0, 1);
+			pm.makePersistent(usuario2);
+			Usuario usuario3 = new Usuario("A", "A","admin@opendeusto.es", 1, 0);
+			pm.makePersistent(usuario3);
 		
 			
 		
