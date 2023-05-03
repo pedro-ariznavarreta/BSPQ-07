@@ -13,7 +13,6 @@ import categories.PerformanceTest;
 
 
 
-@Category(PerformanceTest.class)
 public class VentanaLoadingTest {
 	@Test
 	public void valor100Test() {

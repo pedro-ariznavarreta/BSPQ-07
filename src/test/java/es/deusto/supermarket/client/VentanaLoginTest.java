@@ -30,7 +30,6 @@ import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 
 
-@Category(PerformanceTest.class)
 public class VentanaLoginTest {
 
     @Mock
