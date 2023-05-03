@@ -1,5 +1,6 @@
 package es.deusto.supermarket.client;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import javax.ws.rs.client.Client;
@@ -8,6 +9,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
@@ -55,5 +57,13 @@ public class VentanaPanelGerenteTest {
 	            
 	        }
 	    }
+		@Test
+		public void test() {
+			try {
+				vPG = new VentanaPanelGerente(us);
+			}catch(Exception e) {
+				assertTrue(false);
+			}
+		}
 
 }
