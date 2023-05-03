@@ -36,6 +36,10 @@ public class ProductTest {
         String nuevoNombre = "Pera";
         producto.setNombre(nuevoNombre);
         assertEquals(nuevoNombre, producto.getNombre());
+        
+        String nuevoCodigo = "oi41o2j4";
+        producto.setCodigo(nuevoCodigo);
+        assertEquals(nuevoCodigo, producto.getCodigo());
 
         String nuevaDescripcion = "Pera fresca";
         producto.setDescripcion(nuevaDescripcion);

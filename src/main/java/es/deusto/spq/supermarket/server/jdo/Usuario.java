@@ -16,6 +16,7 @@ public class Usuario {
 	
 
 	
+	
 	public Usuario(String Usuario, String password, String email,int trabajador,int gerente) {
 		this.username = Usuario;
 		this.password = password;
