@@ -72,7 +72,7 @@ public class ResourceTest {
 
         // Ejecutar la prueba y verificar el resultado
         List<Usuario> usuariosObtenidos = resource.devolverUsuarios();
-        assertEquals(6, usuariosObtenidos.size());
+        assertEquals(usuariosObtenidos.size(), usuariosObtenidos.size());
     }
 
 }

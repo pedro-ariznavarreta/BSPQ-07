@@ -70,6 +70,7 @@ public class VentanaCrearCuentaGerente extends JFrame {
 			String datos = u.getUsername() + "," +u.getPassword()+","+u.getEmail()+",0,1";
 			String datosUnidos = String.join(",", datos);
 			
+			fileWriter.getEncoding();
 			bufferedWriter.write(datosUnidos);
 			bufferedWriter.newLine();
 			

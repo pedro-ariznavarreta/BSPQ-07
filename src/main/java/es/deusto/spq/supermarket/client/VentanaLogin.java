@@ -1,4 +1,4 @@
-package es.deusto.spq.supermarket.client;
+ package es.deusto.spq.supermarket.client;
 
 import java.awt.Color;
 
