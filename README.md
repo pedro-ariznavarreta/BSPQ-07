@@ -1,36 +1,48 @@
-new VentanaTrabajador()Jersey + DataNucleus + MySQL
+COOKMASTER README 
 ============================
 
-This example relies on the DataNucleus Maven plugin. Check the database configuration in the *datanucleus.properties* file and the JDBC driver dependency specified in the *pom.xml* file. In addition, the project contains the server and client example codes.
+Este proyecto es una aplciacion para la gestoría de un supermercado. En el que hay varios roles los cuales pueden acceder a la aplicación. Existe el rol de cliente el cual tiene acceso a una cuenta y a los productos, donde puede comprar y añadir al carrito varios productos. Por otra parte tenemos las clases de trabajador y gerente los cuales tienen permisos de administrador para añadir productos y añadir mas trabajadores o gerentes.
+
+Para compilar el proyecto ejecutamos el siguiente comando:
+
+      mvn clean compile
+
+
+Para encender la base de datos ejecutamos el siguiente comando:
+
+      mysql –uroot -p < sql/create-messages.sql
+
+Para enlazar la aplicación a la base de datos ejecutamos el siguiente comando:
+
+      mvn datanucleus:schema-create
+      
+Para añadir datos de ejemplo ejecutamos el siguiente comando:
+
+    mvn exec:java -P datos
+
+Para lanzar el servidor ejecutamos el siguiente comando:
+
+    mvn jetty:run
+
+Para ejecutar el cliente usamos el siguiente comando:
+
+    mvn exec:java -Pclient
+
 
 Para probar los test unitarios introduzca este comando:
 
       mvn test
 
-Run the following command to build everything and enhance the DB classes:
+====================================================================================
+Cliente
+Para el correcto uso de la aplición hay que seguir estos pasos:
 
-      mvn clean compile
+1. Iniciamos sesion o creamos una cuenta
+2. Ahora nos saldrá para escoger los productos y añadirlos a favoritos o comprarlos.
+3.
 
-
-Make sure that the database was correctly configured. Use the contents of the file *create-message.sql* to create the database and grant privileges. For example,
-
-      mysql –uroot -p < sql/create-messages.sql
-
-Run the following command to create database schema for this sample.
-
-      mvn datanucleus:schema-create
-      
-Para añadir los nuevos datos
-
-    mvn exec:java -P datos
-    
-
-
-To launch the server run the command
-
-    mvn jetty:run
-
-Now, the client sample code can be executed in a new command window with
-
-    mvn exec:java -Pclient
-
+====================================================================================
+Gerente o Trabajador
+1. Iniciamos sesion como gerente o trabajador.
+2. Podemos usar las siguientes credenciales : "Gerente", "Gerente" (Para iniciar sesión como gerente) o "Trabajador", "Trabajador" (Para iniciar sesion como personal del supermercado)
+3. Ahí ya podemos aplicar la funcionalidad de personal del supermercado.
