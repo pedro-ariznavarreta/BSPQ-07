@@ -34,6 +34,7 @@ Para probar los test unitarios introduzca este comando:
       mvn test
 
 ====================================================================================
+
 Cliente
 Para el correcto uso de la aplición hay que seguir estos pasos:
 
@@ -42,6 +43,7 @@ Para el correcto uso de la aplición hay que seguir estos pasos:
 3.
 
 ====================================================================================
+
 Gerente o Trabajador
 1. Iniciamos sesion como gerente o trabajador.
 2. Podemos usar las siguientes credenciales : "Gerente", "Gerente" (Para iniciar sesión como gerente) o "Trabajador", "Trabajador" (Para iniciar sesion como personal del supermercado)
