@@ -6,13 +6,17 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
-
+import es.deusto.spq.supermarket.server.jdo.Cesta;
+import es.deusto.spq.supermarket.server.jdo.Pedido;
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Producto;
 
@@ -497,4 +501,176 @@ public class Resource {
 		return productos;
 
 	}
+	
+	@GET
+	@Path("/contar")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static int contarPoductos(@QueryParam("Usuario") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		int contador = 0;
+
+		try (Query<Cesta> q = pm
+				.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'")) {
+			List<Cesta> cestav = q.executeList();
+
+			for (Cesta cesta : cestav) {
+				contador = contador + 1;
+			}
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		} finally {
+			pm.close();
+		}
+		return contador;
+	}
+	
+	
+
+	@GET
+	@Path("/anadir")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static boolean anadirProductoCesta(@QueryParam("Producto") String producto,
+		@QueryParam("Usuario") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		boolean respuesta = false;
+
+		Cesta cesta = new Cesta(producto, null, usuario);
+		try {
+			tx.begin();
+			logger.info("Guardando objeto: " + cesta);
+			pm.makePersistent(cesta);
+			tx.commit();
+			respuesta = true;
+
+		} catch (Exception ex) {
+			logger.info(ex.getMessage());
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+		return respuesta;
+	}
+
+	@POST
+	@Path("/borrar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void vaciarCesta(Usuario usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+
+		try (Query<Cesta> q = pm.newQuery(
+				"SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario.getUsername() + "'")) {
+			List<Cesta> cestav = q.executeList();
+			logger.info("Cesta borrada");
+
+			pm.deletePersistentAll(cestav);
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		} finally {
+			pm.close();
+		}
+	}
+	
+	@GET
+	@Path("/buscar")
+	@Produces(MediaType.APPLICATION_JSON)
+	public static List<Product> verProductosCesta(@QueryParam("Usuario") String usuario) {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		ArrayList<Product> productos = new ArrayList<>();
+
+		try {
+			Query<Cesta> q = pm
+					.newQuery("SELECT FROM " + Cesta.class.getName() + " WHERE NombreUsuario == '" + usuario + "'");
+
+			List<Cesta> cestav = q.executeList();
+
+			for (Cesta cesta : cestav) {
+
+				Query<Product> qq = pm.newQuery(
+						"SELECT FROM " + Product.class.getName() + " WHERE nombre== '" + cesta.getNombreproducto() + "'");
+
+				List<Product> productosr = qq.executeList();
+
+				productos.add(productosr.get(0));
+
+			}
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		} finally {
+			pm.close();
+		}
+		return productos;
+	}
+	
+	 
+	  	@POST
+	  	@Path("/anyadir")
+	  	@Produces(MediaType.APPLICATION_JSON)
+		public static void anadirPedido(List<String> pedidoL) throws Exception {
+	  		System.out.println("Guardando");
+	  		String nombre = pedidoL.get(0);
+	  		String fechaPago = pedidoL.get(1);
+	  		String direccion = pedidoL.get(2);
+	  		List<String> productos = new ArrayList<String>();
+	  		for(int i = 3; i < pedidoL.size(); i++) {
+	  			productos.add(pedidoL.get(i));
+	  			System.out.println(productos);
+	  		}
+	  		
+	  		Date fecha = new SimpleDateFormat("yyy-MM-dd").parse(fechaPago);
+	  		System.out.println("Guardando 2");
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			
+			try {
+				tx.begin();
+				Pedido p = new Pedido(nombre, fecha, productos, direccion);
+				System.out.println(p);
+				pm.makePersistent(p);
+				tx.commit();
+			} catch(Exception e){
+				logger.info(e.getMessage());
+			}finally {
+				pm.close();	
+			}
+		}
+	  	
+	  	
+
+		@POST
+		@Path("/comprar")
+		@Consumes(MediaType.APPLICATION_JSON)
+		public static void comprarProductos(Usuario usuario) {
+
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Product producto = new Product();
+
+
+			List<Cesta> cestav = null;
+			try (Query<Cesta> cesta = pm.newQuery("SELECT FROM "+Cesta.class.getName()+" WHERE NombreUsuario == '" + usuario.getUsername() + "'")) {
+				cestav = cesta.executeList();
+			} catch (Exception e) {
+				logger.info(e.getMessage());
+			} 
+			
+			for (Cesta cesv : cestav) {
+				try (Query qq = pm.newQuery("javax.jdo.query.SQL", "UPDATE producto SET CANTIDAD = CANTIDAD - 1   WHERE Nombre = '" + producto.getNombre() + "'")) {
+					producto.setNombre(cesv.getNombreproducto());
+					qq.execute();
+				} catch (Exception e) {
+					logger.info(e.getMessage());
+				} 
+				
+			}
+		}
+
 }

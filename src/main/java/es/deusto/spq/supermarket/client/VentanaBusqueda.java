@@ -33,6 +33,9 @@ import es.deusto.spq.supermarket.server.jdo.Usuario;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
@@ -56,9 +59,8 @@ public class VentanaBusqueda extends JFrame {
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
-	// final WebTarget cestaTarget = appTarget.path("cesta");
 	private JTable table_ofertas;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -89,23 +91,6 @@ public class VentanaBusqueda extends JFrame {
 		initialize();
 	}
 
-	public List<Product> busquedaProd(String producto) {
-		List<Product> productos = null;
-
-		if (producto.equals("")) {
-			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
-			};
-			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		} else {
-			WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", producto);
-			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
-			};
-			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		}
-
-		return productos;
-
-	}
 
 	public void actualizarTabla() {
 		// Limpiamos el modelo de tabla
@@ -124,11 +109,11 @@ public class VentanaBusqueda extends JFrame {
 	 * @param usuario2
 	 */
 	private void initialize() {
-		// WebTarget contarTarget = cestaTarget.path("contar").queryParam("Usuario",
-		// usuario.getUsername());
-		// GenericType<Integer> genericType7 = new GenericType<Integer>() {};
-		// cantidad =
-		// contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
+		 WebTarget contarTarget = appTarget.path("contar").queryParam("Usuario",
+		 usuario.getUsername());
+		 GenericType<Integer> genericType7 = new GenericType<Integer>() {};
+		 cantidad =
+		 contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 745, 576);
@@ -189,9 +174,9 @@ public class VentanaBusqueda extends JFrame {
 		btnCesta.setBackground(new Color(255, 255, 0));
 		btnCesta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				VentanaCesta window = new VentanaCesta(usuario);
-//				window.setVisible(true);
-//				setVisible(false);
+				//VentanaCesta window = new VentanaCesta(usuario);
+				//window.setVisible(true);
+				//setVisible(false);
 			}
 		});
 
@@ -199,9 +184,9 @@ public class VentanaBusqueda extends JFrame {
 		btnVolver.setBackground(new Color(255, 255, 0));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//VentanaLogin log = new VentanaLogin();
-				//log.setVisible(true);
-				//setVisible(false);
+				VentanaLogin log = new VentanaLogin();
+				log.setVisible(true);
+				setVisible(false);
 				VentanaLogin v2 = new VentanaLogin();
 				v2.setVisible(true);
 
@@ -227,19 +212,19 @@ public class VentanaBusqueda extends JFrame {
 		btnAñadir.setBackground(new Color(255, 255, 0));
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String nombreusuario = usuario.getUsername();
-//				String nombreproducto = productos.get(table.getSelectedRow()).getNombre();
-//				WebTarget anadirTarget = cestaTarget.path("anadir").queryParam("Producto", nombreproducto).queryParam("Usuario", nombreusuario);
-//				GenericType<Boolean> genericType5 = new GenericType<Boolean>() {};
-//				boolean respuesta = anadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
-//
-//				WebTarget contarTarget = cestaTarget.path("contar").queryParam("Usuario", nombreusuario);
-//				GenericType<Integer> genericType7 = new GenericType<Integer>() {};
-//				cantidad = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
-//				btnCesta.setText("Cesta : " + cantidad);
-//				if (respuesta != true) {
-//					System.out.println("El producto no se añade a la cesta");
-//				}
+				String nombreusuario = usuario.getUsername();
+				String nombreproducto = productos.get(table.getSelectedRow()).getNombre();
+				WebTarget anadirTarget = appTarget.path("anadir").queryParam("Producto", nombreproducto).queryParam("Usuario", nombreusuario);
+				GenericType<Boolean> genericType5 = new GenericType<Boolean>() {};
+				boolean respuesta = anadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
+
+				WebTarget contarTarget = appTarget.path("contar").queryParam("Usuario", nombreusuario);
+				GenericType<Integer> genericType7 = new GenericType<Integer>() {};
+				cantidad = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
+				btnCesta.setText("Cesta : " + cantidad);
+				if (respuesta != true) {
+					System.out.println("El producto no se añade a la cesta");
+				}
 			}
 		});
 		btnAñadir.setBounds(283, 468, 146, 32);
@@ -283,5 +268,43 @@ public class VentanaBusqueda extends JFrame {
 			}
 		});
 
+	}
+	
+	
+	public  List<Product> busquedaProd(String producto) {
+		List<Product> productos = null;
+
+		if (producto.equals("")) {
+			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
+			};
+			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		} else {
+			WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", producto);
+			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
+			};
+			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		}
+
+		return productos;
+
+	}
+	public void escribirEnElCsvT(Usuario u){
+		try {
+			FileWriter fileWriter = new FileWriter("sql/csvTrabajadores.csv", true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			String datos = u.getUsername() + "," +u.getPassword()+","+u.getEmail()+",1,0";
+			String datosUnidos = String.join(",", datos);
+			
+			bufferedWriter.write(datosUnidos);
+			bufferedWriter.newLine();
+			
+			bufferedWriter.close();
+		    fileWriter.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
