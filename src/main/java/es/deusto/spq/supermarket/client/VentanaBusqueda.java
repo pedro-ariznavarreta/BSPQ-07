@@ -174,9 +174,9 @@ public class VentanaBusqueda extends JFrame {
 		btnCesta.setBackground(new Color(255, 255, 0));
 		btnCesta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//VentanaCesta window = new VentanaCesta(usuario);
-				//window.setVisible(true);
-				//setVisible(false);
+				VentanaCesta window = new VentanaCesta(usuario);
+				window.setVisible(true);
+				setVisible(false);
 			}
 		});
 
