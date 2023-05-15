@@ -303,30 +303,31 @@ public class VentanaPago extends JFrame {
 
 	}
 		
-		private void generarFicheroFactura() {
-			   JFileChooser fileChooser = new JFileChooser();
-			    int seleccion = fileChooser.showSaveDialog(this);
-			    if (seleccion == JFileChooser.APPROVE_OPTION) {
-			        File file = fileChooser.getSelectedFile();
-			        try (PrintWriter writer = new PrintWriter(file)) {
-			            for (int i = 0; i < modelProducto.getSize(); i++) {
-			                Product producto = modelProducto.getElementAt(i);
-			                writer.println(producto.toString());
-			            }
-			            writer.println("Precio: " + textPrecio.getText());
-			            writer.println("Cupon: " + textCupon.getText());
-			            writer.println("Datos de la tarjeta:");
-			            writer.println("Número de tarjeta: " + textNumeroTarjeta.getText());
-			            writer.println("Titular: " + textTitular.getText());
-			            writer.println("Fecha de caducidad: " + textFechaCaducidad.getText());
-			            writer.println("CV: " + textCV.getText());
-			            writer.flush();
-			            writer.close();
-			            
-			        } catch (FileNotFoundException e) {
-			            LOGGER.severe(e.getMessage());
-			        }
-	    }
-	}
-
+	private void generarFicheroFactura() {
+		   JFileChooser fileChooser = new JFileChooser();
+		    int seleccion = fileChooser.showSaveDialog(this);
+		    if (seleccion == JFileChooser.APPROVE_OPTION) {
+		        File file = fileChooser.getSelectedFile();
+		        try (PrintWriter writer = new PrintWriter(file)) {
+		            for (int i = 0; i < modelProducto.getSize(); i++) {
+		                Product producto = modelProducto.getElementAt(i);
+		                writer.println(producto.toString());
+		            }
+		            writer.println("Precio: " + textPrecio.getText());
+		            writer.println("Cupon: " + textCupon.getText());
+		            writer.println("Datos de la tarjeta:");
+		            writer.println("Número de tarjeta: " + textNumeroTarjeta.getText());
+		            writer.println("Titular: " + textTitular.getText());
+		            writer.println("Fecha de caducidad: " + textFechaCaducidad.getText());
+		            writer.println("CV: " + textCV.getText());
+		            writer.flush();
+		            writer.close();
+		            
+		        } catch (FileNotFoundException e) {
+		            LOGGER.severe(e.getMessage());
+		        }
+		    }
 }
+}
+
+
