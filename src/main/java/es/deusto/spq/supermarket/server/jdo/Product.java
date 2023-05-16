@@ -1,3 +1,9 @@
+/** @package es.deusto.spq.supermarket.server.jdo
+
+
+    @brief Esto es del jdo de product
+*/
+
 package es.deusto.spq.supermarket.server.jdo;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -22,6 +28,11 @@ public class Product {
 
 	}
 
+	/**
+	 * Clase PEDIDO en la que se encuentran los PRODUCTO s comprados por el USUARIO
+	 * @author Pedro
+	 *
+	 */
 	/**
 	 * 
 	 * @param nombre      Nombre del Producto
