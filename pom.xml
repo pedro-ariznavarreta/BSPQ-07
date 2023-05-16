@@ -103,6 +103,11 @@
  			<version>4.6.0</version>
  			<scope>test</scope>
 		</dependency>
+		<dependency>
+      		<groupId>com.github.noconnor</groupId>
+      		<artifactId>junitperf</artifactId>
+      		<version>1.22.1</version>
+    	</dependency>
 		
 	</dependencies>
 	<build>
@@ -191,6 +196,7 @@
 					<nohelp>true</nohelp>
 				</configuration>
 			</plugin>
+
 		
 					<!-- JaCoCo -->
 			<plugin>
@@ -212,6 +218,17 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+       			<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-surefire-plugin</artifactId>
+        		<version>3.0.0</version>
+        		<configuration>
+          			<!-- Allow JUnitPerf to access the test classes in JDK 17 -->
+          			<argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+					<excludedGroups>categories.IntegrationTest, categories.PerformanceTest</excludedGroups>
+        		</configuration>
+      		</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -317,5 +334,27 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+            <id>grizzly-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>es.deusto.spq.server.Main</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 	</profiles>
 </project>
