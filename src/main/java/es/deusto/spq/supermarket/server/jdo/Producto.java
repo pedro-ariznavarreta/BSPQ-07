@@ -1,3 +1,4 @@
+
 package es.deusto.spq.supermarket.server.jdo;
 
 import javax.jdo.annotations.PersistenceCapable;

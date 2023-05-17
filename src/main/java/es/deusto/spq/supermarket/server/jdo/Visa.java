@@ -1,3 +1,9 @@
+/** @package es.deusto.spq.supermarket.server.jdo
+
+
+    @brief Esto es del jdo de product
+*/
+
 package es.deusto.spq.supermarket.server.jdo;
 
 import javax.jdo.annotations.Inheritance;
@@ -5,7 +11,7 @@ import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 /**
  * Clase Visa para tarjetas Visa
- * @author Unai
+ * @author Pedro
  *
  */
 @PersistenceCapable(detachable = "true")

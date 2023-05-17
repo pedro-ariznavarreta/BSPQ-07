@@ -60,7 +60,7 @@ public class VentanaBusqueda extends JFrame {
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
 	private JTable table_ofertas;
-	
+
 	/**
 	 * Launch the application.
 	 */

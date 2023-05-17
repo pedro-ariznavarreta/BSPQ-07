@@ -1,3 +1,7 @@
+/** @package es.deusto.testing.junit
+
+    @brief Esto es la clase jdo de Cesta
+*/
 package es.deusto.spq.supermarket.server.jdo;
 
 import javax.jdo.annotations.*;
@@ -8,6 +12,7 @@ import java.util.Date;
 
 /**
  * Clase CESTA donde se recogen los PRODUCTO deseados por un USUARIO
+ * @author Pedro
  *
  */
 @PersistenceCapable(detachable = "true")

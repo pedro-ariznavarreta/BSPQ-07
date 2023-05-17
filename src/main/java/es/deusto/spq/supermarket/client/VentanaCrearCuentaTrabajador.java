@@ -25,8 +25,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
-import es.deusto.spq.supermarket.server.jdo.Compra;
-import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 import javax.swing.JTextField;
@@ -34,10 +32,6 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 public class VentanaCrearCuentaTrabajador extends JFrame {
 	/**
@@ -252,14 +246,13 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 						final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 						
 	 	                final WebTarget trabajadorGerenteTar = appTarget.path("regTrabajador"); //Para registrar al gerente
-	 	               //final WebTarget pruebaTar = appTarget.path("regCompra");
-	 	               List<String> trabajadorGerente = new ArrayList<>();
-	 	               trabajadorGerente.add(txtUsername.getText());
-	 	               trabajadorGerente.add(txtContraseña.getText());
-	 	               trabajadorGerente.add(txtEmail.getText());
-	 	               trabajadorGerente.add(String.valueOf(1));
-	 	               trabajadorGerente.add(String.valueOf(0));
-	 	               Usuario u = new Usuario(
+	 	                List<String> trabajadorGerente = new ArrayList<>();
+	 	                trabajadorGerente.add(txtUsername.getText());
+	 	                trabajadorGerente.add(txtContraseña.getText());
+	 	                trabajadorGerente.add(txtEmail.getText());
+	 	                trabajadorGerente.add(String.valueOf(1));
+	 	                trabajadorGerente.add(String.valueOf(0));
+	 	                Usuario u = new Usuario(
 	 	            		   		trabajadorGerente.get(0),
 	 	            		   		trabajadorGerente.get(1),
 	 	            		   		trabajadorGerente.get(2),
@@ -269,10 +262,9 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	 	              escribirEnElCsv(u); //Guardamos en local antes de subir a la nube
 	 	               
 	 	               
-	 	                trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
+	 	               trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
 
-						
-						JOptionPane.showMessageDialog(btnVolver, "Trabajador registrado correctamente");
+	 	               JOptionPane.showMessageDialog(btnVolver, "Trabajador registrado correctamente");
 						dispose();
 					}
 

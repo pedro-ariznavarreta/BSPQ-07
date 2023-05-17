@@ -191,8 +191,8 @@ public class VentanaLogin extends JFrame {
 						
 						//dispose();
 						if(valorRol == 0) {  //es cliente
-							Usuario u = new Usuario();
-							 VentanaBusqueda window1= new VentanaBusqueda(u);
+							
+							 VentanaBusqueda window1= new VentanaBusqueda(usuarios);
 							 window1.setVisible(true);
 							 
 						}else if(valorRol == 1) {   //es trabajador

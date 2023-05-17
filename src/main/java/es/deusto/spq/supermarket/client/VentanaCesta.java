@@ -111,15 +111,15 @@ public class VentanaCesta extends JFrame {
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usenv = usuario;
-//				VentanaPago ventana = new VentanaPago(usenv, productos);
-//				double precio = 0.0;
-//				for (Product p : product) {
-//					ventana.modelProducto.addElement(p);
-//					precio += p.getPrecio();
-//				}
-//				ventana.textPrecio.setText(String.valueOf(precio));
-//				ventana.setVisible(true);
-//				dispose();
+				VentanaPago ventana = new VentanaPago(usenv, productos);
+				double precio = 0.0;
+				for (Product p : product) {
+					ventana.modelProducto.addElement(p);
+					precio += p.getPrecio();
+				}
+				ventana.textPrecio.setText(String.valueOf(precio));
+				ventana.setVisible(true);
+				dispose();
 			}
 		});
 		btnComprar.setBackground(new Color(255, 255, 0));

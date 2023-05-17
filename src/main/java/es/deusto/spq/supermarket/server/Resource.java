@@ -271,20 +271,23 @@ public class Resource {
 		}
 	}
 	
-	//Eliminar productos de la base de datos ~
+	//Eliminar un producto de la base de datos
 	@POST
-	@Path("elimProductos")
-	@Produces(MediaType.APPLICATION_JSON)
-	public static void eliminarProducto(List<String> producto) {
-		//String nick = producto.get(0);
+	@Path("/borrarProducto")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public static void borrarProducto(Product p) {
+		System.out.println("PRODUCTO BORRADOO");
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 
-		try (Query<Producto> q = pm.newQuery("DELETE * FROM " + Producto.class.getName());) {
-			List<Producto> user = q.executeList();
-			pm.deletePersistentAll(user);
+		try (Query<Product> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE cod == '" + p.getCodigo() + "'")) {
+			List<Product> prod = q.executeList();
+			System.out.println("PRODUCTO BORRADO");
+			logger.info("PRODUCTO BORRADO");
+
+			pm.deletePersistentAll(prod);
 		} catch (Exception e) {
-			logger.catching(e);
+			logger.info(e.getMessage());
 		} finally {
 			pm.close();
 		}

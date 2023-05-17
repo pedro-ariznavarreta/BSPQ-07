@@ -5,20 +5,33 @@ Este proyecto es una aplicacion para la gestoría de un supermercado. En el que 
 
 Para compilar el proyecto ejecutamos el siguiente comando:
 
-      mvn clean compile
+    mvn clean compile
+      
 
+Para probar los test unitarios introduzca este comando:
+
+    mvn test
 
 Para encender la base de datos ejecutamos el siguiente comando:
 
-      mysql –uroot -p < sql/create-messages.sql
+    mysql –uroot -p < sql/create-messages.sql
 
 Para enlazar la aplicación a la base de datos ejecutamos el siguiente comando:
 
-      mvn datanucleus:schema-create
+    mvn datanucleus:schema-create
       
 Para añadir datos de ejemplo ejecutamos el siguiente comando:
 
     mvn exec:java -P datos
+    
+Integration tests can be launched using the following command. An embedded Grizzly HTTP server will be launched to perform real calls to the REST API and to the MySQL database.
+
+  	mvn verify -Pintegration-tests
+
+Performance tests can be launched using the following command. In this example, these tests are the same integration tests but executed multiple times to calculate some statistics
+
+  	mvn verify -Pperformance-tests
+
 
 Para lanzar el servidor ejecutamos el siguiente comando:
 
@@ -29,9 +42,6 @@ Para ejecutar el cliente usamos el siguiente comando:
     mvn exec:java -Pclient
 
 
-Para probar los test unitarios introduzca este comando:
-
-      mvn test
 
 ====================================================================================
 
@@ -46,5 +56,5 @@ Para el correcto uso de la aplición hay que seguir estos pasos:
 
 Gerente o Trabajador
 1. Iniciamos sesion como gerente o trabajador.
-2. Podemos usar las siguientes credenciales : "Gerente", "Gerente" (Para iniciar sesión como gerente) o "Trabajador", "Trabajador" (Para iniciar sesion como personal del supermercado)
-3. Ahí ya podemos aplicar la funcionalidad de personal del supermercado.
+2. Podemos usar las siguientes credenciales : "admin", "admin" (Para iniciar sesión como gerente o trabajador) 
+

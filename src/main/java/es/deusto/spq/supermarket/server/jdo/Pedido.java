@@ -1,3 +1,7 @@
+/** @package es.deusto.spq.supermarket.server.jdo
+
+    @brief Esto es del jdo pedido
+*/
 package es.deusto.spq.supermarket.server.jdo;
 
 import java.util.Date;
@@ -10,7 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 /**
  * Clase PEDIDO en la que se encuentran los PRODUCTO s comprados por el USUARIO
- * @author Sergio
+ * @author Pedro
  *
  */
 @PersistenceCapable(detachable = "true")

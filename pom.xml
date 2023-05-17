@@ -15,7 +15,7 @@
 		<server.hostname>127.0.0.1</server.hostname>
 		<server.port>8080</server.port>
 		<sonar.organization>pedro-ariznavarreta</sonar.organization>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -63,7 +63,7 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>[2.17.1, )</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.github.cliftonlabs</groupId>
 			<artifactId>json-simple</artifactId>
@@ -79,17 +79,18 @@
 			<artifactId>jersey-container-grizzly2-http</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-servlet-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.inject</groupId>
-			<artifactId>jersey-hk2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-		</dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+        </dependency>
+         <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+        </dependency>
+		
 		<!-- DEPENDENCIA JUNIT-->
 		<dependency>
 			<groupId>junit</groupId>
@@ -98,15 +99,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-inline</artifactId>
-			<version>4.6.0</version>
-			<scope>test</scope>
+ 			<artifactId>mockito-inline</artifactId>
+ 			<version>4.6.0</version>
+ 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
+      		<groupId>com.github.noconnor</groupId>
+      		<artifactId>junitperf</artifactId>
+      		<version>1.22.1</version>
+    	</dependency>
+		
 	</dependencies>
 	<build>
 		<resources>
@@ -120,6 +122,42 @@
 			</resource>
 		</resources>
 		<plugins>
+		<plugin>
+				<groupId>com.soebes.maven.plugins</groupId>
+				<artifactId>doxygen-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<configuration>
+					<configurationFile>${doxygen.config.file}</configurationFile>
+				</configuration>
+			</plugin>
+			
+			
+			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/docs</outputDirectory>
+								<resources>          
+									<resource>
+									<directory>${basedir}/target/doxygen/html</directory>
+									<filtering>true</filtering>
+									</resource>
+								</resources>              
+						</configuration>            
+					</execution>
+				</executions>
+			</plugin>
+			
+		
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.2.0</version>
@@ -194,7 +232,9 @@
 					<nohelp>true</nohelp>
 				</configuration>
 			</plugin>
-			<!-- JaCoCo -->
+
+		
+					<!-- JaCoCo -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -214,10 +254,21 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+       			<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-surefire-plugin</artifactId>
+        		<version>3.0.0</version>
+        		<configuration>
+          			<!-- Allow JUnitPerf to access the test classes in JDK 17 -->
+          			<argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+					<excludedGroups>categories.IntegrationTest, categories.PerformanceTest</excludedGroups>
+        		</configuration>
+      		</plugin>
 		</plugins>
 	</build>
 	<profiles>
-		<profile>
+	<profile>
 			<id>datos</id>
 			<build>
 				<plugins>
@@ -264,6 +315,7 @@
 					</plugin>
 				</plugins>
 			</build>
+			
 		</profile>
 		<profile>
 			<id>integration-tests</id>
@@ -290,6 +342,9 @@
 				</plugins>
 			</build>
 		</profile>
+		
+
+
 		<profile>
 			<id>performance-tests</id>
 			<build>
@@ -315,5 +370,27 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+            <id>grizzly-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>es.deusto.spq.server.Main</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 	</profiles>
 </project>
