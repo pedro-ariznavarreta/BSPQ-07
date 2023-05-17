@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -36,12 +38,15 @@ import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
 import es.deusto.spq.supermarket.server.jdo.Product;
+import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
@@ -56,6 +61,7 @@ public class VentanaGerente extends JFrame {
 	private static Usuario usuario;
 	private static int cantidad;
 	private static List<Product> productos;
+	private static List<Producto> producto;
 	private static List<Product> listaFavoritos = new ArrayList<>();
 
 	private JPanel panel;
@@ -115,18 +121,6 @@ public class VentanaGerente extends JFrame {
 		return productos;
 
 	}
-
-	public void actualizarTabla() {
-		// Limpiamos el modelo de tabla
-		tableModel.setRowCount(0);
-
-		// Llenamos la tabla con los productos favoritos
-		for (Product p : listaFavoritos) {
-			Object[] fila = { p.getCodigo(), p.getNombre(), p.getDescripcion(), p.getCantidad(), p.getPrecio() };
-			tableModel.addRow(fila);
-		}
-	}
-	
 	
 	
 
@@ -207,13 +201,12 @@ public class VentanaGerente extends JFrame {
 		btnBorrarProducto.setBackground(new Color(255, 255, 0));
 		btnBorrarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				dispose();
+				JOptionPane.showMessageDialog(null, "Para borrar haz doble click encima del producto");
 			}
 		});
 
 
-		btnBorrarProducto.setBounds(44, 468, 137, 32);
+		btnBorrarProducto.setBounds(191, 470, 137, 32);
 		btnBorrarProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnBorrarProducto);
 
@@ -222,8 +215,9 @@ public class VentanaGerente extends JFrame {
 		scroll.setBounds(87, 109, 527, 295);
 		panel.add(scroll);
 		table = new JTable(tableModel) {
+			
 			public boolean isCellEditable(int row, int column) {
-				return false; // todas las celdas no son editables
+				return column == 1 || column == 2|| column == 3|| column == 4; // todas las celdas son editables salvo el codigo
 			}
 		};
 		table.setModel(tableModel);
@@ -234,12 +228,47 @@ public class VentanaGerente extends JFrame {
 		tableModel.addColumn("Descripcion");
 		tableModel.addColumn("Stock");
 		tableModel.addColumn("Precio");
+		/*ACTUALIZAR LA BASE DE DATOS CON LOS CAMBIOS QUE SE HAGAN EN LA TABLA*/
+		table.getModel().addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				
+				/*
+				int fila = e.getFirstRow();
+				String cod = (String)tableModel.getValueAt(fila, 0);
+				String nom = (String)tableModel.getValueAt(fila, 1);
+				String d = (String)tableModel.getValueAt(fila, 2);
+				String cant = (String)tableModel.getValueAt(fila, 3);
+				String prec = (String)tableModel.getValueAt(fila, 3);
+				
+				producto.get(fila).setcod(cod);
+				producto.get(fila).setnom(nom);
+				producto.get(fila).setdesc(d);
+				producto.get(fila).setCant(cant);
+				producto.get(fila).setPrecio(prec);
+				Producto m = producto.get(fila);
+				
+				Client cliente = ClientBuilder.newClient();
+				final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
+				
+				final WebTarget modificarProducto = appTarget.path("modificarProducto");
+				List<String> modificar = new ArrayList<>();
+				modificar.add(m.getCodigo());
+				modificar.add(m.getNombre());
+				modificar.add(m.getDescripcion());
+          
+				modificarProducto.request().post(Entity.entity(modificar, MediaType.APPLICATION_JSON));
+				//productos.remove(productoSeleccionado);
+				JOptionPane.showMessageDialog(null, "Producto borrado");*/
+			}
+		});
 		scroll.setViewportView(table);
 		
 		JButton btnAnadirProducto = new JButton("Añadir Producto");
 		btnAnadirProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAnadirProducto.setBackground(Color.YELLOW);
-		btnAnadirProducto.setBounds(301, 472, 137, 29);
+		btnAnadirProducto.setBounds(338, 472, 137, 29);
 		btnAnadirProducto.addActionListener(new ActionListener() {
 
 			@Override
@@ -254,19 +283,51 @@ public class VentanaGerente extends JFrame {
 		JButton btnModificarProducto = new JButton("Modificar Producto");
 		btnModificarProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnModificarProducto.setBackground(Color.YELLOW);
-		btnModificarProducto.setBounds(526, 472, 151, 29);
+		btnModificarProducto.setBounds(485, 472, 151, 29);
+		btnModificarProducto.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Selecciona el producto a modificar y escribe los nuevos valores");
+			}
+		});	
 		contentPane.add(btnModificarProducto);
+		
+		JButton btnAtras = new JButton("Volver");
+		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAtras.setBackground(Color.YELLOW);
+		btnAtras.setBounds(44, 473, 137, 30);
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new VentanaPanelGerente(usuario);
+			}
+		});
+		
+		contentPane.add(btnAtras);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				
 				if (e.getClickCount() == 2) {
+					
 					JTable target = (JTable) e.getSource();
 					int row = target.getSelectedRow();
 					Product productoSeleccionado = productos.get(row);
-					int opcion = JOptionPane.showConfirmDialog(null, "¿Añadir a favoritos?", "Confirmar",
+					int opcion = JOptionPane.showConfirmDialog(null, "¿Quieres Borrar este producto?", "Confirmar",
 							JOptionPane.YES_NO_OPTION);
 					if (opcion == JOptionPane.YES_OPTION) {
-						listaFavoritos.add(productoSeleccionado);
-						JOptionPane.showMessageDialog(null, "Producto añadido a favoritos.");
+						
+						//borrar el producto seleccionado
+						Client cliente = ClientBuilder.newClient();
+						final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
+						
+	 	                final WebTarget borrarProducto = appTarget.path("borrarProducto");
+	 	                List<String> borrar = new ArrayList<>();
+	 	                borrar.add(productoSeleccionado.getCodigo());
+	 	                borrar.add(productoSeleccionado.getNombre());
+	 	            
+	 	                borrarProducto.request().post(Entity.entity(borrar, MediaType.APPLICATION_JSON));
+						//productos.remove(productoSeleccionado);
+	 	                JOptionPane.showMessageDialog(null, "Producto borrado");
 					}
 				}
 			}
