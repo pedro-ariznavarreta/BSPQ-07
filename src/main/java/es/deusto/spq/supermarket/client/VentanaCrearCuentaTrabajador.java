@@ -25,6 +25,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
+import es.deusto.spq.supermarket.server.jdo.Compra;
+import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 import javax.swing.JTextField;
@@ -32,6 +34,10 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class VentanaCrearCuentaTrabajador extends JFrame {
 	/**
@@ -246,6 +252,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 						final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 						
 	 	                final WebTarget trabajadorGerenteTar = appTarget.path("regTrabajador"); //Para registrar al gerente
+	 	               //final WebTarget pruebaTar = appTarget.path("regCompra");
 	 	               List<String> trabajadorGerente = new ArrayList<>();
 	 	               trabajadorGerente.add(txtUsername.getText());
 	 	               trabajadorGerente.add(txtContraseña.getText());
@@ -264,6 +271,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	 	               
 	 	                trabajadorGerenteTar.request().post(Entity.entity(trabajadorGerente, MediaType.APPLICATION_JSON));
 
+						
 						JOptionPane.showMessageDialog(btnVolver, "Trabajador registrado correctamente");
 						dispose();
 					}

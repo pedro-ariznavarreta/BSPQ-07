@@ -187,9 +187,6 @@ public class VentanaBusqueda extends JFrame {
 				VentanaLogin log = new VentanaLogin();
 				log.setVisible(true);
 				setVisible(false);
-				VentanaLogin v2 = new VentanaLogin();
-				v2.setVisible(true);
-
 				dispose();
 			}
 		});

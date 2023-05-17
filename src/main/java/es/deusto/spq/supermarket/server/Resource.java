@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
 import es.deusto.spq.supermarket.server.jdo.Cesta;
+import es.deusto.spq.supermarket.server.jdo.Compra;
 import es.deusto.spq.supermarket.server.jdo.Pedido;
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Producto;
@@ -53,81 +55,6 @@ public class Resource {
 		this.tx = pm.currentTransaction();
 	}
 
-//	@POST
-//	@Path("/sayMessage")
-//	public Response sayMessage(DirectMessage directMessage) {
-//		User user = null;
-//		try {
-//			tx.begin();
-//			logger.info("Creating query ...");
-//
-//			try (Query<?> q = pm.newQuery("SELECT FROM " + User.class.getName() + " WHERE login == \""
-//					+ directMessage.getUserData().getLogin() + "\" &&  password == \""
-//					+ directMessage.getUserData().getPassword() + "\"")) {
-//				q.setUnique(true);
-//				user = (User) q.execute();
-//
-//				logger.info("User retrieved: {}", user);
-//				if (user != null) {
-//					Message message = new Message(directMessage.getMessageData().getMessage());
-//					user.getMessages().add(message);
-//					pm.makePersistent(user);
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			tx.commit();
-//		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
-//		}
-//
-//		if (user != null) {
-//			cont++;
-//			logger.info(" * Client number: {}", cont);
-//			MessageData messageData = new MessageData();
-//			messageData.setMessage(directMessage.getMessageData().getMessage());
-//			return Response.ok(messageData).build();
-//		} else {
-//			return Response.status(Status.BAD_REQUEST)
-//					.entity("Login details supplied for message delivery are not correct").build();
-//		}
-//	}
-//
-//	@POST
-//	@Path("/register")
-//	public Response registerUser(UserData userData) {
-//		try {
-//			tx.begin();
-//			logger.info("Checking whether the user already exits or not: '{}'", userData.getLogin());
-//			User user = null;
-//			try {
-//				user = pm.getObjectById(User.class, userData.getLogin());
-//			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
-//				logger.info("Exception launched: {}", jonfe.getMessage());
-//			}
-//			logger.info("User: {}", user);
-//			if (user != null) {
-//				logger.info("Setting password user: {}", user);
-//				user.setPassword(userData.getPassword());
-//				logger.info("Password set user: {}", user);
-//			} else {
-//				logger.info("Creating user: {}", user);
-//				user = new User(userData.getLogin(), userData.getPassword(), userData.getEsTrabajador(),
-//						userData.getEsAdministrador());
-//				pm.makePersistent(user);
-//				logger.info("User created: {}", user);
-//			}
-//			tx.commit();
-//			return Response.ok().build();
-//		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
-//
-//		}
-//	}
 
 	@GET
 	@Path("/usuarios")
@@ -672,5 +599,57 @@ public class Resource {
 				
 			}
 		}
+		
+		@POST
+		@Path("/regCompra")
+		@Consumes(MediaType.APPLICATION_JSON)
+		public static void guardarCompra(Compra compra) {
 
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			if(compra.getProductos().size() < 1) {
+				System.out.println("No funciona");
+				System.out.println(compra.getUsuario());
+				System.out.println(compra.getProductos());
+				System.out.println(compra.getFecha());
+			}else {
+				try {
+				tx.begin();
+				Compra com = new Compra(compra.getProductos(), compra.getUsuario(),compra.getFecha());
+				System.out.println(compra.getFecha());
+				DateFormat fecha= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				String fechaBuena = fecha.format(Long.parseLong(compra.getFecha()));
+				System.out.println(fechaBuena);
+				compra.setFecha(fechaBuena);
+				pm.makePersistent(com);
+				tx.commit();
+			}finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+			}
+
+		}
+		}
+		@GET
+		@Path("/listarCompra")
+		@Produces(MediaType.APPLICATION_JSON) //@QueryParam("Usuario")
+		public static List<Compra> verCompra( String usuario) {
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			List<Compra> todaLaCompra = null; 
+			try {
+				//Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName());
+				Query<Compra> q = pm.newQuery(Compra.class);
+				todaLaCompra = q.executeList();
+				//List<Compra> todaLaCompra = q.executeList();
+			}finally {
+				pm.close();
+			}
+			
+			return todaLaCompra;
+		}
+		
 }

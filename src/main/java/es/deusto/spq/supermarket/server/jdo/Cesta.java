@@ -8,7 +8,6 @@ import java.util.Date;
 
 /**
  * Clase CESTA donde se recogen los PRODUCTO deseados por un USUARIO
- * @author Sergio
  *
  */
 @PersistenceCapable(detachable = "true")

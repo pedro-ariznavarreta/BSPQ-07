@@ -17,8 +17,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
+import es.deusto.spq.supermarket.server.jdo.Compra;
 import es.deusto.spq.supermarket.server.jdo.Pedido;
 import es.deusto.spq.supermarket.server.jdo.Product;
+import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import es.deusto.spq.supermarket.server.jdo.Visa;
 
@@ -29,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
@@ -69,6 +72,7 @@ public class VentanaPago extends JFrame {
 	private JLabel lblTitular;
 	private JLabel lblFechaCaducidad;
 	private JLabel lblCV;
+	
 
 	private JList<Product> list;
 	DefaultListModel<Product> modelProducto = new DefaultListModel<>();
@@ -179,6 +183,26 @@ public class VentanaPago extends JFrame {
 						JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos de la tarjeta",
 								"Error", JOptionPane.ERROR_MESSAGE);
 						return; // Detener la ejecución del método si faltan datos
+					}else {
+						//Codigo para guardar en la base de datos la compra
+						
+						//BigInteger fechaActual = BigInteger.valueOf(System.currentTimeMillis());
+								
+						//Compra com = new Compra(productosCliente,usuario,fechaActual);
+						//String usuario = usuarioVerificado.getUsername();
+						//List<Product> productosCliente = productosSeleccionados;
+						List<Product> productosCliente = new ArrayList<>();
+						Product pro1 = new Product("Nombre","aaa",2.1,"asdas",1);
+						productosCliente.add(pro1);
+						String usuario = "Inigo";
+						
+						 String fech = String.valueOf(System.currentTimeMillis());
+						 
+						 final WebTarget pruebaTar = appTarget.path("regCompra");						 
+						 Compra comp = new Compra(productosCliente,usuario,fech);
+						 System.out.println(comp.getProductos());
+						 pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
+						
 					}
 				}
 

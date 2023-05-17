@@ -72,6 +72,8 @@ public class VentanaCesta extends JFrame {
 	public VentanaCesta(Usuario usuarioVerificado) {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		usuario = usuarioVerificado;
+		Usuario us = new Usuario("Inigo", "Prueba", "Inigo@prueba", 0, 0);
+		usuario = us;
 		initialize();
 	}
 
