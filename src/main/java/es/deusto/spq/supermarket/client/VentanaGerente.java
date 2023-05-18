@@ -321,10 +321,12 @@ public class VentanaGerente extends JFrame {
 						final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 						
 	 	                final WebTarget borrarProducto = appTarget.path("borrarProducto");
+	 	                
 	 	                List<String> borrar = new ArrayList<>();
 	 	                borrar.add(productoSeleccionado.getCodigo());
 	 	                borrar.add(productoSeleccionado.getNombre());
 	 	            
+	 	                System.out.println(borrar.get(0));
 	 	                borrarProducto.request().post(Entity.entity(borrar, MediaType.APPLICATION_JSON));
 						//productos.remove(productoSeleccionado);
 	 	                JOptionPane.showMessageDialog(null, "Producto borrado");

@@ -275,22 +275,31 @@ public class Resource {
 	@POST
 	@Path("/borrarProducto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public static void borrarProducto(Product p) {
-		System.out.println("PRODUCTO BORRADOO");
+	public static List<Product> borrarProducto(@QueryParam("cod") String codigo) {
+		System.out.println("Entra en el método " + codigo);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
 
-		try (Query<Product> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE cod == '" + p.getCodigo() + "'")) {
+		try (Query<Product> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE cod == '" + codigo + "'")) {
+			tx.begin();
 			List<Product> prod = q.executeList();
-			System.out.println("PRODUCTO BORRADO");
-			logger.info("PRODUCTO BORRADO");
+			System.out.println(prod.get(0));
 
 			pm.deletePersistentAll(prod);
+			tx.commit();
+			System.out.println("PRODUCTO BORRADO");
+			//logger.info("PRODUCTO BORRADO");
+			
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
 			pm.close();
 		}
+		return null;
 	}
 
 	@GET
