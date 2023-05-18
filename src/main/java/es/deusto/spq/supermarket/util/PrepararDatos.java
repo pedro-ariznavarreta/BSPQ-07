@@ -10,7 +10,11 @@ import javax.jdo.Transaction;
 
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import es.deusto.spq.supermarket.server.jdo.Product;
-
+/**
+ * Clase PrepararDatos donde sirve para inicializar los datos en la base de datos para tener datos de prueba
+ * @author Pedro
+ *
+ */
 
 public class PrepararDatos {
 

@@ -1,5 +1,7 @@
 /** @package es.deusto.spq.supermarket.server.jdo
 
+
+
     @brief Esto es del jdo pedido
 */
 package es.deusto.spq.supermarket.server.jdo;

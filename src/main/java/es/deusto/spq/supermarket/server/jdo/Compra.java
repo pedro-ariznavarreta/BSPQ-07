@@ -1,3 +1,7 @@
+/** @package es.deusto.spq.supermarket.server.jdo
+ *     @brief Esto es del jdo compra
+*/
+ 
 package es.deusto.spq.supermarket.server.jdo;
 
 import java.math.BigInteger;

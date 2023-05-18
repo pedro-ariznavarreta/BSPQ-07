@@ -1,7 +1,12 @@
-/** @package es.deusto.testing.junit
+/** @package es.deusto.spq.supermarket.server.jdo
 
     @brief Esto es la clase jdo de Cesta
 */
+
+
+
+ 
+
 package es.deusto.spq.supermarket.server.jdo;
 
 import javax.jdo.annotations.*;
