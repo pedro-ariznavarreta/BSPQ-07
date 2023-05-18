@@ -1,6 +1,7 @@
 package es.deusto.spq.supermarket.server;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -15,6 +16,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
+import org.databene.contiperf.PerfTest;
+import org.databene.contiperf.Required;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.After;
 import org.junit.Before;
@@ -61,7 +64,8 @@ public class ServerIntegrationTest {
 	}
 
 	@Test
-
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
 	public void testGetUsuarios() {
 
 		WebTarget userAllTarget = appTarget.path("all");
@@ -78,7 +82,8 @@ public class ServerIntegrationTest {
 	}
 
 	@Test
-
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
 	public void testEliminarUsuario() {
 		List<String> listuser = Arrays.asList("pedro", "1234");
 		WebTarget userElimTarget = appTarget.path("elim");
@@ -94,7 +99,8 @@ public class ServerIntegrationTest {
 	}
 
 	@Test
-
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
 	public void testNomCheck() {
 		WebTarget userNomCheckTarget = appTarget.path("nomcheck").queryParam("nick", "pedro");
 
@@ -108,7 +114,8 @@ public class ServerIntegrationTest {
 	
 	
 	@Test
-
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
 	public void testGetIt() {
 	    WebTarget productAllTarget = appTarget.path("allP");
 		

@@ -1,4 +1,4 @@
-COOKMASTER README 
+mvn datanucleus:schema-createCOOKMASTER README 
 ============================
 
 Este proyecto es una aplicacion para la gestoría de un supermercado. En el que hay varios roles los cuales pueden acceder a la aplicación. Existe el rol de cliente el cual tiene acceso a una cuenta y a los productos, donde puede comprar y añadir al carrito varios productos. Por otra parte tenemos las clases de trabajador y gerente los cuales tienen permisos de administrador para añadir productos y añadir mas trabajadores o gerentes.
