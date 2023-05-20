@@ -21,11 +21,12 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
+/**
+ * VentanaCrearCuenta es una clase que extiende JFrame y representa la ventana
+ * de creación de cuenta en la aplicación. Incluye campos para ingresar el
+ * nombre de usuario, email y contraseña.
+ */
 public class VentanaCrearCuenta extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -38,8 +39,10 @@ public class VentanaCrearCuenta extends JFrame {
 	public static int codigoverificacion;
 
 	/**
-	 * Launch the application.
-	 */
+     * Punto de entrada de la aplicación.
+     *
+     * @param args los argumentos de la línea de comandos.
+     */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -53,9 +56,9 @@ public class VentanaCrearCuenta extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	 /**
+     * Constructor para la clase VentanaCrearCuenta. Inicializa la ventana y su contenido.
+     */
 	public VentanaCrearCuenta() {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		initialize();
@@ -240,7 +243,9 @@ public class VentanaCrearCuenta extends JFrame {
 		});
 
 	}
-
+	/**
+     * Clase Hilo utilizada para la generación del código de verificación.
+     */
 	public class Hilo implements Runnable {
 
 		@Override
@@ -250,26 +255,47 @@ public class VentanaCrearCuenta extends JFrame {
 		}
 
 	}
-
+	/**
+     * Devuelve el código de verificación generado aleatoriamente.
+     *
+     * @return int código de verificación.
+     */
 	public static int returcodigo() {
 
 		return codigoverificacion;
 	}
-
+	/**
+     * Devuelve el nombre de usuario ingresado en el campo de texto.
+     *
+     * @return String nombre de usuario.
+     */
 	public static String returnnombre() {
 		String nombre = txtUsername.getText();
 		return nombre;
 	}
-
+	 /**
+     * Devuelve el email ingresado en el campo de texto.
+     *
+     * @return String email.
+     */
 	public static String returnmail() {
 		String mail = txtEmail.getText();
 		return mail;
 	}
-
+	 /**
+     * Devuelve la contraseña ingresada en el campo de texto.
+     *
+     * @return String contraseña.
+     */
 	public static String returncontra() {
 		String contrasenya = txtContraseña.getText();
 		return contrasenya;
 	}
+	/**
+     * Devuelve siempre cero, que puede ser usado para inicializar campos que requieren un Integer.
+     *
+     * @return Integer valor de cero.
+     */
 	public static Integer returntrabajador() {
 		return 0;
 	}
