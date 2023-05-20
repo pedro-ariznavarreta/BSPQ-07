@@ -1,7 +1,7 @@
 package es.deusto.spq.supermarket.server;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -12,6 +12,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.swing.JProgressBar;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -52,16 +53,8 @@ public class ServerPerformanceTest {
 
     @Before
     public void setUp() throws Exception {
-        // start the server
         server = Main.startServer();
-        // create the client
         Client c = ClientBuilder.newClient();
-        // uncomment the following line if you want to enable
-        // support for JSON in the client (you also have to uncomment
-        // dependency on jersey-media-json module in pom.xml and Main.startServer())
-        // --
-        // c.configuration().enable(new org.glassfish.jersey.media.json.JsonJaxbFeature());
-
         appTarget = c.target(Main.BASE_URI).path("resource");
 
     }
@@ -71,102 +64,122 @@ public class ServerPerformanceTest {
         server.stop();
     }
     
-    
+	@Test
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
+	public void testGetUsuarios() {
+
+		WebTarget userAllTarget = appTarget.path("all");
+
+		List<Usuario> listUsuarios = Arrays
+				.asList(new Usuario("pedro", "1234", "pedro.ariznavarreta@opendeusto.es", 0, 0));
+
+		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {
+		};
+		List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+
+		assertEquals("admin", usuarios.get(0).getUsername());
+
+	}
 
 	@Test
-	public void testBusquedaProd() {
-		
-		List<Product> listProd = Arrays.asList(
-    			new Product("Lechuga", "Muy sana", 2.4, "unai", 6));
-		Usuario us = new Usuario();
-		VentanaBusqueda vent = new VentanaBusqueda(us);
-		List<Product> productos = vent.busquedaProd("Lechuga");
-		
-		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
-		
-	}
-	
-	@Test
 	@PerfTest(invocations = 1000, threads = 20)
     @Required(max = 1200, average = 300)
-	public void testAñadir() {
-		
-		
-		
-		when(usuario.getUsername()).thenReturn("unai");
-		String nombreusuario = usuario.getUsername();
-		when(producto.getNombre()).thenReturn("Manzana");
-		String nombreproducto = producto.getNombre();
+	public void testEliminarUsuario() {
+		List<String> listuser = Arrays.asList("A", "A");
+		WebTarget userElimTarget = appTarget.path("elim");
+		userElimTarget.request().post(Entity.entity(listuser, MediaType.APPLICATION_JSON));
 
-		WebTarget anadirTarget = appTarget.path("anadir").queryParam("Producto", nombreproducto).queryParam("Usuario", nombreusuario);
-		GenericType<Boolean> genericType5 = new GenericType<Boolean>() {
-		};
-		boolean respuesta = anadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
-		
-		assertEquals(true, respuesta);
-	}
-	
-	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
-	public void testContar() {
-		
-		WebTarget contarTarget = appTarget.path("contar").queryParam("Usuario", usuario.getUsername());
-		GenericType<Integer> genericType7 = new GenericType<Integer>() {
-		};
-		cantidad = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
-		
-		assertEquals(0, cantidad);
-	}
-	@Test
-	public void valor100Test() {
-		JProgressBar bar = new JProgressBar();
-		bar.setValue(100);
-		assertEquals(100, bar.getValue());
-	}
-	
-	@Test
-	public void testLogin() {
-		
-//		WebTarget userTarget = appTarget.path("usuarios");
-//	    WebTarget userAllTarget = appTarget.path("all");
-//		
-//		List<Usuario> usuario1 = Arrays.asList(
-//    			new Usuario("inigo", "1234", "ini",0,0));
-//		VentanaLogin vent = new VentanaLogin();
-//		boolean result = vent.login("inigo", "1234");
-//		boolean comp = false;
-//		WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", usuario1.get(0).getUsername());
-//		GenericType<Usuario> genericType = new GenericType<Usuario>() {};
-//		Usuario usuarios = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-//		if(usuarios.getPassword().equals(usuario1.get(0).getPassword())) {
-//			comp = true;
-//		}
-//		
-//		assertEquals(result, comp);
-//		
- 
-    
-    
-}
-	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
-	public void testCrearCuenta() {
-		
-		VentanaVerificarCodigo v = new VentanaVerificarCodigo();
-		v.crearCuenta("thom", "1234", "thom@gmail.com",0,0);
-		
-		 
-		WebTarget usuarioNomTarget = appTarget.path("nom").queryParam("nick", "thom");
+		WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", "A");
 		GenericType<Usuario> genericType = new GenericType<Usuario>() {
 		};
-		Usuario u = usuarioNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		
-		assertEquals("thom", u.getUsername());
+		Usuario usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+
+		assertEquals(null, usuario);
 
 	}
+
+	@Test
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
+	public void testNomCheck() {
+		WebTarget userNomCheckTarget = appTarget.path("nomcheck").queryParam("nick", "pedro");
+
+		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {
+		};
+		boolean usuario = userNomCheckTarget.request(MediaType.APPLICATION_JSON).get(new GenericType<Boolean>() {
+		});
+
+		assertEquals(true, usuario);
+	}
 	
+	
+	@Test
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
+	public void testGetIt() {
+	    WebTarget productAllTarget = appTarget.path("allP");
+		
+		List<Product> listProd = Arrays.asList(
+				new Product("Lechuga", "Muy sana", 2.4, "unai",6),
+				new Product("Platano", "Deliciosa", 3, "pedro",100),
+				new Product("Mango", "Recien horneado", 0.6, "javi",75));
+
+		GenericType<List<Product>> genericType = new GenericType<List<Product>>() {};
+		List<Product> productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+	    assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
+	    assertEquals(listProd.get(1).getNombre(), productos.get(1).getNombre());
+	    assertEquals(listProd.get(2).getNombre(), productos.get(2).getNombre());
+	}
+	@Test
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
+	public void testgetNombreProductos() {
+	    WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", "Lechuga");
+	    
+	    List<Product> listProd = Arrays.asList(
+				new Product("Lechuga", "Muy sana", 2.4, "unai",6),
+				new Product("Platano", "Deliciosa", 3, "pedro",100),
+				new Product("Mango", "Recien horneado", 0.6, "javi",75));
+	    
+	    GenericType<List<Product>> genericType = new GenericType<List<Product>>() {};
+	    List<Product> producto = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+	    
+	    assertEquals(listProd.get(0).getNombre(), producto.get(0).getNombre());
+	}
+
+
+	@Test
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
+	public void testAñadirProductoCesta() {
+		Product p = new Product("peras", "muy dulces", 0.5, "unai", 10);
+		WebTarget cestaAñadirTarget = appTarget.path("anadir").queryParam("Producto", p.getNombre()).queryParam("Usuario", "pedro");
+		
+		GenericType<Boolean> genericType5 = new GenericType<Boolean>() {};
+		boolean respuesta = cestaAñadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
+		
+		assertEquals(true, respuesta);
+		
+	}
+
+
+	@Test
+	@PerfTest(invocations = 1000, threads = 20)
+    @Required(max = 1200, average = 300)
+	public void testVaciarCesta() {
+		WebTarget cestaBorrarTarget = appTarget.path("borrar");
+		Usuario usuario = new Usuario("pedro", "1234", null, 0, 0);
+		cestaBorrarTarget.request().post(Entity.entity(usuario, MediaType.APPLICATION_JSON));
+		
+		WebTarget cestaBuscarTarget = appTarget.path("buscar").queryParam("Usuario", "admin");
+		GenericType<List<Product>> genericType = new GenericType<List<Product>>() {};
+		List<Product> producto = cestaBuscarTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		
+		assertTrue(producto.isEmpty());
+		
+	}	
 	
 	
 	

@@ -39,6 +39,16 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
+
+/**
+ * VentanaBusqueda es la clase que representa la interfaz de la ventana de la busqueda del supermercado.
+ * En esta ventana, el usuario puede ver los productos que estan disponibles,  añadirlos a la cesta,
+ * y buscarlos. Tambien existe la posiblidad de poner los prodcutos en favoritos.
+ * Esta ventana interactúa con un servicio REST para recuperar y gestionar los productos de la cesta.
+ * 
+ * @version 1.0
+ */
+
 public class VentanaBusqueda extends JFrame {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -51,18 +61,18 @@ public class VentanaBusqueda extends JFrame {
 	private static int cantidad;
 	private static List<Product> productos;
 	private static List<Product> listaFavoritos = new ArrayList<>();
-
-	private JPanel panel;
-
-	private JButton btnCesta;
-
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
+	private JPanel panel;
+	MetodsClient mt = new MetodsClient();
+	private JButton btnCesta;
+
+	
 	private JTable table_ofertas;
 
 	/**
-	 * Launch the application.
+	 * Carga la aplicación
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -90,8 +100,39 @@ public class VentanaBusqueda extends JFrame {
 		usuario = usuarioValidado;
 		initialize();
 	}
+	
+	/**
+	* Metodo para buscar los productos dentro de la JList
+	* 
+	* @param producto que se quiere buscar.
+	* @return devuevlve el producto encontrado
+	* 
+	*/
+	
+	
+	public  List<Product> busquedaProd(String producto) {
+		List<Product> productos = null;
 
+		if (producto.equals("")) {
+			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
+			};
+			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		} else {
+			WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", producto);
+			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
+			};
+			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
+		}
 
+		return productos;
+
+	}
+	/**
+	* Metodo para actualizar la tabla para buscar los productos
+	* 
+	*
+	* 
+	*/
 	public void actualizarTabla() {
 		// Limpiamos el modelo de tabla
 		tableModel.setRowCount(0);
@@ -104,9 +145,9 @@ public class VentanaBusqueda extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 *Se crea la Ventana
 	 * 
-	 * @param usuario2
+	 * @param Pedro
 	 */
 	private void initialize() {
 		 WebTarget contarTarget = appTarget.path("contar").queryParam("Usuario",
@@ -165,7 +206,12 @@ public class VentanaBusqueda extends JFrame {
 				}
 			}
 		});
-
+		/**
+		* Boton para buscar el producto y hacer un filtrado dentro de la JLIST
+		* 
+		* 
+		* 
+		*/
 		btnBuscar.setBounds(381, 41, 85, 21);
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnBuscar);
@@ -179,7 +225,12 @@ public class VentanaBusqueda extends JFrame {
 				setVisible(false);
 			}
 		});
-
+		/**
+		* Boton para volver a la ventana anterior
+		* 
+		* 
+		* 
+		*/
 		JButton btnVolver = new JButton("Finalizar");
 		btnVolver.setBackground(new Color(255, 255, 0));
 		btnVolver.addActionListener(new ActionListener() {
@@ -190,7 +241,12 @@ public class VentanaBusqueda extends JFrame {
 				dispose();
 			}
 		});
-
+		/**
+		* Boton filtrar por favoritos
+		* 
+		* 
+		* 
+		*/
 		JButton botonFavoritos = new JButton("Favoritos");
 		botonFavoritos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -204,7 +260,12 @@ public class VentanaBusqueda extends JFrame {
 		btnVolver.setBounds(44, 468, 91, 32);
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnVolver);
-
+		/**
+		* Boton para añadir los productos a la cesta
+		* 
+		* 
+		* 
+		*/
 		JButton btnAñadir = new JButton("Añadir a la cesta");
 		btnAñadir.setBackground(new Color(255, 255, 0));
 		btnAñadir.addActionListener(new ActionListener() {
@@ -267,41 +328,5 @@ public class VentanaBusqueda extends JFrame {
 
 	}
 	
-	
-	public  List<Product> busquedaProd(String producto) {
-		List<Product> productos = null;
 
-		if (producto.equals("")) {
-			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
-			};
-			productos = productAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		} else {
-			WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", producto);
-			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
-			};
-			productos = productNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
-		}
-
-		return productos;
-
-	}
-	public void escribirEnElCsvT(Usuario u){
-		try {
-			FileWriter fileWriter = new FileWriter("sql/csvTrabajadores.csv", true);
-			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			String datos = u.getUsername() + "," +u.getPassword()+","+u.getEmail()+",1,0";
-			String datosUnidos = String.join(",", datos);
-			
-			bufferedWriter.write(datosUnidos);
-			bufferedWriter.newLine();
-			
-			bufferedWriter.close();
-		    fileWriter.close();
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

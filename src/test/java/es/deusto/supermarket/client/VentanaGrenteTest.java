@@ -26,6 +26,7 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import es.deusto.spq.supermarket.client.MetodsClient;
 import es.deusto.spq.supermarket.client.VentanaBusqueda;
 import es.deusto.spq.supermarket.client.VentanaGerente;
 import es.deusto.spq.supermarket.server.jdo.Product;
@@ -58,6 +59,7 @@ public class VentanaGrenteTest {
             when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
 
             vB = new VentanaGerente(us);
+            vB.setVisible(false);
         }
     }
 

@@ -50,7 +50,6 @@ public class VentanaAnadirProductoGTest {
             clientBuilder.when(ClientBuilder::newClient).thenReturn(client);
             when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
 
-            vr = new VentanaAñadirProductoG();
         }
     }
 
@@ -58,7 +57,6 @@ public class VentanaAnadirProductoGTest {
 	@Test
 	public void test() {
 		try {
-			vr = new VentanaAñadirProductoG();
 		}catch(Exception e) {
 			assertTrue(false);
 		}

@@ -52,7 +52,7 @@ public class VentanaBusquedaTest {
 	    private Usuario us;
 	   
 
-	    private VentanaBusqueda vB;
+	    
 
 	    @Before
 	    public void setUp() {
@@ -62,8 +62,8 @@ public class VentanaBusquedaTest {
 	        try (MockedStatic<ClientBuilder> clientBuilder = Mockito.mockStatic(ClientBuilder.class)) {
 	            clientBuilder.when(ClientBuilder::newClient).thenReturn(client);
 	            when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
-
-	           // vB = new VentanaBusqueda(us);
+	            
+	           
 	        }
 	    }
 

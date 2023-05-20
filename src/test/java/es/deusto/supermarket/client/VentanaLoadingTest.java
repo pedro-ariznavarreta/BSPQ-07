@@ -54,7 +54,7 @@ public class VentanaLoadingTest {
 	            when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
 
 	            vT = new Loading();
-
+	            vT.setVisible(false);
 	            // Simulate response from database query
 	            
 	        }

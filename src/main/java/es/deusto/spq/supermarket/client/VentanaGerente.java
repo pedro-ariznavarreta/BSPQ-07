@@ -65,7 +65,7 @@ public class VentanaGerente extends JFrame {
 	private static List<Product> listaFavoritos = new ArrayList<>();
 
 	private JPanel panel;
-
+	MetodsClient mt = new MetodsClient();
 	private JButton btnCesta;
 
 	Client cliente = ClientBuilder.newClient();
@@ -104,7 +104,7 @@ public class VentanaGerente extends JFrame {
 		initialize();
 	}
 
-	public List<Product> busquedaProd(String producto) {
+	public  List<Product> busquedaProd(String producto) {
 		List<Product> productos = null;
 
 		if (producto.equals("")) {
@@ -121,7 +121,6 @@ public class VentanaGerente extends JFrame {
 		return productos;
 
 	}
-	
 	
 
 	/**

@@ -54,7 +54,7 @@ public class VentanaTrabajadorTest {
             when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
 
             vT = new VentanaTrabajador();
-
+            vT.setVisible(false);
             // Simulate response from database query
             
         }

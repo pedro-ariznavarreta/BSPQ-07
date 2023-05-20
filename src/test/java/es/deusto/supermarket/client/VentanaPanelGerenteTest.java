@@ -52,7 +52,7 @@ public class VentanaPanelGerenteTest {
 	            Usuario u = null;
 
 	            vPG = new VentanaPanelGerente(u);
-
+	            vPG.setVisible(false);
 	            // Simulate response from database query
 	            
 	        }

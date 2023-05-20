@@ -63,7 +63,7 @@ public class VentanaCrearCuentaTrabajadorTest {
 			when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
 
 			vCCT = new VentanaCrearCuentaTrabajador();
-
+			vCCT.setVisible(false);
 			// Simulate response from database query
 
 		}

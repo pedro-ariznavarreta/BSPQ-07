@@ -65,8 +65,7 @@ public class ServerIntegrationTest {
 	}
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+
 	public void testGetUsuarios() {
 
 		WebTarget userAllTarget = appTarget.path("all");
@@ -83,8 +82,7 @@ public class ServerIntegrationTest {
 	}
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+
 	public void testEliminarUsuario() {
 		List<String> listuser = Arrays.asList("A", "A");
 		WebTarget userElimTarget = appTarget.path("elim");
@@ -100,8 +98,6 @@ public class ServerIntegrationTest {
 	}
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
 	public void testNomCheck() {
 		WebTarget userNomCheckTarget = appTarget.path("nomcheck").queryParam("nick", "pedro");
 
@@ -115,8 +111,7 @@ public class ServerIntegrationTest {
 	
 	
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+
 	public void testGetIt() {
 	    WebTarget productAllTarget = appTarget.path("allP");
 		
@@ -149,7 +144,6 @@ public class ServerIntegrationTest {
 
 
 	@Test
-
 	public void testAñadirProductoCesta() {
 		Product p = new Product("peras", "muy dulces", 0.5, "unai", 10);
 		WebTarget cestaAñadirTarget = appTarget.path("anadir").queryParam("Producto", p.getNombre()).queryParam("Usuario", "pedro");
@@ -163,7 +157,6 @@ public class ServerIntegrationTest {
 
 
 	@Test
-
 	public void testVaciarCesta() {
 		WebTarget cestaBorrarTarget = appTarget.path("borrar");
 		Usuario usuario = new Usuario("pedro", "1234", null, 0, 0);

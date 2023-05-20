@@ -40,7 +40,7 @@ public class VentanaVerificarCodigo extends JFrame {
 	//final WebTarget userTarget = appTarget.path("usuarios");
 	public int codigoverificacion;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+	MetodsClient mt = new MetodsClient();
 	/**
 	 * Launch the application.
 	 */
@@ -136,26 +136,27 @@ public class VentanaVerificarCodigo extends JFrame {
 		});
 	}
 
-	 /**
-     * Crea una cuenta con los detalles proporcionados.
-     * 
-     * @param usuario El nombre de usuario.
-     * @param contraseña La contraseña del usuario.
-     * @param mail El correo electrónico del usuario.
-     * @param trabajador El valor que representa si el usuario es un trabajador o no.
-     * @param gerente El valor que representa si el usuario es un gerente o no.
-     */
-	public void crearCuenta(String usuario, String contraseña, String mail, Integer trabajador, Integer gerente) {
+/**
+* Crea una cuenta con los detalles proporcionados.
+* 
+* @param usuario El nombre de usuario.
+* @param contraseña La contraseña del usuario.
+* @param mail El correo electrónico del usuario.
+* @param trabajador El valor que representa si el usuario es un trabajador o no.
+* @param gerente El valor que representa si el usuario es un gerente o no.
+*/
+public void crearCuenta(String usuario, String contraseña, String mail, Integer trabajador, Integer gerente) {
 
-		WebTarget userRegTarget = appTarget.path("reg");
-		List<String> usuarioL = new ArrayList<>();
-		usuarioL.add(usuario);
-		usuarioL.add(contraseña);
-		usuarioL.add(mail);
-		usuarioL.add(String.valueOf(trabajador));
-		usuarioL.add(String.valueOf(gerente));
-		
-		userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
+	WebTarget userRegTarget = appTarget.path("reg");
+	List<String> usuarioL = new ArrayList<>();
+	usuarioL.add(usuario);
+	usuarioL.add(contraseña);
+	usuarioL.add(mail);
+	usuarioL.add(String.valueOf(trabajador));
+	usuarioL.add(String.valueOf(gerente));
+	
+	userRegTarget.request().post(Entity.entity(usuarioL, MediaType.APPLICATION_JSON));
 
-	}
+}
+
 }
