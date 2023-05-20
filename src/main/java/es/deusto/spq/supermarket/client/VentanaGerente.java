@@ -36,10 +36,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import es.deusto.spq.supermarket.server.Resource;
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -65,7 +65,7 @@ public class VentanaGerente extends JFrame {
 	private static List<Product> listaFavoritos = new ArrayList<>();
 
 	private JPanel panel;
-	MetodsClient mt = new MetodsClient();
+
 	private JButton btnCesta;
 
 	Client cliente = ClientBuilder.newClient();
@@ -104,7 +104,7 @@ public class VentanaGerente extends JFrame {
 		initialize();
 	}
 
-	public  List<Product> busquedaProd(String producto) {
+	public List<Product> busquedaProd(String producto) {
 		List<Product> productos = null;
 
 		if (producto.equals("")) {
@@ -121,6 +121,7 @@ public class VentanaGerente extends JFrame {
 		return productos;
 
 	}
+	
 	
 
 	/**
@@ -321,12 +322,8 @@ public class VentanaGerente extends JFrame {
 						
 	 	                final WebTarget borrarProducto = appTarget.path("borrarProducto");
 	 	                
-	 	                List<String> borrar = new ArrayList<>();
-	 	                borrar.add(productoSeleccionado.getCodigo());
-	 	                borrar.add(productoSeleccionado.getNombre());
-	 	            
-	 	                System.out.println(borrar.get(0));
-	 	                borrarProducto.request().post(Entity.entity(borrar, MediaType.APPLICATION_JSON));
+	 	              
+	 	                borrarProducto.request().post(Entity.entity(productoSeleccionado.getCodigo(), MediaType.APPLICATION_JSON));
 						//productos.remove(productoSeleccionado);
 	 	                JOptionPane.showMessageDialog(null, "Producto borrado");
 					}

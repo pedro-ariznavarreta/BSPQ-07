@@ -316,23 +316,22 @@ public class Resource {
 		}
 	}
 	
-	/**
-	 * Elimina todos los productos
-	 * 
-	 */
+	//Eliminar un producto de la base de datos
+	
 	@POST
 	@Path("/borrarProducto")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public static List<Product> borrarProducto(@QueryParam("cod") String codigo) {
+	public static List<Product> borrarProducto(String codigo) {
 		System.out.println("Entra en el método " + codigo);
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 
-		try (Query<Product> q = pm.newQuery("SELECT FROM " + Producto.class.getName() + " WHERE cod == '" + codigo + "'")) {
+		try (Query<Product> q = pm.newQuery("SELECT FROM " + Product.class.getName() + " WHERE codigo == '" + codigo + "'")) {
 			tx.begin();
+			
 			List<Product> prod = q.executeList();
-			System.out.println(prod.get(0));
+			System.out.println(prod);
 
 			pm.deletePersistentAll(prod);
 			tx.commit();
@@ -349,6 +348,7 @@ public class Resource {
 		}
 		return null;
 	}
+	
 	/**
 	 * Comprueba si existe o no por el nombre el usuario de la BD
 	 * @return Devuelve el usuario usado de la BD
