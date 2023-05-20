@@ -748,9 +748,9 @@ public class Resource {
 				todaLaCompra = q.executeList();
 				
 				
-				/*for (int i = 0; i < todaLaCompra.size(); i++) {
+				for (int i = 0; i < todaLaCompra.size(); i++) {
 					System.out.println(todaLaCompra.get(i).getProductos());
-				}*/
+				}
 			}finally {
 				
 				pm.close();
@@ -770,8 +770,9 @@ public class Resource {
 				tx.begin();
 				Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName());
 				todaLaCompra =  q.executeList();
-				pm.deletePersistent(todaLaCompra);
+				pm.deletePersistentAll(todaLaCompra);
 				tx.commit();
+				System.out.println("Borrando todos los datos");
 			} finally {
 				if (tx.isActive()) {
 					tx.rollback();
