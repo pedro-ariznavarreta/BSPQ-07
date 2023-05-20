@@ -255,7 +255,7 @@ public class VentanaBusqueda extends JFrame {
 			}
 		});
 		botonFavoritos.setBackground(new Color(255, 255, 0));
-		botonFavoritos.setBounds(525, 42, 89, 23);
+		botonFavoritos.setBounds(498, 42, 89, 23);
 		contentPane.add(botonFavoritos);
 		btnVolver.setBounds(44, 468, 91, 32);
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -310,23 +310,16 @@ public class VentanaBusqueda extends JFrame {
 		tableModel.addColumn("Stock");
 		tableModel.addColumn("Precio");
 		scroll.setViewportView(table);
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					JTable target = (JTable) e.getSource();
-					int row = target.getSelectedRow();
-					Product productoSeleccionado = productos.get(row);
-					int opcion = JOptionPane.showConfirmDialog(null, "¿Añadir a favoritos?", "Confirmar",
-							JOptionPane.YES_NO_OPTION);
-					if (opcion == JOptionPane.YES_OPTION) {
-						listaFavoritos.add(productoSeleccionado);
-						JOptionPane.showMessageDialog(null, "Producto añadido a favoritos.");
-					}
-				}
+		
+		JButton btnComprasAnteriores = new JButton("Compras anteriores");
+		btnComprasAnteriores.setBounds(614, 44, 85, 21);
+		contentPane.add(btnComprasAnteriores);
+		btnComprasAnteriores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new VentanaCompras(usuario);
+				dispose();
 			}
 		});
 
 	}
-	
-
 }

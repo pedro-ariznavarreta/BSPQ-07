@@ -782,6 +782,25 @@ public class Resource {
 
 		}
 		
+		@GET
+		@Path("/obtenerCompras")
+		@Produces(MediaType.APPLICATION_JSON)
+		public static List<Compra> obtenerCompra(@QueryParam("Usuario") String usuario) {
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			List<Compra> todaLaCompra = null; 
+			try {
+				Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName()+ " WHERE usuario == '" + usuario + "'");
+				todaLaCompra = q.executeList();
+				System.out.println("Las compras de "+ usuario);
+			}finally {
+				
+				pm.close();
+			}
+			;
+			return todaLaCompra;
+		}
+		
 		
 		
 }
