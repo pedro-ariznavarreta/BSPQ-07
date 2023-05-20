@@ -57,8 +57,7 @@ public class VentanaLogin extends JFrame {
 
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
-	final WebTarget userTarget = appTarget.path("usuarios");
-	final WebTarget userAllTarget = userTarget.path("all");
+
 
 	/**
 	 * Launch the application.

@@ -1,0 +1,47 @@
+Este proyecto es una aplicacion para la gestoría de un supermercado. En el que hay varios roles los cuales pueden acceder a la aplicación. Existe el rol de cliente el cual tiene acceso a una cuenta y a los productos, donde puede comprar y añadir al carrito varios productos. Por otra parte tenemos las clases de trabajador y gerente los cuales tienen permisos de administrador para añadir productos y añadir mas trabajadores o gerentes.
+
+Para compilar el proyecto ejecutamos el siguiente comando\+: \begin{DoxyVerb}mvn clean compile
+\end{DoxyVerb}
+
+
+Para probar los test unitarios introduzca este comando\+: \begin{DoxyVerb}mvn test
+\end{DoxyVerb}
+ Para encender la base de datos ejecutamos el siguiente comando\+: \begin{DoxyVerb}mysql –uroot -p < sql/create-messages.sql
+\end{DoxyVerb}
+ Para enlazar la aplicación a la base de datos ejecutamos el siguiente comando\+: \begin{DoxyVerb}mvn datanucleus:schema-create
+\end{DoxyVerb}
+ Para añadir datos de ejemplo ejecutamos el siguiente comando\+: \begin{DoxyVerb}mvn exec:java -P datos
+\end{DoxyVerb}
+ Integration tests can be launched using the following command. An embedded Grizzly HTTP server will be launched to perform real calls to the REST API and to the My\+SQL database. \begin{DoxyVerb}mvn verify -Pintegration-tests
+\end{DoxyVerb}
+ Performance tests can be launched using the following command. In this example, these tests are the same integration tests but executed multiple times to calculate some statistics \begin{DoxyVerb}mvn verify -Pperformance-tests
+\end{DoxyVerb}
+
+
+Para lanzar el servidor ejecutamos el siguiente comando\+: \begin{DoxyVerb}mvn jetty:run
+\end{DoxyVerb}
+ Para ejecutar el cliente usamos el siguiente comando\+: \begin{DoxyVerb}mvn exec:java -Pclient
+\end{DoxyVerb}
+
+
+====================================================================================
+
+Cliente Para el correcto uso de la aplición hay que seguir estos pasos\+:
+
+
+\begin{DoxyEnumerate}
+\item Iniciamos sesion directamente con (usuario=pedro, contraseña=1234) o creamos una cuenta
+\item Ahora nos saldrá para escoger los productos y añadirlos a favoritos o comprarlos.
+\item Cunado vas añadiendo el producto se aumenta la cesta y cuando le das al boton de cesta, ves todos tus productos con la posibilidad de borrarlos todos de la cesta o pagarlos. Tambien se pueden ver los cupones existentes en el boton cupones
+\item Tras darle al boton pagar debes introducir tu numero de cuenta, tu cupon(opcional) y tras darle a pagar se te descargará un PDF con el Documento de Cesta
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+
+
+Gerente o Trabajador
+\begin{DoxyEnumerate}
+\item Iniciamos sesion como gerente o trabajador.
+\item Podemos usar las siguientes credenciales \+: \char`\"{}admin\char`\"{}, \char`\"{}admin\char`\"{} (Para iniciar sesión como gerente o trabajador)
+\item La posibilidad de crear un trabajador o gerente y de añadir, eliminar o modificar producto. 
+\end{DoxyEnumerate}

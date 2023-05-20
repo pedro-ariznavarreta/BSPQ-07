@@ -1,3 +1,11 @@
+/** @package es.deusto.spq.supermarket.server
+
+
+
+@brief Sirve para poder inicializar los datos de la BD tanto en Performace como Integration Test
+*/
+
+
 package es.deusto.spq.supermarket.server;
 
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -9,7 +17,7 @@ import java.net.URI;
 
 /**
  * Main class.
- *
+ * 
  */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on

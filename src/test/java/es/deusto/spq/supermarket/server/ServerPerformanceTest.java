@@ -76,13 +76,13 @@ public class ServerPerformanceTest {
 	@Test
 	public void testBusquedaProd() {
 		
-//		List<Product> listProd = Arrays.asList(
-//    			new Product("Manzana", "Deliciosa", 3, "sergio",555));
-//		Usuario us = new Usuario();
-//		VentanaBusqueda vent = new VentanaBusqueda(us);
-//		List<Product> productos = vent.busquedaProd("Manzana");
-//		
-//		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
+		List<Product> listProd = Arrays.asList(
+    			new Product("Lechuga", "Muy sana", 2.4, "unai", 6));
+		Usuario us = new Usuario();
+		VentanaBusqueda vent = new VentanaBusqueda(us);
+		List<Product> productos = vent.busquedaProd("Lechuga");
+		
+		assertEquals(listProd.get(0).getNombre(), productos.get(0).getNombre());
 		
 	}
 	
@@ -129,12 +129,12 @@ public class ServerPerformanceTest {
 	public void testLogin() {
 		
 //		WebTarget userTarget = appTarget.path("usuarios");
-//	    WebTarget userAllTarget = userTarget.path("all");
+//	    WebTarget userAllTarget = appTarget.path("all");
 //		
 //		List<Usuario> usuario1 = Arrays.asList(
-//    			new Usuario("sergio", "1234", "sergiosanchezprieto@opendeusto.es",0,0));
+//    			new Usuario("inigo", "1234", "ini",0,0));
 //		VentanaLogin vent = new VentanaLogin();
-//		boolean result = vent.login("sergio", "1234");
+//		boolean result = vent.login("inigo", "1234");
 //		boolean comp = false;
 //		WebTarget userNomTarget = userTarget.path("nom").queryParam("nick", usuario1.get(0).getUsername());
 //		GenericType<Usuario> genericType = new GenericType<Usuario>() {};
@@ -144,7 +144,7 @@ public class ServerPerformanceTest {
 //		}
 //		
 //		assertEquals(result, comp);
-		
+//		
  
     
     
@@ -155,15 +155,15 @@ public class ServerPerformanceTest {
 	public void testCrearCuenta() {
 		
 		VentanaVerificarCodigo v = new VentanaVerificarCodigo();
-		v.crearCuenta("pepe", "123456", "pepe@gmail.com",0,0);
+		v.crearCuenta("thom", "1234", "thom@gmail.com",0,0);
 		
 		 
-		WebTarget usuarioNomTarget = appTarget.path("nom").queryParam("nick", "pepe");
+		WebTarget usuarioNomTarget = appTarget.path("nom").queryParam("nick", "thom");
 		GenericType<Usuario> genericType = new GenericType<Usuario>() {
 		};
 		Usuario u = usuarioNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		
-		assertEquals("pepe", u.getUsername());
+		assertEquals("thom", u.getUsername());
 
 	}
 	

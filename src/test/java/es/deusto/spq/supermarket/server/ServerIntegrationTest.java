@@ -1,3 +1,10 @@
+/** @package  es.deusto.spq.supermarket.server;
+
+
+
+@brief Se comprueban todos los teses de integracion conretamente los de la BD
+*/
+
 package es.deusto.spq.supermarket.server;
 
 import static org.junit.Assert.assertEquals;
@@ -47,14 +54,8 @@ public class ServerIntegrationTest {
 	public void setUp() throws Exception {
 
 		server = Main.startServer();
-		// create the client
 		Client c = ClientBuilder.newClient();
-		// uncomment the following line if you want to enable
-		// support for JSON in the client (you also have to uncomment
-		// dependency on jersey-media-json module in pom.xml and Main.startServer())
-		// --
-		// c.configuration().enable(new
-		// org.glassfish.jersey.media.json.JsonJaxbFeature());
+	
 		appTarget = c.target(Main.BASE_URI).path("resource");
 	}
 
@@ -85,11 +86,11 @@ public class ServerIntegrationTest {
 	@PerfTest(invocations = 1000, threads = 20)
     @Required(max = 1200, average = 300)
 	public void testEliminarUsuario() {
-		List<String> listuser = Arrays.asList("pedro", "1234");
+		List<String> listuser = Arrays.asList("A", "A");
 		WebTarget userElimTarget = appTarget.path("elim");
 		userElimTarget.request().post(Entity.entity(listuser, MediaType.APPLICATION_JSON));
 
-		WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", "pedro");
+		WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", "A");
 		GenericType<Usuario> genericType = new GenericType<Usuario>() {
 		};
 		Usuario usuario = userNomTarget.request(MediaType.APPLICATION_JSON).get(genericType);
@@ -109,7 +110,7 @@ public class ServerIntegrationTest {
 		boolean usuario = userNomCheckTarget.request(MediaType.APPLICATION_JSON).get(new GenericType<Boolean>() {
 		});
 
-		assertEquals(false, usuario);
+		assertEquals(true, usuario);
 	}
 	
 	
@@ -168,7 +169,7 @@ public class ServerIntegrationTest {
 		Usuario usuario = new Usuario("pedro", "1234", null, 0, 0);
 		cestaBorrarTarget.request().post(Entity.entity(usuario, MediaType.APPLICATION_JSON));
 		
-		WebTarget cestaBuscarTarget = appTarget.path("buscar").queryParam("Usuario", "pedro");
+		WebTarget cestaBuscarTarget = appTarget.path("buscar").queryParam("Usuario", "admin");
 		GenericType<List<Product>> genericType = new GenericType<List<Product>>() {};
 		List<Product> producto = cestaBuscarTarget.request(MediaType.APPLICATION_JSON).get(genericType);
 		

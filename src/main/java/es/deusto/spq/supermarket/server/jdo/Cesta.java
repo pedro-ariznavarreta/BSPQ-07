@@ -1,5 +1,6 @@
 /** @package es.deusto.spq.supermarket.server.jdo
 
+
     @brief Esto es la clase jdo de Cesta
 */
 

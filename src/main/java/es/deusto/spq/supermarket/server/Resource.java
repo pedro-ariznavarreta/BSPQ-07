@@ -1,3 +1,9 @@
+/** @package es.deusto.spq.supermarket.server
+
+
+@brief Esto es PARA CREAR todos los métdoos de la Base de datos por medio de etiquetas
+*/
+
 package es.deusto.spq.supermarket.server;
 
 import javax.jdo.PersistenceManager;
@@ -38,7 +44,11 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
-
+/**
+ * Clase cada etiqueta sirve para un método diferente de la bd
+ * @author Pedro
+ *
+ */
 @Path("/resource")
 @Produces(MediaType.APPLICATION_JSON)
 public class Resource {
@@ -54,7 +64,10 @@ public class Resource {
 		this.pm = pmf.getPersistenceManager();
 		this.tx = pm.currentTransaction();
 	}
-
+	/**
+	 * Metodo de la bd
+	 * @return Devuelve una lista con todos los usuarios
+	 */
 
 	@GET
 	@Path("/usuarios")
@@ -74,7 +87,10 @@ public class Resource {
 		}
 		return todosUsuarios;
 	}
-
+	/**
+	 * Busca los usuarios por su nombr
+	 * @return Devuelve el usuario encotrado
+	 */
 	@GET
 	@Path("/nom")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -100,7 +116,10 @@ public class Resource {
 		
 		return usuarios;
 	}
-	
+	/**
+	 * Hace login de los usuarios
+	 * @return Devuelve los usuarios loggeados
+	 */
 	@GET
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -126,7 +145,10 @@ public class Resource {
 		return usuarios;
 	}
 	
-
+	/**
+	 * Registra los usuarios con sus atributos especificos
+	 * 
+	 */
 	@POST
 	@Path("/reg")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -155,6 +177,11 @@ public class Resource {
 
 	}
 	
+	/**
+	 * Registra el gerente con sus atributos especificos
+	 * 
+	 */
+	
 	@POST
 	@Path("/regGerente")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -180,6 +207,11 @@ public class Resource {
 		}
 
 	}
+	
+	/**
+	 * Registra el trabajador con sus atributos especificos
+	 * 
+	 */
 	@POST
 	@Path("/regTrabajador")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -206,6 +238,11 @@ public class Resource {
 		}
 
 	}
+	
+	/**
+	 * Registra los productos con sus atributos especificos
+	 * 
+	 */
 	@POST
 	@Path("/regProductos")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -233,7 +270,10 @@ public class Resource {
 
 	}
 		
-	//Devuelve los productos en una lista
+	/**
+	 * Metodo de la bd
+	 * @return Devuelve una lista con todos los productos en una lista
+	 */
 	@GET
 	@Path("/productos")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -252,7 +292,11 @@ public class Resource {
 		}
 		return todosProductos;
 	}
-
+	
+	/**
+	 * Elimina el usuario especificamente por su nombre
+	 * 
+	 */
 	@POST
 	@Path("elim")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -271,7 +315,10 @@ public class Resource {
 		}
 	}
 	
-	//Eliminar un producto de la base de datos
+	/**
+	 * Elimina todos los productos
+	 * 
+	 */
 	@POST
 	@Path("/borrarProducto")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -301,7 +348,10 @@ public class Resource {
 		}
 		return null;
 	}
-
+	/**
+	 * Comprueba si existe o no por el nombre el usuario de la BD
+	 * @return Devuelve el usuario usado de la BD
+	 */
 	@GET
 	@Path("nomcheck")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -356,7 +406,10 @@ public class Resource {
 		return usuariousado;
 	}
 	
-	
+	/**
+	 * Comprueba el rol del usuario si es cliente, gerente o trabajador
+	 * @return Devuelve el usuario idoneo
+	 */
 	@GET
 	@Path("rol")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -384,7 +437,10 @@ public class Resource {
 		}
 		return valor;
 	}
-
+	/**
+	 *Metodo de la BD
+	 * @return Devuelve toda la lista de usuarios
+	 */
 	@GET
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -403,7 +459,10 @@ public class Resource {
 		}
 		return usuarios;
 	}
-
+	/**
+	 *Busca el producto por su nombre
+	 * @return Devuelve el producto
+	 */
 	@GET
 	@Path("/nomP")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -423,7 +482,10 @@ public class Resource {
 
 		return productos;
 	}
-
+	/**
+	 *Metodo de la BD
+	 * @return Devuelve todos los productos
+	 */
 	@GET
 	@Path("/allP")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -440,7 +502,10 @@ public class Resource {
 		return productos;
 
 	}
-	
+	/**
+	 *Cuenta los productos de la cesta
+	 * @return Devuelve un contador con los productos
+	 */
 	@GET
 	@Path("/contar")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -464,7 +529,10 @@ public class Resource {
 		return contador;
 	}
 	
-	
+	/**
+	 *Añade todos los productos a los usuarios especificos
+	 * @return Devuelve un booleano 
+	 */
 
 	@GET
 	@Path("/anadir")
@@ -495,6 +563,10 @@ public class Resource {
 
 		return respuesta;
 	}
+	/**
+	 *Hace una busqueda del usuario por su nombre y elimina ese usuario
+	 * 
+	 */
 
 	@POST
 	@Path("/borrar")
@@ -515,7 +587,11 @@ public class Resource {
 			pm.close();
 		}
 	}
-	
+	/**
+	 *Hace una busqueda del usuario y del producto por su nombre
+	 * @return Devuelve un booleano 
+	 */
+
 	@GET
 	@Path("/buscar")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -547,7 +623,10 @@ public class Resource {
 		}
 		return productos;
 	}
-	
+	/**
+	 *Añade el pedido a la compra
+	 * 
+	 */
 	 
 	  	@POST
 	  	@Path("/anyadir")
@@ -582,7 +661,10 @@ public class Resource {
 			}
 		}
 	  	
-	  	
+	  	/**
+		 *Hace el metodo de compra de la BD
+		 * 
+		 */
 
 		@POST
 		@Path("/comprar")
@@ -611,7 +693,10 @@ public class Resource {
 				
 			}
 		}
-		
+		/**
+		 *Se registran las compras en la BD
+		 * 
+		 */
 		@POST
 		@Path("/regCompra")
 		@Consumes(MediaType.APPLICATION_JSON)
@@ -645,6 +730,11 @@ public class Resource {
 
 		}
 		}
+		
+		/**
+		 *
+		 * @return Devuelve una lista de todas las compras
+		 */
 		@GET
 		@Path("/listarCompra")
 		@Produces(MediaType.APPLICATION_JSON) //@QueryParam("Usuario")
