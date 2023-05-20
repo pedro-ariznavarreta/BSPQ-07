@@ -59,6 +59,8 @@ public class VentanaCesta extends JFrame {
 	   * Lista de productos en la cesta del usuario.
 	   */
 	  private static List<Product> productos;
+	  private static List<Product> productos2 = new ArrayList<>();
+
 
 	  /**
 	   * Usuario actualmente verificado en la aplicación.
@@ -112,8 +114,8 @@ public class VentanaCesta extends JFrame {
 	public VentanaCesta(Usuario usuarioVerificado) {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		usuario = usuarioVerificado;
-		Usuario us = new Usuario("Inigo", "Prueba", "Inigo@prueba", 0, 0);
-		usuario = us;
+		//Usuario us = new Usuario("Inigo", "Prueba", "Inigo@prueba", 0, 0);
+		//usuario = us;
 		initialize();
 	}
 
@@ -135,6 +137,7 @@ public class VentanaCesta extends JFrame {
 		};
 		final List<Product> product = buscarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
 		System.out.println(product);
+		productos2 = product;
 		final DefaultListModel<Product> DLM = new DefaultListModel<>();
 		for (Product p : product) {
 			DLM.addElement(p);
@@ -154,7 +157,7 @@ public class VentanaCesta extends JFrame {
 		        // Obtenemos el usuario actual
 		        Usuario usenv = usuario;
 		        // Creamos una nueva ventana de pago
-		        VentanaPago ventana = new VentanaPago(usenv, productos);
+		        VentanaPago ventana = new VentanaPago(usenv, productos2);
 		        double precio = 0.0;
 		        // Calculamos el precio total de los productos en la cesta
 		        for (Product p : product) {

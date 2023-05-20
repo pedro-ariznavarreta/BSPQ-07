@@ -72,7 +72,6 @@ public class VentanaPago extends JFrame {
 	private JLabel lblTitular;
 	private JLabel lblFechaCaducidad;
 	private JLabel lblCV;
-	
 
 	private JList<Product> list;
 	DefaultListModel<Product> modelProducto = new DefaultListModel<>();
@@ -183,26 +182,19 @@ public class VentanaPago extends JFrame {
 						JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos de la tarjeta",
 								"Error", JOptionPane.ERROR_MESSAGE);
 						return; // Detener la ejecución del método si faltan datos
-					}else {
-						//Codigo para guardar en la base de datos la compra
-						
-						//BigInteger fechaActual = BigInteger.valueOf(System.currentTimeMillis());
-								
-						//Compra com = new Compra(productosCliente,usuario,fechaActual);
-						//String usuario = usuarioVerificado.getUsername();
-						//List<Product> productosCliente = productosSeleccionados;
-						List<Product> productosCliente = new ArrayList<>();
-						Product pro1 = new Product("Nombre","aaa",2.1,"asdas",1);
-						productosCliente.add(pro1);
-						String usuario = "Inigo";
-						
-						 String fech = String.valueOf(System.currentTimeMillis());
-						 
-						 final WebTarget pruebaTar = appTarget.path("regCompra");						 
-						 Compra comp = new Compra(productosCliente,usuario,fech);
-						 System.out.println(comp.getProductos());
-						 pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
-						
+					} else {
+						// Codigo para guardar en la base de datos la compra
+
+						String usuario = usuarioVerificado.getUsername();
+						List<Product> productosCliente = productosSeleccionados;
+						String fech = String.valueOf(System.currentTimeMillis());
+						final WebTarget pruebaTar = appTarget.path("regCompra");
+						Compra comp = new Compra(productosCliente, usuario, fech);
+						if(comp.getProductos().size()!= 0) {
+							pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
+							System.out.println("El usuario " + comp.getUsuario() + " ha comprado " + comp.getProductos() );
+						}
+
 					}
 				}
 
@@ -326,32 +318,30 @@ public class VentanaPago extends JFrame {
 		textPrecio.setText(String.valueOf(precio));
 
 	}
-		
+
 	private void generarFicheroFactura() {
-		   JFileChooser fileChooser = new JFileChooser();
-		    int seleccion = fileChooser.showSaveDialog(this);
-		    if (seleccion == JFileChooser.APPROVE_OPTION) {
-		        File file = fileChooser.getSelectedFile();
-		        try (PrintWriter writer = new PrintWriter(file)) {
-		            for (int i = 0; i < modelProducto.getSize(); i++) {
-		                Product producto = modelProducto.getElementAt(i);
-		                writer.println(producto.toString());
-		            }
-		            writer.println("Precio: " + textPrecio.getText());
-		            writer.println("Cupon: " + textCupon.getText());
-		            writer.println("Datos de la tarjeta:");
-		            writer.println("Número de tarjeta: " + textNumeroTarjeta.getText());
-		            writer.println("Titular: " + textTitular.getText());
-		            writer.println("Fecha de caducidad: " + textFechaCaducidad.getText());
-		            writer.println("CV: " + textCV.getText());
-		            writer.flush();
-		            writer.close();
-		            
-		        } catch (FileNotFoundException e) {
-		            LOGGER.severe(e.getMessage());
-		        }
-		    }
-}
-}
+		JFileChooser fileChooser = new JFileChooser();
+		int seleccion = fileChooser.showSaveDialog(this);
+		if (seleccion == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			try (PrintWriter writer = new PrintWriter(file)) {
+				for (int i = 0; i < modelProducto.getSize(); i++) {
+					Product producto = modelProducto.getElementAt(i);
+					writer.println(producto.toString());
+				}
+				writer.println("Precio: " + textPrecio.getText());
+				writer.println("Cupon: " + textCupon.getText());
+				writer.println("Datos de la tarjeta:");
+				writer.println("Número de tarjeta: " + textNumeroTarjeta.getText());
+				writer.println("Titular: " + textTitular.getText());
+				writer.println("Fecha de caducidad: " + textFechaCaducidad.getText());
+				writer.println("CV: " + textCV.getText());
+				writer.flush();
+				writer.close();
 
-
+			} catch (FileNotFoundException e) {
+				LOGGER.severe(e.getMessage());
+			}
+		}
+	}
+}

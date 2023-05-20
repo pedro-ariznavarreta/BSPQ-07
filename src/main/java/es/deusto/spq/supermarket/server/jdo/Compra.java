@@ -4,8 +4,6 @@
  
 package es.deusto.spq.supermarket.server.jdo;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.Inheritance;

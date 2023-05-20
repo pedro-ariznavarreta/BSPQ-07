@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -714,11 +715,10 @@ public class Resource {
 				try {
 				tx.begin();
 				Compra com = new Compra(compra.getProductos(), compra.getUsuario(),compra.getFecha());
-				System.out.println(compra.getFecha());
 				DateFormat fecha= new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				String fechaBuena = fecha.format(Long.parseLong(compra.getFecha()));
-				System.out.println(fechaBuena);
 				compra.setFecha(fechaBuena);
+				System.out.println("El usuario " + com.getUsuario()+ " ha comprado:");
 				pm.makePersistent(com);
 				tx.commit();
 			}finally {
@@ -737,21 +737,50 @@ public class Resource {
 		 */
 		@GET
 		@Path("/listarCompra")
-		@Produces(MediaType.APPLICATION_JSON) //@QueryParam("Usuario")
+		@Produces(MediaType.APPLICATION_JSON)
 		public static List<Compra> verCompra( String usuario) {
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			List<Compra> todaLaCompra = null; 
 			try {
-				//Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName());
-				Query<Compra> q = pm.newQuery(Compra.class);
+				Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName());
+				//Query<Compra> q = pm.newQuery(Compra.class);
 				todaLaCompra = q.executeList();
-				//List<Compra> todaLaCompra = q.executeList();
+				
+				
+				/*for (int i = 0; i < todaLaCompra.size(); i++) {
+					System.out.println(todaLaCompra.get(i).getProductos());
+				}*/
 			}finally {
+				
 				pm.close();
 			}
 			
 			return todaLaCompra;
 		}
+		
+		@POST
+		@Path("/vaciarCompra")
+		public static void borrarTodasCompras() {
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			List<Compra> todaLaCompra = null;
+			try {
+				tx.begin();
+				Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName());
+				todaLaCompra =  q.executeList();
+				pm.deletePersistent(todaLaCompra);
+				tx.commit();
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+			}
+
+		}
+		
+		
 		
 }
