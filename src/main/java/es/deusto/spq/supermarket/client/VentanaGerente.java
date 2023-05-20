@@ -1,26 +1,17 @@
 package es.deusto.spq.supermarket.client;
 
-import java.awt.BorderLayout;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-
+import javax.swing.*;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -37,20 +28,20 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.jdo.Product;
-import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
 public class VentanaGerente extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
@@ -59,14 +50,10 @@ public class VentanaGerente extends JFrame {
 	private DefaultTableModel tableModel = new DefaultTableModel();
 	private DefaultTableModel tableModel_ofertas = new DefaultTableModel();
 	private static Usuario usuario;
-	private static int cantidad;
 	private static List<Product> productos;
-	private static List<Producto> producto;
-	private static List<Product> listaFavoritos = new ArrayList<>();
 
 	private JPanel panel;
 
-	private JButton btnCesta;
 
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
@@ -187,15 +174,6 @@ public class VentanaGerente extends JFrame {
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnBuscar);
 
-		btnCesta = new JButton("Cesta : " + cantidad);
-		btnCesta.setBackground(new Color(255, 255, 0));
-		btnCesta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				VentanaCesta window = new VentanaCesta(usuario);
-//				window.setVisible(true);
-//				setVisible(false);
-			}
-		});
 
 		JButton btnBorrarProducto = new JButton("Borrar Producto");
 		btnBorrarProducto.setBackground(new Color(255, 255, 0));
@@ -229,12 +207,12 @@ public class VentanaGerente extends JFrame {
 		tableModel.addColumn("Stock");
 		tableModel.addColumn("Precio");
 		/*ACTUALIZAR LA BASE DE DATOS CON LOS CAMBIOS QUE SE HAGAN EN LA TABLA*/
-		table.getModel().addTableModelListener(new TableModelListener() {
+		/*table.getModel().addTableModelListener(new TableModelListener() {
 			
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				
-				/*
+				
 				int fila = e.getFirstRow();
 				String cod = (String)tableModel.getValueAt(fila, 0);
 				String nom = (String)tableModel.getValueAt(fila, 1);
@@ -260,9 +238,10 @@ public class VentanaGerente extends JFrame {
           
 				modificarProducto.request().post(Entity.entity(modificar, MediaType.APPLICATION_JSON));
 				//productos.remove(productoSeleccionado);
-				JOptionPane.showMessageDialog(null, "Producto borrado");*/
+				JOptionPane.showMessageDialog(null, "Producto borrado");
 			}
-		});
+		});*/
+		
 		scroll.setViewportView(table);
 		
 		JButton btnAnadirProducto = new JButton("Añadir Producto");
@@ -321,7 +300,6 @@ public class VentanaGerente extends JFrame {
 						final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 						
 	 	                final WebTarget borrarProducto = appTarget.path("borrarProducto");
-	 	                
 	 	              
 	 	                borrarProducto.request().post(Entity.entity(productoSeleccionado.getCodigo(), MediaType.APPLICATION_JSON));
 						//productos.remove(productoSeleccionado);

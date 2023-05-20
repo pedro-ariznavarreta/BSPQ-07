@@ -39,11 +39,12 @@ public class VentanaAñadirProductoG extends JFrame {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static JTextField txtNom;
-	public static JTextField txtCod;
+	
 	public static JTextField txtDesc;
 	public static JTextField txtPrecio;
+	public static JTextField txtUsu;
+	public static JTextField txtCant;
 	public static int codigoverificacion;
-	private JTextField txtCant;
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
@@ -68,6 +69,7 @@ public class VentanaAñadirProductoG extends JFrame {
 	/**
 	 * Create the application.
 	 */
+	
 	public VentanaAñadirProductoG() {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		initialize();
@@ -96,50 +98,50 @@ public class VentanaAñadirProductoG extends JFrame {
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistrarse.setForeground(new Color(233, 217, 27));
 		lblRegistrarse.setFont(new Font("Leelawadee UI", Font.BOLD, 24));
-		lblRegistrarse.setBounds(59, 43, 263, 29);
+		lblRegistrarse.setBounds(42, 41, 280, 29);
 		getContentPane().add(lblRegistrarse);
 
 		final JLabel lblNomProducto = new JLabel("Nombre del producto");
 		lblNomProducto.setForeground(new Color(233, 217, 27));
 		lblNomProducto.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNomProducto.setBounds(74, 83, 184, 29);
+		lblNomProducto.setBounds(74, 95, 184, 29);
 		getContentPane().add(lblNomProducto);
 
 		final JLabel lblDescripcion = new JLabel("Descripción");
 		lblDescripcion.setForeground(new Color(233, 217, 27));
 		lblDescripcion.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDescripcion.setBounds(74, 210, 86, 29);
+		lblDescripcion.setBounds(74, 153, 86, 29);
 		getContentPane().add(lblDescripcion);
 
 		final JLabel lblPrecio = new JLabel("Precio");
 		lblPrecio.setForeground(new Color(233, 217, 27));
 		lblPrecio.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblPrecio.setBounds(74, 272, 168, 29);
+		lblPrecio.setBounds(74, 210, 168, 29);
 		getContentPane().add(lblPrecio);
 
-		final JLabel lblCodigo = new JLabel("Código");
+		final JLabel lblCodigo = new JLabel("Cantidad");
 		lblCodigo.setForeground(new Color(233, 217, 27));
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCodigo.setBounds(74, 147, 63, 29);
+		lblCodigo.setBounds(74, 330, 86, 29);
 		getContentPane().add(lblCodigo);
 
 		// Los JTextField
 		txtNom = new JTextField();
-		txtNom.setBounds(74, 113, 223, 23);
+		txtNom.setBounds(74, 123, 223, 23);
 		getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 
-		txtCod = new JTextField();
-		txtCod.setColumns(10);
-		txtCod.setBounds(75, 176, 222, 23);
-		getContentPane().add(txtCod);
+		txtUsu = new JTextField();
+		txtUsu.setColumns(10);
+		txtUsu.setBounds(74, 296, 222, 23);
+		getContentPane().add(txtUsu);
 
 		txtDesc = new JTextField();
-		txtDesc.setBounds(74, 238, 227, 23);
+		txtDesc.setBounds(74, 182, 223, 23);
 		getContentPane().add(txtDesc);
 
 		txtPrecio = new JTextField();
-		txtPrecio.setBounds(74, 299, 227, 23);
+		txtPrecio.setBounds(74, 238, 223, 23);
 		getContentPane().add(txtPrecio);
 
 		// Jbutton cerrar. Simplemente cierra la aplicacion
@@ -180,14 +182,14 @@ public class VentanaAñadirProductoG extends JFrame {
 		btnVolver.setBounds(42, 478, 133, 37);
 		getContentPane().add(btnVolver);
 		
-		JLabel lblNewLabel_1 = new JLabel("Cantidad disp.");
+		JLabel lblNewLabel_1 = new JLabel("Usuario ofertante");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_1.setForeground(new Color(233, 217, 27));
-		lblNewLabel_1.setBounds(74, 333, 140, 23);
+		lblNewLabel_1.setBounds(74, 272, 140, 23);
 		getContentPane().add(lblNewLabel_1);
 		
 		txtCant = new JTextField();
-		txtCant.setBounds(74, 360, 227, 23);
+		txtCant.setBounds(74, 358, 223, 23);
 		getContentPane().add(txtCant);
 		
 		
@@ -208,7 +210,7 @@ public class VentanaAñadirProductoG extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				// COMPROBACION DE QUE LOS CAMPOS ESTAN RELLENADOS
-				if (txtNom.getText().length() == 0 || txtCod.getText().length() == 0
+				if (txtNom.getText().length() == 0 || txtUsu.getText().length() == 0
 						|| txtDesc.getText().length() == 0 || txtPrecio.getText().length() == 0 || txtCant.getText().length() == 0) {
 
 					JOptionPane.showMessageDialog(null, "Asegurese de que todos los campos estan completados", "ERROR",
@@ -218,7 +220,7 @@ public class VentanaAñadirProductoG extends JFrame {
 					lblDescripcion.setForeground(Color.RED);
 					lblPrecio.setForeground(Color.RED);
 					lblCodigo.setForeground(Color.RED);
-				}else if (Resource.codcheck(txtCod.getText())){
+				}else if (Resource.codcheck(txtUsu.getText())){
 					System.out.println("Producto Repetido");
 					JOptionPane.showMessageDialog(null, "Este producto ya esta registrado, use otro", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
@@ -226,15 +228,20 @@ public class VentanaAñadirProductoG extends JFrame {
 				}else {
 	 	               List<String> producto = new ArrayList<>();
 	 	               producto.add(txtNom.getText());
-	 	               producto.add(txtCod.getText());
 	 	               producto.add(txtDesc.getText());
 	 	               producto.add(txtPrecio.getText());
+	 	               producto.add(txtUsu.getName());
 	 	               producto.add(txtCant.getText());
 	 	               
-	 	               userTarget.request().post(Entity.entity(producto, MediaType.APPLICATION_JSON));
+	 	               Client cliente = ClientBuilder.newClient();
+	 	               final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
+						
+	 	               final WebTarget anadirProducto = appTarget.path("regProductos");
+	 	               
+	 	               anadirProducto.request().post(Entity.entity(producto, MediaType.APPLICATION_JSON));
 
-						JOptionPane.showMessageDialog(btnVolver, "Producto registrado correctamente");
-						dispose();
+	 	               JOptionPane.showMessageDialog(btnVolver, "Producto registrado correctamente");
+	 	               dispose();
 				}
 			}
 		});

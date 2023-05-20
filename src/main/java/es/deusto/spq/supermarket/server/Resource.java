@@ -249,17 +249,18 @@ public class Resource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public static void insertarProductos(List<String> productos) {
 		String nom = productos.get(0);
-		String cod = productos.get(1);
-		String desc = productos.get(2);
-		String precio = productos.get(3);
-		String cant = productos.get(4);
+		String desc = productos.get(1);
+		Long precio = Long.parseLong(productos.get(2));
+		String usuario = productos.get(3);
+		int cant = Integer.parseInt(productos.get(4));
+		
 		
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			Producto producto1 = new Producto(nom, cod, desc, precio, cant);
+			Product producto1 = new Product(nom, desc, precio, usuario, cant);
 			pm.makePersistent(producto1);
 			tx.commit();
 		} finally {
