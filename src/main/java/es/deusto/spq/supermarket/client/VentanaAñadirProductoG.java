@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.EventQueue;
 
@@ -29,7 +31,11 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
+/**
+ * Sirve para añadir los productos en la BD en la parte del administrador
+ * 
+ * @version 1
+ */
 public class VentanaAñadirProductoG extends JFrame {
 	/**
 	 * 
@@ -51,7 +57,7 @@ public class VentanaAñadirProductoG extends JFrame {
 	final WebTarget userTarget = appTarget.path("regProductos");
 
 	/**
-	 * Launch the application.
+	 * Se carga la aplicación
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -67,7 +73,7 @@ public class VentanaAñadirProductoG extends JFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * Crea la aplicacion
 	 */
 	
 	public VentanaAñadirProductoG() {

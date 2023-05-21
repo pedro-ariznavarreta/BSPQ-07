@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,6 +22,14 @@ import es.deusto.spq.supermarket.server.Resource;
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
+/**
+ * La clase metodsClient se encarga de todos esos métodos que hacen uso de la BD para cargar o guardar
+ * en un fichero local todos los usuarios.
+ * 
+  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
+ */
 public class MetodsClient {
 	
 	Client cliente = ClientBuilder.newClient();
@@ -27,7 +37,11 @@ public class MetodsClient {
 	final WebTarget productAllTarget = appTarget.path("allP");
 	private static Usuario usuarios;
 	
-	
+	/**
+	 * Sirve para actulizar los CSV a medida que se inicie sesion un usuario
+	 * 
+	 * @param el usuario que se va a escribir
+	 */
 	public void escribirEnElCsvT(Usuario u){
 		try {
 			FileWriter fileWriter = new FileWriter("sql/csvTrabajadores.csv", true);
@@ -49,7 +63,11 @@ public class MetodsClient {
 	}
 	
 
-	
+	/**
+	 * Sirve cargar todos los usuarios en la BD
+	 * 
+	 * 
+	 */
 	
 public void cargarCsvLocal() {
 		

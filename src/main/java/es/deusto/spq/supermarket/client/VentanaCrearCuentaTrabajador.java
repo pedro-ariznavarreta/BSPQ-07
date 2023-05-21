@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.EventQueue;
 
@@ -35,7 +37,13 @@ import javax.swing.JButton;
 
 public class VentanaCrearCuentaTrabajador extends JFrame {
 	/**
+	 * VentanaCrearCuentaTrabajador es una clase que extiende JFrame y representa la ventana
+	 * de creación de cuenta en la aplicación. Incluye campos para ingresar el
+	 * nombre de usuario, email y contraseña.
 	 * 
+	 *  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +57,7 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	public static int codigoverificacion;
 
 	/**
-	 * Launch the application.
+	 * Carga de la aplicacion
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -65,12 +73,17 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * Se crea la aplicacion
 	 */
 	public VentanaCrearCuentaTrabajador() {
 		getContentPane().setBackground(new Color(0, 0, 0));
 		initialize();
 	}
+	
+	/**
+	 * Se escribe en el CSV el usuario nuevo
+	 * @param el nuevo usuario
+	 */
 	
 	public void escribirEnElCsv(Usuario u){
 		try {

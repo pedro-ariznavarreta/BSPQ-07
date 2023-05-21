@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.util.*;
 
@@ -48,8 +50,16 @@ import java.awt.Color;
 
 public class VentanaPago extends JFrame {
 	/**
-	 * 
-	 */
+	* VentanaPago se muestras los prodcutos seleccionados de la ventana de Cesta, es necesario hacer uso de
+	* una tarjeta bancaria para pagar los productos, tambien tiene la posibilidad de hacer uso del cupon
+	* para hacer una descuento y por último al darle al boton pagar y tras haber rellenado todo se te descarga
+	* un pdf con toda tu compra seleccionada
+	* 
+	* 
+	*  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
+	*/
 	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -188,12 +198,12 @@ public class VentanaPago extends JFrame {
 						String usuario = usuarioVerificado.getUsername();
 						List<Product> productosCliente = productosSeleccionados;
 						String fech = String.valueOf(System.currentTimeMillis());
-						final WebTarget pruebaTar = appTarget.path("regCompra");
-						Compra comp = new Compra(productosCliente, usuario, fech);
-						if(comp.getProductos().size()!= 0) {
-							pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
-							System.out.println("El usuario " + comp.getUsuario() + " ha comprado " + comp.getProductos() );
-						}
+//						final WebTarget pruebaTar = appTarget.path("regCompra");
+//						Compra comp = new Compra(productosCliente, usuario, fech);
+//						if(comp.getProductos().size()!= 0) {
+//							pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
+//							System.out.println("El usuario " + comp.getUsuario() + " ha comprado " + comp.getProductos() );
+//						}
 
 					}
 				}
@@ -300,7 +310,13 @@ public class VentanaPago extends JFrame {
 		});
 
 	}
-
+	/**
+	* actualizaerPrecioCupon es para actulizar el precio se se intruduce unos 
+	* de los cupones disponibles
+	* 
+	*
+	* 
+	*/
 	private void actualizarPrecioConCupon() {
 		String cupon = textCupon.getText();
 		double precio = Double.parseDouble(textPrecio.getText());
@@ -318,7 +334,11 @@ public class VentanaPago extends JFrame {
 		textPrecio.setText(String.valueOf(precio));
 
 	}
-
+	/**
+	* generar fichero factura sirve para que se te descarge en pdf la factura con todos tus productos y 
+	* puedas guardarlo en tu ordenador
+	*
+	*/
 	private void generarFicheroFactura() {
 		JFileChooser fileChooser = new JFileChooser();
 		int seleccion = fileChooser.showSaveDialog(this);

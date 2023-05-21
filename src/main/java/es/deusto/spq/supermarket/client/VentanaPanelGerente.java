@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.BorderLayout;
 
@@ -36,11 +38,17 @@ import java.awt.Font;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.GridLayout;
-
+/**
+* VentanaPanelGerente sirve para seleccionar que tipo de tarea quieres hacer con el admin
+* puedes registrar nuevos trabajador, tambien nuevos gerentes y tambien cambiar los diferentes porductos
+* 
+*  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
+*
+*/
 public class VentanaPanelGerente extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);

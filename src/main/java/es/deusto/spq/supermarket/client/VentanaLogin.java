@@ -1,4 +1,6 @@
  package es.deusto.spq.supermarket.client;
+ /** @package es.deusto.spq.supermarket.client
+ */
 
 import java.awt.Color;
 
@@ -43,8 +45,13 @@ import javax.swing.SwingConstants;
 
 public class VentanaLogin extends JFrame {
 	/**
-	 * 
-	 */
+	* VentanaLogin sirve para loggearte como usuario ya creado por tu nombre y contrseña
+	*
+	*
+	* * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
+	*/
 	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -60,7 +67,7 @@ public class VentanaLogin extends JFrame {
 	MetodsClient mt = new MetodsClient();
 
 	/**
-	 * Launch the application.
+	 * Se carga la aplicación
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,7 +83,7 @@ public class VentanaLogin extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Se crea el frame
 	 */
 	public VentanaLogin() {
 		//cargarCsvLocal();
@@ -169,7 +176,12 @@ public class VentanaLogin extends JFrame {
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-
+		/**
+		* Boton necesario para loggerate donde se hace la comprobación de si el usuario existe o no
+		* 
+		* 
+		* 
+		*/
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -231,7 +243,13 @@ public class VentanaLogin extends JFrame {
 		labelImg.setIcon(scaledIcon);
 
 	}
-
+	/**
+	* Metodo login sirve para loggear el nuevo usuario
+	* 
+	* @param el nombre del usurio y la contraseña
+	* @return devuelve el booleano de si se a creado correctamente ==  true y al contrario == false
+	* 
+	*/
 	public boolean login(String usuario, String contraseña) {
 		if (!usuario.equals("") && !contraseña.equals("")) {
 			WebTarget userNomTarget = appTarget.path("nom").queryParam("nick", usuario);
@@ -247,7 +265,15 @@ public class VentanaLogin extends JFrame {
 		} else
 			return false;
 	}
-	
+	/**
+	* Metodo comporbarRol para saber que usuario se está loggeando
+	* 
+	* @param el nombre del usurio y la contraseña
+	* @return devuelve el valor del usuario si es trabajador o gerente o un cliente
+	* dependiedo de que rol tengo devolvera una diferente cliente=0, trabajador=1 y
+	* gerente = 2
+	* 
+	*/
 	public int comprobarRol(String usuario, String contraseña) {
 		WebTarget userNomTarget = appTarget.path("login").queryParam("nick", usuario);
 		GenericType<Usuario> genericType = new GenericType<Usuario>() {	};

@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.BorderLayout;
 
@@ -46,7 +48,9 @@ import java.awt.Color;
  * y buscarlos. Tambien existe la posiblidad de poner los prodcutos en favoritos.
  * Esta ventana interactúa con un servicio REST para recuperar y gestionar los productos de la cesta.
  * 
+ * @author JavierP
  * @version 1.0
+ * @since 2023-05-20
  */
 
 public class VentanaBusqueda extends JFrame {

@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.EventQueue;
 
@@ -32,11 +34,17 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
+/**
+ * VentanaCrearCuentaGerente es una clase que extiende JFrame y representa la ventana
+ * de creación de cuenta en la aplicación. Incluye campos para ingresar el
+ * nombre de usuario, email y contraseña.
+ * 
+ *  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
+ */
 public class VentanaCrearCuentaGerente extends JFrame {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -49,7 +57,7 @@ public class VentanaCrearCuentaGerente extends JFrame {
 	public static int codigoverificacion;
 
 	/**
-	 * Launch the application.
+	 * Se carga la aplicacion
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -63,6 +71,12 @@ public class VentanaCrearCuentaGerente extends JFrame {
 			}
 		});
 	}
+	
+	/**
+	 * Sirve para actulizar los CSV a medida que se inicie sesion un usuario
+	 * 
+	 * @param el usuario que se va a escribir
+	 */
 	public void escribirEnElCsv(Usuario u){
 		try {
 			FileWriter fileWriter = new FileWriter("sql/csvTrabajadores.csv", true);

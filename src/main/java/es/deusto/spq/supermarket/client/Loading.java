@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.EventQueue;
 
@@ -15,6 +17,15 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Color;
 
+
+
+/**
+ * Loading es una ventana donde visuliza una progressBar de carga y en la cual simula que se envia un codigo de 
+ * verficación desde tu móvil
+  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
+ */
 public class Loading extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -47,6 +58,12 @@ public class Loading extends JFrame {
 		setTitle("ENVIANDO CÓDIGO VERIFICACION");
 		initialize();
 	}
+	
+	/**
+	 * Se iniciliza el JFrame
+	 * 
+	 *
+	 */
 
 	private void initialize() {
 		setBounds(100, 100, 450, 300);

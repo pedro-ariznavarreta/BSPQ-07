@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.EventQueue;
 
@@ -25,6 +27,10 @@ import javax.swing.JButton;
  * VentanaCrearCuenta es una clase que extiende JFrame y representa la ventana
  * de creación de cuenta en la aplicación. Incluye campos para ingresar el
  * nombre de usuario, email y contraseña.
+ * 
+ *  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
  */
 public class VentanaCrearCuenta extends JFrame {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,6 @@
 package es.deusto.spq.supermarket.client;
+/** @package es.deusto.spq.supermarket.client
+*/
 
 import java.awt.EventQueue;
 
@@ -38,7 +40,13 @@ import java.awt.Color;
 
 public class VentanaGerente extends JFrame {
 	/**
+	 * En esta VentanaGerente podemos hacer busqueda de los productos disponibles en la tienda y donde exiten 
+	 * tres botones uno para añadirlos otro para eliminar los productos y por otro lado otro para modificarlos
 	 * 
+	 * 
+	 *  * @author JavierP
+ * @version 1.0
+ * @since 2023-05-20
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -62,7 +70,7 @@ public class VentanaGerente extends JFrame {
 	private JTable table_ofertas;
 
 	/**
-	 * Launch the application.
+	 * Carga la aplicacion
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -90,6 +98,15 @@ public class VentanaGerente extends JFrame {
 		usuario = usuarioValidado;
 		initialize();
 	}
+	
+	/**
+	* Metodo para buscar los productos dentro de la JList
+	* 
+	* @param producto que se quiere buscar.
+	* @return devuevlve el producto encontrado
+	* 
+	*/
+	
 
 	public List<Product> busquedaProd(String producto) {
 		List<Product> productos = null;
@@ -112,9 +129,9 @@ public class VentanaGerente extends JFrame {
 	
 
 	/**
-	 * Create the frame.
+	 * Se crea el frame
 	 * 
-	 * @param usuario2
+	 * 
 	 */
 	private void initialize() {
 
@@ -151,7 +168,13 @@ public class VentanaGerente extends JFrame {
 		textBuscador.setBounds(131, 44, 246, 19);
 		contentPane.add(textBuscador);
 		textBuscador.setColumns(10);
-
+		/**
+		* Boton necesario para buscar los porductos
+		* 
+		* 
+		* 
+		*/
+		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBackground(new Color(255, 255, 0));
 		btnBuscar.addActionListener(new ActionListener() {
@@ -174,7 +197,12 @@ public class VentanaGerente extends JFrame {
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnBuscar);
 
-
+		/**
+		* Boton para eliminar los porductos
+		* 
+		* 
+		* 
+		*/
 		JButton btnBorrarProducto = new JButton("Borrar Producto");
 		btnBorrarProducto.setBackground(new Color(255, 255, 0));
 		btnBorrarProducto.addActionListener(new ActionListener() {
