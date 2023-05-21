@@ -112,7 +112,8 @@ public class VentanaPago extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPago(Usuario usuarioVerificado, List<Product> productosSeleccionados) {
-
+		
+		
 		usuario = usuarioVerificado;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 724, 504);
@@ -194,16 +195,14 @@ public class VentanaPago extends JFrame {
 						return; // Detener la ejecución del método si faltan datos
 					} else {
 						// Codigo para guardar en la base de datos la compra
-
 						String usuario = usuarioVerificado.getUsername();
 						List<Product> productosCliente = productosSeleccionados;
 						String fech = String.valueOf(System.currentTimeMillis());
-//						final WebTarget pruebaTar = appTarget.path("regCompra");
-//						Compra comp = new Compra(productosCliente, usuario, fech);
-//						if(comp.getProductos().size()!= 0) {
-//							pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
-//							System.out.println("El usuario " + comp.getUsuario() + " ha comprado " + comp.getProductos() );
-//						}
+						final WebTarget pruebaTar = appTarget.path("regCompra");
+						Compra comp = new Compra(productosCliente, usuario, fech);
+						pruebaTar.request().post(Entity.entity(comp, MediaType.APPLICATION_JSON));
+						System.out.println("El usuario " + comp.getUsuario() + " ha comprado " + comp.getProductos() );
+						
 
 					}
 				}

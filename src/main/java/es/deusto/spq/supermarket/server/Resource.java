@@ -718,8 +718,7 @@ public class Resource {
 				Compra com = new Compra(compra.getProductos(), compra.getUsuario(),compra.getFecha());
 				DateFormat fecha= new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				String fechaBuena = fecha.format(Long.parseLong(compra.getFecha()));
-				compra.setFecha(fechaBuena);
-				System.out.println("El usuario " + com.getUsuario()+ " ha comprado:");
+				com.setFecha(fechaBuena);
 				pm.makePersistent(com);
 				tx.commit();
 			}finally {
@@ -794,6 +793,10 @@ public class Resource {
 				Query<Compra> q = pm.newQuery("SELECT FROM " + Compra.class.getName()+ " WHERE usuario == '" + usuario + "'");
 				todaLaCompra = q.executeList();
 				System.out.println("Las compras de "+ usuario);
+				for (int i = 0; i < todaLaCompra.size(); i++) {
+					System.out.println(todaLaCompra.get(i).getProductos());
+					
+				}
 			}finally {
 				
 				pm.close();

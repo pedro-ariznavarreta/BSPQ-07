@@ -117,7 +117,7 @@ public class VentanaCesta extends JFrame {
 		GenericType<List<Product>> genericType7 = new GenericType<List<Product>>() {
 		};
 		final List<Product> product = buscarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
-		System.out.println(product);
+		
 		final DefaultListModel<Product> DLM = new DefaultListModel<>();
 		for (Product p : product) {
 			DLM.addElement(p);
@@ -137,7 +137,7 @@ public class VentanaCesta extends JFrame {
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usenv = usuario;
-				VentanaPago ventana = new VentanaPago(usenv, productos);
+				VentanaPago ventana = new VentanaPago(usenv, product);
 				double precio = 0.0;
 				for (Product p : product) {
 					ventana.modelProducto.addElement(p);

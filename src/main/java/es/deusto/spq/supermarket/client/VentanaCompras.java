@@ -73,10 +73,6 @@ public class VentanaCompras extends JFrame {
 	   */
 	  final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 
-	  /**
-	   * Endpoint para recuperar todos los productos.
-	   */
-	  final WebTarget productAllTarget = appTarget.path("allP");
 
 	  /**
 	   * Inicia la aplicación.
@@ -107,7 +103,7 @@ public class VentanaCompras extends JFrame {
 	}
 	private void initialice(Usuario usuario) {
 		setVisible(true);
-		setBounds(100, 100, 670, 475);
+		setBounds(100, 100, 800, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		final JList list = new JList();
@@ -120,19 +116,16 @@ public class VentanaCompras extends JFrame {
 		};
 		String nombreUsu = usuario.getUsername();
 		final List<Compra> compras = comprasTar.request(MediaType.APPLICATION_JSON).get(genericType7);
-		
-		for (int i = 0; i < compras.size(); i++) {
-			System.out.println(compras.get(i).getProductos());
-		}
+	     
 		
 		
 		final DefaultListModel<String> DLM = new DefaultListModel<>();
 		for (Compra c : compras) {
 			Compra a = new Compra(c.getProductos(), c.getUsuario(), c.getFecha());
-			Date fechaBuena = new Date(Long.parseLong(c.getFecha()));
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");  
-			String daterString = dateFormat.format(fechaBuena);  
-			a.setFecha(daterString);
+			//Date fechaBuena = new Date(Long.parseLong(c.getFecha()));
+			//DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");  
+			//String daterString = dateFormat.format(fechaBuena);  
+			//a.setFecha(daterString);
 			String mostrarBien = "" +a.getUsuario()+" " + a.getFecha()+ "\t\t\t " + a.getProductos();
 			DLM.addElement(mostrarBien);
 		}
@@ -158,21 +151,19 @@ public class VentanaCompras extends JFrame {
 
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblCompras, GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(50)
-							.addComponent(list, GroupLayout.PREFERRED_SIZE, 562, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 44, Short.MAX_VALUE)))
+					.addContainerGap()
+					.addComponent(lblCompras, GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
 					.addContainerGap())
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(297, Short.MAX_VALUE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(427, Short.MAX_VALUE)
 					.addComponent(volver)
 					.addGap(290))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(50)
+					.addComponent(list, GroupLayout.PREFERRED_SIZE, 699, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(37, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -180,8 +171,8 @@ public class VentanaCompras extends JFrame {
 					.addGap(8)
 					.addComponent(lblCompras, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(list, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+					.addComponent(list, GroupLayout.PREFERRED_SIZE, 398, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
 					.addComponent(volver)
 					.addContainerGap())
 		);
