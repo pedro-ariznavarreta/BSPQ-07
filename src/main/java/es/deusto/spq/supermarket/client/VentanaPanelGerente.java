@@ -160,6 +160,28 @@ public class VentanaPanelGerente extends JFrame {
 		botonProductos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		botonProductos.setBackground(Color.YELLOW);
 		botonProductos.setBounds(301, 472, 137, 29);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(0, 0, 0));
+		contentPane.add(panel_2, BorderLayout.SOUTH);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(0, 0, 0));
+		panel_2.add(panel_3);
+		
+		JButton BotonCerrarSesion = new JButton("CERRAR SESION");
+		BotonCerrarSesion.setForeground(Color.BLACK);
+		BotonCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		BotonCerrarSesion.setBackground(Color.YELLOW);
+		BotonCerrarSesion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaLogin logout = new VentanaLogin();
+				logout.setVisible(true);
+				dispose();
+			}
+		});
+		panel_3.add(BotonCerrarSesion);
 		botonProductos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

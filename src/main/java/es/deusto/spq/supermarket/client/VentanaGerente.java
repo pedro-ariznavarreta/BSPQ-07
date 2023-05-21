@@ -212,7 +212,7 @@ public class VentanaGerente extends JFrame {
 		});
 
 
-		btnBorrarProducto.setBounds(191, 470, 137, 32);
+		btnBorrarProducto.setBounds(191, 449, 137, 32);
 		btnBorrarProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnBorrarProducto);
 
@@ -275,7 +275,7 @@ public class VentanaGerente extends JFrame {
 		JButton btnAnadirProducto = new JButton("Añadir Producto");
 		btnAnadirProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAnadirProducto.setBackground(Color.YELLOW);
-		btnAnadirProducto.setBounds(338, 472, 137, 29);
+		btnAnadirProducto.setBounds(338, 451, 137, 29);
 		btnAnadirProducto.addActionListener(new ActionListener() {
 
 			@Override
@@ -290,7 +290,7 @@ public class VentanaGerente extends JFrame {
 		JButton btnModificarProducto = new JButton("Modificar Producto");
 		btnModificarProducto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnModificarProducto.setBackground(Color.YELLOW);
-		btnModificarProducto.setBounds(485, 472, 151, 29);
+		btnModificarProducto.setBounds(486, 451, 151, 29);
 		btnModificarProducto.addActionListener(new ActionListener() {
 
 			@Override
@@ -303,14 +303,30 @@ public class VentanaGerente extends JFrame {
 		JButton btnAtras = new JButton("Volver");
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAtras.setBackground(Color.YELLOW);
-		btnAtras.setBounds(44, 473, 137, 30);
+		btnAtras.setBounds(44, 450, 137, 30);
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaPanelGerente(usuario);
+				Usuario u = null;
+				VentanaPanelGerente logout = new VentanaPanelGerente(u);
+				logout.setVisible(true);
+				dispose();
 			}
 		});
 		
 		contentPane.add(btnAtras);
+		
+		JButton btn_CerrarSesion = new JButton("Cerrar Sesion");
+		btn_CerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btn_CerrarSesion.setBackground(Color.YELLOW);
+		btn_CerrarSesion.setBounds(264, 492, 137, 30);
+		btn_CerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaLogin logout = new VentanaLogin();
+				logout.setVisible(true);
+				dispose();
+			}
+		});
+		contentPane.add(btn_CerrarSesion);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				
