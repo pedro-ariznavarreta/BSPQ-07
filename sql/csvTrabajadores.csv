@@ -5,3 +5,7 @@ Jon,Atila,jon@atila.com,1,0
 Galder,Delgar,Galder@delgar.com,0,1
 Gerente,Gerente,gerente@gerente.com,0,1
 Trabajador,Trabajador,trabajador@trabajador.com,1,0
+test_username,test_password,test@test.com,0,1
+null,null,null,1,0
+test_username,test_password,test@test.com,0,1
+null,null,null,1,0

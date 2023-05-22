@@ -24,15 +24,14 @@ Para añadir datos de ejemplo ejecutamos el siguiente comando:
 
     mvn exec:java -P datos
     
-Integration tests can be launched using the following command. An embedded Grizzly HTTP server will be launched to perform real calls to the REST API and to the MySQL database.
+Para hacer teses de integración:
 
-  	mvn verify -Pintegration-tests
+    mvn verify -Pintegration-tests
+    
+Para hacer teses de rendimiento:
 
-Performance tests can be launched using the following command. In this example, these tests are the same integration tests but executed multiple times to calculate some statistics
-
-  	mvn verify -Pperformance-tests
-
-
+    mvn verify -Pperformance-tests
+    
 Para lanzar el servidor ejecutamos el siguiente comando:
 
     mvn jetty:run
