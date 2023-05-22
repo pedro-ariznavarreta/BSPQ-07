@@ -289,7 +289,7 @@ public class VentanaBusqueda extends JFrame {
 				}
 			}
 		});
-		btnAñadir.setBounds(283, 468, 146, 32);
+		btnAñadir.setBounds(345, 468, 146, 32);
 		btnAñadir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnAñadir);
 
@@ -315,9 +315,34 @@ public class VentanaBusqueda extends JFrame {
 		tableModel.addColumn("Precio");
 		scroll.setViewportView(table);
 		
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					JTable target = (JTable) e.getSource();
+					int row = target.getSelectedRow();
+					Product productoSeleccionado = productos.get(row);
+					int opcion = JOptionPane.showConfirmDialog(null, "¿Añadir a favoritos?", "Confirmar",
+							JOptionPane.YES_NO_OPTION);
+					if (opcion == JOptionPane.YES_OPTION) {
+						listaFavoritos.add(productoSeleccionado);
+						JOptionPane.showMessageDialog(null, "Producto añadido a favoritos.");
+					}
+				}
+			}
+		});
+
+	
 		JButton btnComprasAnteriores = new JButton("Compras anteriores");
-		btnComprasAnteriores.setBounds(614, 44, 85, 21);
+		btnComprasAnteriores.setBounds(614, 44, 79, 21);
 		contentPane.add(btnComprasAnteriores);
+		
+		JButton btnNewButton = new JButton("Ofertas del día");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(183, 468, 89, 32);
+		contentPane.add(btnNewButton);
 		btnComprasAnteriores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaCompras(usuario);
