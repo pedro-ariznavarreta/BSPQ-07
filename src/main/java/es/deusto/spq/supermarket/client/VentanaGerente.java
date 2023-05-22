@@ -4,21 +4,17 @@ package es.deusto.spq.supermarket.client;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import java.awt.Font;
 import java.util.*;
 
 import javax.swing.*;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import java.awt.Component;
-import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -59,6 +55,7 @@ public class VentanaGerente extends JFrame {
 	private DefaultTableModel tableModel_ofertas = new DefaultTableModel();
 	private static Usuario usuario;
 	private static List<Product> productos;
+	private List<Product> listap;
 
 	private JPanel panel;
 
@@ -134,6 +131,8 @@ public class VentanaGerente extends JFrame {
 	 * 
 	 */
 	private void initialize() {
+	   
+	    
 
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -225,7 +224,11 @@ public class VentanaGerente extends JFrame {
 			public boolean isCellEditable(int row, int column) {
 				return column == 1 || column == 2|| column == 3|| column == 4; // todas las celdas son editables salvo el codigo
 			}
+			
+			
 		};
+		
+		
 		table.setModel(tableModel);
 		table.setRowSelectionAllowed(true); // permitir selección de fila
 		table.setColumnSelectionAllowed(false); //
@@ -235,40 +238,37 @@ public class VentanaGerente extends JFrame {
 		tableModel.addColumn("Stock");
 		tableModel.addColumn("Precio");
 		/*ACTUALIZAR LA BASE DE DATOS CON LOS CAMBIOS QUE SE HAGAN EN LA TABLA*/
-		/*table.getModel().addTableModelListener(new TableModelListener() {
+		table.getModel().addTableModelListener(new TableModelListener() {
 			
 			@Override
 			public void tableChanged(TableModelEvent e) {
-				
-				
-				int fila = e.getFirstRow();
+				// TODO Auto-generated method stub
+				/*int fila = e.getFirstRow();
 				String cod = (String)tableModel.getValueAt(fila, 0);
 				String nom = (String)tableModel.getValueAt(fila, 1);
-				String d = (String)tableModel.getValueAt(fila, 2);
-				String cant = (String)tableModel.getValueAt(fila, 3);
-				String prec = (String)tableModel.getValueAt(fila, 3);
+				String desc = (String)tableModel.getValueAt(fila, 2);
+				int cant = Integer.parseInt((String)tableModel.getValueAt(fila, 3));
+				long prec = Long.parseLong((String)tableModel.getValueAt(fila, 4));
 				
-				producto.get(fila).setcod(cod);
-				producto.get(fila).setnom(nom);
-				producto.get(fila).setdesc(d);
-				producto.get(fila).setCant(cant);
-				producto.get(fila).setPrecio(prec);
-				Producto m = producto.get(fila);
+				listap.get(fila).setCodigo(cod);
+				listap.get(fila).setNombre(nom);
+				listap.get(fila).setDescripcion(desc);
+				listap.get(fila).setCantidad(cant);
+				listap.get(fila).setPrecio(prec);
+				Product p = listap.get(fila);
 				
+				//BASE DE DATOS -> RESOURCE
 				Client cliente = ClientBuilder.newClient();
 				final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 				
-				final WebTarget modificarProducto = appTarget.path("modificarProducto");
-				List<String> modificar = new ArrayList<>();
-				modificar.add(m.getCodigo());
-				modificar.add(m.getNombre());
-				modificar.add(m.getDescripcion());
-          
-				modificarProducto.request().post(Entity.entity(modificar, MediaType.APPLICATION_JSON));
+				final WebTarget modProducto = appTarget.path("modificarProductos");
+            
+				modProducto.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
 				//productos.remove(productoSeleccionado);
-				JOptionPane.showMessageDialog(null, "Producto borrado");
+				JOptionPane.showMessageDialog(null, "Producto modificado");*/
+				
 			}
-		});*/
+		});
 		
 		scroll.setViewportView(table);
 		
@@ -353,6 +353,28 @@ public class VentanaGerente extends JFrame {
 			}
 		});
 		
+		
+	/*
 
 	}
+	@Override
+    public void keyTyped(KeyEvent e) {
+        // No se utiliza en este caso
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("La tecla Enter fue presionada.");
+            // Aquí puedes realizar las acciones que desees cuando se presione Enter
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // No se utiliza en este caso
+    }
+
+  */
+	}	
 }

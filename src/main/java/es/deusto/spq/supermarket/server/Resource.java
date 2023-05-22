@@ -805,6 +805,36 @@ public class Resource {
 			return todaLaCompra;
 		}
 		
-		
+		/*
+		 * MODIFICA LOS PRODUCTO DE LA BASE DE DATOS
+		 */
+		@POST
+		@Path("/modificarProductos")
+		@Consumes(MediaType.APPLICATION_JSON)
+		public static void modificarProductos(List<String> productos) {
+			String cod = productos.get(0);
+			String nom = productos.get(1);
+			String desc = productos.get(2);
+			int cant = Integer.parseInt(productos.get(3));
+			Long precio = Long.parseLong(productos.get(4));
+			//String usuario = productos.get(3);
+			
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			
+			try {
+				tx.begin();
+				Query<Product> pp = pm.newQuery("UPDATE " + Product.class.getName() + " set nombre='"+ nom +"',descripcion='"+ desc +"',cantidad="+ cant +",precio='"+precio+"' where codigo =='"+ cod +"'");
+				pm.makePersistent(pp);
+				tx.commit();
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+			}
+
+		}
 		
 }
