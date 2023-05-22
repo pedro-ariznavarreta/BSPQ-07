@@ -811,30 +811,48 @@ public class Resource {
 		@POST
 		@Path("/modificarProductos")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public static void modificarProductos(List<String> productos) {
-			String cod = productos.get(0);
-			String nom = productos.get(1);
-			String desc = productos.get(2);
-			int cant = Integer.parseInt(productos.get(3));
-			Long precio = Long.parseLong(productos.get(4));
-			//String usuario = productos.get(3);
+		public static void modificarProductos(Product productos) {
 			
+
+			System.out.println(productos.getCodigo());
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
-			
-			try {
+			try (Query<Product> q = pm.newQuery("SELECT FROM " + Product.class.getName() + " WHERE codigo == '" + productos.getCodigo() + "'")) {
 				tx.begin();
-				Query<Product> pp = pm.newQuery("UPDATE " + Product.class.getName() + " set nombre='"+ nom +"',descripcion='"+ desc +"',cantidad="+ cant +",precio='"+precio+"' where codigo =='"+ cod +"'");
-				pm.makePersistent(pp);
+				
+				List<Product> prod = q.executeList();
+				System.out.println(prod);
+
+				pm.deletePersistentAll(prod);
 				tx.commit();
+				
+			} catch (Exception e) {
+				logger.info(e.getMessage());
 			} finally {
 				if (tx.isActive()) {
 					tx.rollback();
 				}
+				
 				pm.close();
+				
+			}
+			PersistenceManagerFactory pmff = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+			PersistenceManager pmm = pmff.getPersistenceManager();
+			Transaction txx = pmm.currentTransaction();
+			try {
+				txx.begin();
+				
+				pmm.makePersistent(productos);
+				txx.commit();
+			} finally {
+				if (txx.isActive()) {
+					txx.rollback();
+				}
+				pmm.close();
 			}
 
 		}
+		
 		
 }

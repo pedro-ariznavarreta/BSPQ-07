@@ -222,7 +222,7 @@ public class VentanaGerente extends JFrame {
 		table = new JTable(tableModel) {
 			
 			public boolean isCellEditable(int row, int column) {
-				return column == 1 || column == 2|| column == 3|| column == 4; // todas las celdas son editables salvo el codigo
+				return false; // todas las celdas son editables salvo el codigo
 			}
 			
 			
@@ -237,38 +237,7 @@ public class VentanaGerente extends JFrame {
 		tableModel.addColumn("Descripcion");
 		tableModel.addColumn("Stock");
 		tableModel.addColumn("Precio");
-		/*ACTUALIZAR LA BASE DE DATOS CON LOS CAMBIOS QUE SE HAGAN EN LA TABLA*/
-		table.getModel().addTableModelListener(new TableModelListener() {
-			
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-				/*int fila = e.getFirstRow();
-				String cod = (String)tableModel.getValueAt(fila, 0);
-				String nom = (String)tableModel.getValueAt(fila, 1);
-				String desc = (String)tableModel.getValueAt(fila, 2);
-				int cant = Integer.parseInt((String)tableModel.getValueAt(fila, 3));
-				long prec = Long.parseLong((String)tableModel.getValueAt(fila, 4));
-				
-				listap.get(fila).setCodigo(cod);
-				listap.get(fila).setNombre(nom);
-				listap.get(fila).setDescripcion(desc);
-				listap.get(fila).setCantidad(cant);
-				listap.get(fila).setPrecio(prec);
-				Product p = listap.get(fila);
-				
-				//BASE DE DATOS -> RESOURCE
-				Client cliente = ClientBuilder.newClient();
-				final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
-				
-				final WebTarget modProducto = appTarget.path("modificarProductos");
-            
-				modProducto.request().post(Entity.entity(p, MediaType.APPLICATION_JSON));
-				//productos.remove(productoSeleccionado);
-				JOptionPane.showMessageDialog(null, "Producto modificado");*/
-				
-			}
-		});
+
 		
 		scroll.setViewportView(table);
 		
@@ -295,7 +264,28 @@ public class VentanaGerente extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Selecciona el producto a modificar y escribe los nuevos valores");
+				int fila = table.getSelectedRow();
+				Product p = new Product();
+				p.setCodigo((String) tableModel.getValueAt(fila, 0));
+				p.setNombre((String) tableModel.getValueAt(fila, 1));
+				p.setDescripcion((String) tableModel.getValueAt(fila, 2));
+				int cantidad = (int) tableModel.getValueAt(fila, 3);			
+				p.setCantidad(cantidad);
+				double precio = (double) tableModel.getValueAt(fila, 4);
+				p.setPrecio(precio);
+				new VentanaModificarProducto(p);
+				
+				
+				
+				/*Client cliente = ClientBuilder.newClient();
+				final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
+				
+	            final WebTarget modificarProducto = appTarget.path("modificarProductos");
+	              
+	            modificarProducto.request().post(Entity.entity(productoSeleccionado, MediaType.APPLICATION_JSON));
+	            JOptionPane.showMessageDialog(null, "Producto modificado");
+			
+				JOptionPane.showMessageDialog(null, "Selecciona el producto a modificar y escribe los nuevos valores");*/
 			}
 		});	
 		contentPane.add(btnModificarProducto);
