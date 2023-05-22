@@ -14,7 +14,9 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JTextField;
 import java.util.logging.Logger;
@@ -38,6 +40,7 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
@@ -65,12 +68,16 @@ public class VentanaBusqueda extends JFrame {
 	private static int cantidad;
 	private static List<Product> productos;
 	private static List<Product> listaFavoritos = new ArrayList<>();
+	private static List<Product> ofertasDelDia = new ArrayList<>();
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
 	private JPanel panel;
 	MetodsClient mt = new MetodsClient();
 	private JButton btnCesta;
+	private boolean enOfertasDelDia = false; // inicialmente falso
+	private boolean enFavoritos = false; // inicialmente falso
+
 
 	
 	private JTable table_ofertas;
@@ -116,6 +123,8 @@ public class VentanaBusqueda extends JFrame {
 	
 	public  List<Product> busquedaProd(String producto) {
 		List<Product> productos = null;
+		enOfertasDelDia = false;
+		enFavoritos = false;
 
 		if (producto.equals("")) {
 			GenericType<List<Product>> genericType = new GenericType<List<Product>>() {
@@ -138,6 +147,7 @@ public class VentanaBusqueda extends JFrame {
 	* 
 	*/
 	public void actualizarTabla() {
+		enFavoritos = true;
 		// Limpiamos el modelo de tabla
 		tableModel.setRowCount(0);
 
@@ -147,6 +157,21 @@ public class VentanaBusqueda extends JFrame {
 			tableModel.addRow(fila);
 		}
 	}
+	
+	public void añadirProductoACesta(String nombreproducto, String nombreusuario) {
+	    WebTarget anadirTarget = appTarget.path("anadir").queryParam("Producto", nombreproducto).queryParam("Usuario", nombreusuario);
+	    GenericType<Boolean> genericType5 = new GenericType<Boolean>() {};
+	    boolean respuesta = anadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
+
+	    WebTarget contarTarget = appTarget.path("contar").queryParam("Usuario", nombreusuario);
+	    GenericType<Integer> genericType7 = new GenericType<Integer>() {};
+	    int cantidad = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
+	    btnCesta.setText("Cesta : " + cantidad);
+	    if (respuesta != true) {
+	        System.out.println("El producto no se añade a la cesta");
+	    }
+	}
+
 
 	/**
 	 *Se crea la Ventana
@@ -273,23 +298,45 @@ public class VentanaBusqueda extends JFrame {
 		JButton btnAñadir = new JButton("Añadir a la cesta");
 		btnAñadir.setBackground(new Color(255, 255, 0));
 		btnAñadir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombreusuario = usuario.getUsername();
-				String nombreproducto = productos.get(table.getSelectedRow()).getNombre();
-				WebTarget anadirTarget = appTarget.path("anadir").queryParam("Producto", nombreproducto).queryParam("Usuario", nombreusuario);
-				GenericType<Boolean> genericType5 = new GenericType<Boolean>() {};
-				boolean respuesta = anadirTarget.request(MediaType.APPLICATION_JSON).get(genericType5);
-
-				WebTarget contarTarget = appTarget.path("contar").queryParam("Usuario", nombreusuario);
-				GenericType<Integer> genericType7 = new GenericType<Integer>() {};
-				cantidad = contarTarget.request(MediaType.APPLICATION_JSON).get(genericType7);
-				btnCesta.setText("Cesta : " + cantidad);
-				if (respuesta != true) {
-					System.out.println("El producto no se añade a la cesta");
-				}
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        String nombreusuario = usuario.getUsername();
+		        String nombreproducto;
+		        if (enOfertasDelDia) {
+		            // Comprobar que el índice es válido para la lista ofertasDelDia
+		            int index = table.getSelectedRow();
+		            if (index >= 0 && index < ofertasDelDia.size()) {
+		                nombreproducto = ofertasDelDia.get(index).getNombre();
+		            } else {
+		                System.out.println("No se ha seleccionado ningún producto en ofertas del día.");
+		                return;
+		            }
+		        } 
+		        else if (enFavoritos) {
+		            // Comprobar que el índice es válido para la lista ofertasDelDia
+		            int index = table.getSelectedRow();
+		            if (index >= 0 && index < listaFavoritos.size()) {
+		                nombreproducto = listaFavoritos.get(index).getNombre();
+		            } else {
+		                System.out.println("No se ha seleccionado ningún producto en favoritos.");
+		                return;
+		            }
+		    }
+		        
+		        else {
+		            // Comprobar que el índice es válido para la lista productos
+		            int index = table.getSelectedRow();
+		            if (index >= 0 && index < productos.size()) {
+		                nombreproducto = productos.get(index).getNombre();
+		            } else {
+		                System.out.println("No se ha seleccionado ningún producto en la lista de productos.");
+		                return;
+		            }
+		        }
+		        añadirProductoACesta(nombreproducto, nombreusuario);
+		    }
 		});
-		btnAñadir.setBounds(345, 468, 146, 32);
+
+		btnAñadir.setBounds(354, 468, 146, 32);
 		btnAñadir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(btnAñadir);
 
@@ -305,6 +352,8 @@ public class VentanaBusqueda extends JFrame {
 				return false; // todas las celdas no son editables
 			}
 		};
+		
+		
 		table.setModel(tableModel);
 		table.setRowSelectionAllowed(true); // permitir selección de fila
 		table.setColumnSelectionAllowed(false); //
@@ -333,16 +382,69 @@ public class VentanaBusqueda extends JFrame {
 
 	
 		JButton btnComprasAnteriores = new JButton("Compras anteriores");
+		btnComprasAnteriores.setBackground(new Color(255, 255, 0));
 		btnComprasAnteriores.setBounds(614, 44, 79, 21);
 		contentPane.add(btnComprasAnteriores);
 		
-		JButton btnNewButton = new JButton("Ofertas del día");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		JButton btnOfertas = new JButton("Ofertas del día");
+		btnOfertas.setBackground(new Color(255, 255, 0));
+		btnOfertas.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        enOfertasDelDia = true;
+		        // Limpiar tabla de ofertas
+		        while (tableModel.getRowCount() > 0) {
+		            tableModel.removeRow(0);
+		        }
+		        
+		        if (productos.size() < 4) {
+		            JOptionPane.showMessageDialog(null, "No hay suficientes productos para generar ofertas.");
+		            return;
+		        }
+
+		        // Crear lista de índices de productos y mezclarla
+		        List<Integer> indices = new ArrayList<>();
+		        for (int i = 0; i < productos.size(); i++) {
+		            indices.add(i);
+		        }
+
+		        // Obtener el código del día
+		        LocalDate today = LocalDate.now();
+		        int dayCode = today.getYear() * 10000 + today.getMonthValue() * 100 + today.getDayOfMonth();
+		        
+		        // Inicializar el generador de números aleatorios con el código del día
+		        Random rand = new Random(dayCode);
+		        
+		        // Mezclar los índices
+		        for (int i = 0; i < indices.size(); i++) {
+		            int j = rand.nextInt(indices.size());
+		            int temp = indices.get(i);
+		            indices.set(i, indices.get(j));
+		            indices.set(j, temp);
+		        }
+
+		        // Seleccionar los primeros 4 productos y aplicar descuento
+		     // Seleccionar los primeros 4 productos y aplicar descuento
+		        for (int i = 0; i < 4; i++) {
+		            Product prod = productos.get(indices.get(i));
+
+		            double newPrice = prod.getPrecio() * 0.9;  // 10% de descuento
+		            newPrice = Math.round(newPrice * 100.0) / 100.0; // Redondeo a 2 decimales
+
+		            // Aquí es donde actualizamos el precio del producto antes de agregarlo a la tabla
+		            prod.setPrecio(newPrice);
+
+		            // Añadir producto a tabla de ofertas
+		            tableModel.addRow(new Object[] { prod.getCodigo(), prod.getNombre(), prod.getDescripcion(), prod.getCantidad(), prod.getPrecio()});
+
+		            // Añadir el producto a ofertasDelDia
+		            ofertasDelDia.add(prod);
+		        }
+		    }
 		});
-		btnNewButton.setBounds(183, 468, 89, 32);
-		contentPane.add(btnNewButton);
+
+
+		btnOfertas.setBounds(183, 468, 121, 32);
+		contentPane.add(btnOfertas);
 		btnComprasAnteriores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaCompras(usuario);
