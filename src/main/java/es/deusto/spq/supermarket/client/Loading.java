@@ -2,8 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
@@ -22,7 +20,6 @@ import java.awt.Color;
 /**
  * Loading es una ventana donde visuliza una progressBar de carga y en la cual simula que se envia un codigo de 
  * verficación desde tu móvil
-  * @author JavierP
  * @version 1.0
  * @since 2023-05-20
  */
@@ -70,6 +67,7 @@ public class Loading extends JFrame {
 		lblNewLabel.setBounds(72, 24, 275, 64);
 		getContentPane().add(lblNewLabel);
 		
+		//IMAGEN
 		ImageIcon icon = new ImageIcon("img/COOKMASTER.png");
 		Image img = icon.getImage();
 		Image scaledImg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
@@ -91,9 +89,10 @@ public class Loading extends JFrame {
 		lblEnviado.setVisible(false);
 
 		/**
-		 * BOTON QUE APARECERA UNA VEZ SE HAYA LLEGADO AL 100% DE LA BARRA Este boton
+		 * BOTON QUE APARECERA UNA VEZ SE HAYA LLEGADO AL 100% DE LA BARRA Este botón
 		 * muestra la siguiente ventana para poder introducir codigo
 		 */
+		
 		btnAceptar = new JButton("Introducir codigo");
 		btnAceptar.setBackground(new Color(233, 217, 27));
 		btnAceptar.setBounds(123, 171, 156, 34);

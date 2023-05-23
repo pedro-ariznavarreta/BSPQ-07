@@ -2,8 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,7 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
 import javax.ws.rs.client.Client;
@@ -35,19 +32,16 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 /**
- * VentanaCrearCuentaGerente es una clase que extiende JFrame y representa la ventana
- * de creación de cuenta en la aplicación. Incluye campos para ingresar el
- * nombre de usuario, email y contraseña.
+ * VentanaCrearCuentaGerente es una clase que extiende JFrame 
+ * Se podrá crear una cuenta gerente solamente por otro gerente.
+ * Incluye nombre, email y contrasena.
  * 
- *  * @author JavierP
  * @version 1.0
- * @since 2023-05-20
+ * @since 2023-05-19
  */
 public class VentanaCrearCuentaGerente extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static JTextField txtUsername;
 	public static JTextField txtEmail;
@@ -104,6 +98,7 @@ public class VentanaCrearCuentaGerente extends JFrame {
 
 		// Inizializamos todos los Jlabel de dentro de la ventana y los retocamos para
 		// que sea mas bonitos visualmente hablando
+		
 		JLabel lblRegistrarse = new JLabel("REGISTRARSE COMO GERENTE");
 		lblRegistrarse.setToolTipText("");
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);

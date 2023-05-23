@@ -2,8 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
@@ -13,18 +11,14 @@ import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 
-import java.util.logging.Logger;
-
 
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -40,15 +34,11 @@ import java.awt.Color;
 /**
  * En la VentanaCesta salen todos los productos seleccionados de la ventana anteriror, con la posiblidad de pagar
  * o de vaciar la cesta, tambien puedes visulizar los cupones disponibles que tiene el usuario
- * 
- *  * @author JavierP
- * @version 1.0
- * @since 2023-05-20
  */
 public class VentanaCesta extends JFrame {
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
+	private static final long serialVersionUID = 1L;
 
-	private static List<Product> productos;
 	private static Usuario usuario;
 
 	Client cliente = ClientBuilder.newClient();
@@ -95,7 +85,7 @@ public class VentanaCesta extends JFrame {
 		setBounds(100, 100, 670, 475);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		final JList list = new JList();
+		final JList<Product> list = new JList<Product>();
 
 		WebTarget buscarTarget = appTarget.path("buscar").queryParam("Usuario", usuario.getUsername());
 		GenericType<List<Product>> genericType7 = new GenericType<List<Product>>() {

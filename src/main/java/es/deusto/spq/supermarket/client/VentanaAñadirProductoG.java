@@ -2,8 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
 import javax.ws.rs.client.Client;
@@ -32,17 +29,16 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 /**
- * Sirve para añadir los productos en la BD en la parte del administrador
+ * Esta Ventana muestra unos textfields para que el gerente añada los nuevos productos en la BD
  * 
  * @version 1
  */
 public class VentanaAñadirProductoG extends JFrame {
 	/**
-	 * 
+	 * VENTANA PARA AÑADIR PRODUCTOS NUEVOS COMO GERENTE
 	 */
+	
 	private static final long serialVersionUID = 1L;
-
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static JTextField txtNom;
 	
@@ -75,6 +71,7 @@ public class VentanaAñadirProductoG extends JFrame {
 		/**
 		 * Valores propios de la ventana JFRAME
 		 */
+		
 		setVisible(true);
 		setBounds(100, 100, 375, 575);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,6 +80,7 @@ public class VentanaAñadirProductoG extends JFrame {
 
 		// Inizializamos todos los Jlabel de dentro de la ventana y los retocamos para
 		// que sea mas bonitos visualmente hablando
+		
 		JLabel lblRegistrarse = new JLabel("AÑADIR PRODUCTO");
 		lblRegistrarse.setToolTipText("");
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,7 +132,7 @@ public class VentanaAñadirProductoG extends JFrame {
 		txtPrecio.setBounds(74, 238, 223, 23);
 		getContentPane().add(txtPrecio);
 
-		// Jbutton cerrar. Simplemente cierra la aplicacion
+		// Cierra la aplicacion
 		JButton btnCerrar = new JButton("CERRAR");
 		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnCerrar.setBackground(new Color(255, 255, 255));
@@ -182,6 +180,10 @@ public class VentanaAñadirProductoG extends JFrame {
 		txtCant.setBounds(74, 358, 223, 23);
 		getContentPane().add(txtCant);
 		
+		/*
+		 * VUELVE A LA VENTANA DE MODIFICACION DE PRODUCTOS DEL GERENTE
+		 */
+		
 		
 		btnVolver.addActionListener(new ActionListener() {
 
@@ -193,6 +195,9 @@ public class VentanaAñadirProductoG extends JFrame {
 				dispose();
 			}
 		});
+		/**
+		 * SE ASEGURA QUE LOS CAMPOS ESTAN COMPLETADOS Y REGISTRA UN NUEVO PRODUCTO
+		 */
 
 		btnAñadir.addActionListener(new ActionListener() {
 
@@ -226,6 +231,7 @@ public class VentanaAñadirProductoG extends JFrame {
 	 	               Client cliente = ClientBuilder.newClient();
 	 	               final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 						
+	 	               //AÑADE EL PRODUCTO INTRODUCIDO EN LA BASE DE DATOS
 	 	               final WebTarget anadirProducto = appTarget.path("regProductos");
 	 	               
 	 	               anadirProducto.request().post(Entity.entity(producto, MediaType.APPLICATION_JSON));

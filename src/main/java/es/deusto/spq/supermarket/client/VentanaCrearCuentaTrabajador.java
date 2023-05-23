@@ -2,7 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
 import javax.ws.rs.client.Client;
@@ -41,13 +39,11 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	 * de creación de cuenta en la aplicación. Incluye campos para ingresar el
 	 * nombre de usuario, email y contraseña.
 	 * 
-	 *  * @author JavierP
  * @version 1.0
  * @since 2023-05-20
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static JTextField txtUsername;
 	public static JTextField txtEmail;

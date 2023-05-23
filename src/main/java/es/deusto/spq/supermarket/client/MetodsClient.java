@@ -15,33 +15,28 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.Resource;
-import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 /**
  * La clase metodsClient se encarga de todos esos métodos que hacen uso de la BD para cargar o guardar
  * en un fichero local todos los usuarios.
  * 
-  * @author JavierP
- * @version 1.0
- * @since 2023-05-20
  */
 public class MetodsClient {
 	
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
-	private static Usuario usuarios;
 	
 	/**
 	 * Sirve para actulizar los CSV a medida que se inicie sesion un usuario
-	 * 
-	 * @param el usuario que se va a escribir
+	 * @param el usuario(gerente)
+	 * @return no devuelve nada
 	 */
+	
 	public void escribirEnElCsvT(Usuario u){
 		try {
 			FileWriter fileWriter = new FileWriter("sql/csvTrabajadores.csv", true);
@@ -65,8 +60,7 @@ public class MetodsClient {
 
 	/**
 	 * Sirve cargar todos los usuarios en la BD
-	 * 
-	 * 
+	 * @return no devuelve nada porque lo carga el CSV
 	 */
 	
 public void cargarCsvLocal() {

@@ -1,7 +1,5 @@
 package es.deusto.spq.supermarket.client;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,9 +8,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
 import javax.ws.rs.client.Client;
@@ -21,7 +16,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import es.deusto.spq.supermarket.server.Resource;
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
@@ -32,12 +26,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class VentanaModificarProducto extends JFrame {
-	/**
-	 * 
+	/*
+	 * Ventana en la que te mostrá en textfield el producto que has seleccionado pudiendo modificarlo
 	 */
+	
 	private static final long serialVersionUID = 1L;
 
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static JTextField txtNom;
 	
@@ -77,6 +71,7 @@ public class VentanaModificarProducto extends JFrame {
 
 		// Inizializamos todos los Jlabel de dentro de la ventana y los retocamos para
 		// que sea mas bonitos visualmente hablando
+		
 		JLabel lblRegistrarse = new JLabel("MODIFICAR PRODUCTO");
 		lblRegistrarse.setToolTipText("");
 		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,7 +118,7 @@ public class VentanaModificarProducto extends JFrame {
 		txtPrecio.setBounds(74, 289, 223, 23);
 		getContentPane().add(txtPrecio);
 
-		// Jbutton cerrar. Simplemente cierra la aplicacion
+		// Cierra la aplicacion
 		JButton btnCerrar = new JButton("CERRAR");
 		btnCerrar.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnCerrar.setBackground(new Color(255, 255, 255));
@@ -182,6 +177,10 @@ public class VentanaModificarProducto extends JFrame {
 		txtCant.setText(Integer.toString(producto.getCantidad()));
 		txtPrecio.setText(Long.toString((long) producto.getPrecio()));
 		
+		/*
+		 * BOTON PARA MODIFICAR EL PRODUCTO DE LA BASE DE DATOS
+		 */
+		
 		btnAñadir.addActionListener(new ActionListener() {
 
 			@Override
@@ -199,13 +198,14 @@ public class VentanaModificarProducto extends JFrame {
 					lblPrecio.setForeground(Color.RED);
 					lblCodigo.setForeground(Color.RED);
 				}else {
+					/*
+					 * COJE EL PRODUCTO Y LO METE EN LA BASE DE DATOS Y LO MODIFICA
+					 */
 	 	               Product pr = new Product();
 	 	               pr.setCodigo(producto.getCodigo());
 	 	               pr.setNombre(txtNom.getText());
 	 	               pr.setDescripcion(txtDesc.getText());
-	 	               //double prec = Double.parseDouble(txtPrecio.getText());
 	 	               pr.setPrecio(Double.parseDouble(txtPrecio.getText()));
-	 	              // int cant = Integer.parseInt(txtCant.getText());
 	 	               pr.setCantidad(Integer.parseInt(txtCant.getText()));
 	 	               
 	 	               Client cliente = ClientBuilder.newClient();
