@@ -44,23 +44,6 @@ public class VentanaCrearCuenta extends JFrame {
 	public static JTextField codigotext;
 	public static int codigoverificacion;
 
-	/**
-     * Punto de entrada de la aplicación.
-     *
-     * @param args los argumentos de la línea de comandos.
-     */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCrearCuenta signup = new VentanaCrearCuenta();
-					signup.setVisible(false);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
 
 	 /**
      * Constructor para la clase VentanaCrearCuenta. Inicializa la ventana y su contenido.

@@ -63,25 +63,8 @@ public class VentanaGerente extends JFrame {
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
-	// final WebTarget cestaTarget = appTarget.path("cesta");
 	private JTable table_ofertas;
 
-	/**
-	 * Carga la aplicacion
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Usuario u = new Usuario();
-					VentanaGerente frame = new VentanaGerente(u);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
 
 	public VentanaGerente(Usuario usuarioValidado) {
 		usuario = usuarioValidado;
@@ -275,17 +258,6 @@ public class VentanaGerente extends JFrame {
 				p.setPrecio(precio);
 				new VentanaModificarProducto(p);
 				
-				
-				
-				/*Client cliente = ClientBuilder.newClient();
-				final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
-				
-	            final WebTarget modificarProducto = appTarget.path("modificarProductos");
-	              
-	            modificarProducto.request().post(Entity.entity(productoSeleccionado, MediaType.APPLICATION_JSON));
-	            JOptionPane.showMessageDialog(null, "Producto modificado");
-			
-				JOptionPane.showMessageDialog(null, "Selecciona el producto a modificar y escribe los nuevos valores");*/
 			}
 		});	
 		contentPane.add(btnModificarProducto);
@@ -336,7 +308,7 @@ public class VentanaGerente extends JFrame {
 	 	                final WebTarget borrarProducto = appTarget.path("borrarProducto");
 	 	              
 	 	                borrarProducto.request().post(Entity.entity(productoSeleccionado.getCodigo(), MediaType.APPLICATION_JSON));
-						//productos.remove(productoSeleccionado);
+						
 	 	                JOptionPane.showMessageDialog(null, "Producto borrado");
 					}
 				}
@@ -344,27 +316,5 @@ public class VentanaGerente extends JFrame {
 		});
 		
 		
-	/*
-
-	}
-	@Override
-    public void keyTyped(KeyEvent e) {
-        // No se utiliza en este caso
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println("La tecla Enter fue presionada.");
-            // Aquí puedes realizar las acciones que desees cuando se presione Enter
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // No se utiliza en este caso
-    }
-
-  */
 	}	
 }

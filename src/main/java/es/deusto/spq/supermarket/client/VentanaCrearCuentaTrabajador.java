@@ -57,22 +57,6 @@ public class VentanaCrearCuentaTrabajador extends JFrame {
 	public static int codigoverificacion;
 
 	/**
-	 * Carga de la aplicacion
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCrearCuentaTrabajador signup = new VentanaCrearCuentaTrabajador();
-					signup.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
-
-	/**
 	 * Se crea la aplicacion
 	 */
 	public VentanaCrearCuentaTrabajador() {

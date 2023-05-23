@@ -56,22 +56,6 @@ public class VentanaCesta extends JFrame {
 	final WebTarget productAllTarget = appTarget.path("allP");
 
 	/**
-	 * Se carga la aplicación
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCesta window = new VentanaCesta(usuario);
-					window.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
-
-	/**
 	 * Se crea la aplicacion
 	 */
 	public VentanaCesta(Usuario usuarioVerificado) {

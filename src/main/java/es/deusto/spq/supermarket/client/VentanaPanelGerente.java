@@ -46,25 +46,7 @@ public class VentanaPanelGerente extends JFrame {
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
-	// final WebTarget cestaTarget = appTarget.path("cesta");
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Usuario u = new Usuario();
-					VentanaPanelGerente frame = new VentanaPanelGerente(u);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
-
+	
 	public VentanaPanelGerente(Usuario usuarioValidado) {
 		usuario = usuarioValidado;
 		initialize();

@@ -82,22 +82,6 @@ public class VentanaBusqueda extends JFrame {
 	
 	private JTable table_ofertas;
 
-	/**
-	 * Carga la aplicación
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Usuario u = new Usuario();
-					VentanaBusqueda frame = new VentanaBusqueda(u);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
 
 	public VentanaBusqueda(Usuario usuarioValidado) {
 		usuario = usuarioValidado;

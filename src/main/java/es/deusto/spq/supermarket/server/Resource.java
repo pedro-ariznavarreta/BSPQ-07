@@ -842,7 +842,6 @@ public class Resource {
 			Transaction txx = pmm.currentTransaction();
 			try {
 				txx.begin();
-				
 				pmm.makePersistent(productos);
 				txx.commit();
 			} finally {

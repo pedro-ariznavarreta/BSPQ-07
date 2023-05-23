@@ -92,21 +92,6 @@ public class VentanaPago extends JFrame {
 	private JTextField textDireccion;
 	private JTextField textCupon;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPago frame = new VentanaPago(usuario, productos);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -290,6 +275,21 @@ public class VentanaPago extends JFrame {
 		textCupon.setColumns(10);
 		textCupon.setBounds(524, 371, 137, 19);
 		contentPane.add(textCupon);
+		
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				VentanaCesta salir = new VentanaCesta(usuarioVerificado);
+				salir.setVisible(true);
+				dispose();
+				
+				
+			}
+		});
+		btnVolver.setBackground(Color.YELLOW);
+		btnVolver.setBounds(75, 411, 85, 21);
+		contentPane.add(btnVolver);
 
 		textCupon.getDocument().addDocumentListener(new DocumentListener() {
 			@Override

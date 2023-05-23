@@ -55,23 +55,7 @@ public class VentanaAñadirProductoG extends JFrame {
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget userTarget = appTarget.path("regProductos");
-
-	/**
-	 * Se carga la aplicación
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaAñadirProductoG signup = new VentanaAñadirProductoG();
-					signup.setVisible(false);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Crea la aplicacion
 	 */

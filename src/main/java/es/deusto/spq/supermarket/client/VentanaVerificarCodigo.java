@@ -43,22 +43,7 @@ public class VentanaVerificarCodigo extends JFrame {
 	public int codigoverificacion;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	MetodsClient mt = new MetodsClient();
-	/**
-	 * Launch the application.
-	 */
-	public static void main() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaVerificarCodigo window = new VentanaVerificarCodigo();
-					window.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the application.
 	 */

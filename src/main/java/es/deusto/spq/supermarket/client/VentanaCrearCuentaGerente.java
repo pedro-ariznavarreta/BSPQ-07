@@ -56,21 +56,6 @@ public class VentanaCrearCuentaGerente extends JFrame {
 	public static JTextField codigotext;
 	public static int codigoverificacion;
 
-	/**
-	 * Se carga la aplicacion
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCrearCuentaGerente signup = new VentanaCrearCuentaGerente();
-					signup.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
 	
 	/**
 	 * Sirve para actulizar los CSV a medida que se inicie sesion un usuario

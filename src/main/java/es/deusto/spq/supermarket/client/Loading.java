@@ -39,18 +39,6 @@ public class Loading extends JFrame {
 	private VentanaVerificarCodigo cod = new VentanaVerificarCodigo();
 	private JLabel lblNewLabel;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Loading window = new Loading();
-					window.setVisible(true);
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-				}
-			}
-		});
-	}
 
 	
 	public Loading() {
