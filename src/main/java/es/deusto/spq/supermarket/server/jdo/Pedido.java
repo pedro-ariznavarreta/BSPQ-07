@@ -12,11 +12,9 @@ import java.util.List;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.PrimaryKey;
-
 /**
- * Clase PEDIDO en la que se encuentran los PRODUCTO s comprados por el USUARIO
- * @author Pedro
+ * Clase PEDIDO en la que se encuentran los PRODUCTOs comprados por el USUARIO
+ * @version 1.0
  *
  */
 @PersistenceCapable(detachable = "true")

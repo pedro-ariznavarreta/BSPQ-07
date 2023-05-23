@@ -5,7 +5,6 @@ package es.deusto.spq.supermarket.client;
 import java.util.*;
 
 import java.util.logging.Logger;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,15 +15,11 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import es.deusto.spq.supermarket.server.jdo.Compra;
-import es.deusto.spq.supermarket.server.jdo.Pedido;
 import es.deusto.spq.supermarket.server.jdo.Product;
-import es.deusto.spq.supermarket.server.jdo.Producto;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
-import es.deusto.spq.supermarket.server.jdo.Visa;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -33,9 +28,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -55,10 +47,8 @@ public class VentanaPago extends JFrame {
 	* para hacer una descuento y por último al darle al boton pagar y tras haber rellenado todo se te descarga
 	* un pdf con toda tu compra seleccionada
 	* 
-	* 
-	*  * @author JavierP
- * @version 1.0
- * @since 2023-05-20
+	* @version 1.0
+	* @since 2023-05-16
 	*/
 	private static final long serialVersionUID = 1L;
 
@@ -66,9 +56,6 @@ public class VentanaPago extends JFrame {
 
 	private JPanel contentPane;
 	public JLabel textPrecio;
-
-	private static List<Product> productos;
-	private static Usuario usuario;
 
 	private JComboBox<String> comboBox;
 	private JTextField textCV;
@@ -99,7 +86,6 @@ public class VentanaPago extends JFrame {
 	public VentanaPago(Usuario usuarioVerificado, List<Product> productosSeleccionados) {
 		
 		
-		usuario = usuarioVerificado;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 724, 504);
 		contentPane = new JPanel();

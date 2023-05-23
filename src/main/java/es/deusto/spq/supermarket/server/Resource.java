@@ -16,7 +16,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -38,32 +37,25 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
 /**
  * Clase cada etiqueta sirve para un método diferente de la bd
- * @author Pedro
- *
  */
+
 @Path("/resource")
 @Produces(MediaType.APPLICATION_JSON)
 public class Resource {
 
 	protected static final Logger logger = LogManager.getLogger();
 
-	private int cont = 0;
 	private PersistenceManager pm = null;
-	private Transaction tx = null;
-
 	public Resource() {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		this.pm = pmf.getPersistenceManager();
-		this.tx = pm.currentTransaction();
+		pm.currentTransaction();
 	}
 	/**
 	 * Metodo de la bd
@@ -91,6 +83,7 @@ public class Resource {
 	/**
 	 * Busca los usuarios por su nombr
 	 * @return Devuelve el usuario encotrado
+	 * @param El username del cliente
 	 */
 	@GET
 	@Path("/nom")
@@ -148,8 +141,10 @@ public class Resource {
 	
 	/**
 	 * Registra los usuarios con sus atributos especificos
-	 * 
+	 * @param Lista de Strings de usuarios
+	 * @return No devuelve nada. Solo los inserta
 	 */
+	
 	@POST
 	@Path("/reg")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -180,7 +175,8 @@ public class Resource {
 	
 	/**
 	 * Registra el gerente con sus atributos especificos
-	 * 
+	 * @param Lista de Strings de gerente
+	 * @return No devuelve nada. Solo los inserta
 	 */
 	
 	@POST
@@ -211,7 +207,8 @@ public class Resource {
 	
 	/**
 	 * Registra el trabajador con sus atributos especificos
-	 * 
+	 * @param Lista de Strings de trabajador
+	 * @return No devuelve nada. Solo los inserta
 	 */
 	@POST
 	@Path("/regTrabajador")
@@ -242,7 +239,8 @@ public class Resource {
 	
 	/**
 	 * Registra los productos con sus atributos especificos
-	 * 
+	 * @param Lista de Strings de producto
+	 * @return No devuelve nada. Solo inserta los productos
 	 */
 	@POST
 	@Path("/regProductos")
@@ -274,7 +272,7 @@ public class Resource {
 		
 	/**
 	 * Metodo de la bd
-	 * @return Devuelve una lista con todos los productos en una lista
+	 * @return Devuelve una lista con todos los productos de la clase PRODUCTO
 	 */
 	@GET
 	@Path("/productos")
@@ -297,7 +295,7 @@ public class Resource {
 	
 	/**
 	 * Elimina el usuario especificamente por su nombre
-	 * 
+	 * @param Lista de Strings de usuarios
 	 */
 	@POST
 	@Path("elim")
@@ -317,7 +315,11 @@ public class Resource {
 		}
 	}
 	
-	//Eliminar un producto de la base de datos
+	/**
+	 * Eliminar un producto de la base de datos
+	 * @param El codigo del producto que hay que borrar
+	 * @return No devuelve nada. Solo Borra
+	 */
 	
 	@POST
 	@Path("/borrarProducto")
@@ -336,8 +338,7 @@ public class Resource {
 
 			pm.deletePersistentAll(prod);
 			tx.commit();
-			System.out.println("PRODUCTO BORRADO");
-			//logger.info("PRODUCTO BORRADO");
+			logger.info("PRODUCTO BORRADO");
 			
 		} catch (Exception e) {
 			logger.info(e.getMessage());
@@ -352,6 +353,7 @@ public class Resource {
 	
 	/**
 	 * Comprueba si existe o no por el nombre el usuario de la BD
+	 * @param El username del cliente para que se compruebe
 	 * @return Devuelve el usuario usado de la BD
 	 */
 	@GET
@@ -380,6 +382,12 @@ public class Resource {
 		}
 		return usuariousado;
 	}
+	
+	/**
+	 * No se utiliza pero verificaria si hay productros con ese mismo codigo
+	 * @param El codigo del producto
+	 * @return Devuelve un false en caso de que no este usado y true en el caso contrario
+	 */
 	
 	@GET
 	@Path("codcheck")
@@ -410,7 +418,8 @@ public class Resource {
 	
 	/**
 	 * Comprueba el rol del usuario si es cliente, gerente o trabajador
-	 * @return Devuelve el usuario idoneo
+	 * 	 * @param El username del cliente que se
+	 * @return Devuelve un int. Si es trabajador 1 y si es gerente 2
 	 */
 	@GET
 	@Path("rol")
@@ -440,7 +449,7 @@ public class Resource {
 		return valor;
 	}
 	/**
-	 *Metodo de la BD
+	 *Metodo que devuelve los usuarios que esten en la base de datos
 	 * @return Devuelve toda la lista de usuarios
 	 */
 	@GET
@@ -461,8 +470,10 @@ public class Resource {
 		}
 		return usuarios;
 	}
+	
 	/**
 	 *Busca el producto por su nombre
+	 *@param El nombre del producto que se quiere buscar
 	 * @return Devuelve el producto
 	 */
 	@GET
@@ -484,10 +495,12 @@ public class Resource {
 
 		return productos;
 	}
+	
 	/**
-	 *Metodo de la BD
+	 * Metodo para obtener todos los productos de la base de datos
 	 * @return Devuelve todos los productos
 	 */
+	
 	@GET
 	@Path("/allP")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -504,8 +517,10 @@ public class Resource {
 		return productos;
 
 	}
+	
 	/**
 	 *Cuenta los productos de la cesta
+	 *@param El nombre del usuario
 	 * @return Devuelve un contador con los productos
 	 */
 	@GET
@@ -532,8 +547,9 @@ public class Resource {
 	}
 	
 	/**
-	 *Añade todos los productos a los usuarios especificos
-	 * @return Devuelve un booleano 
+	 * Añade todos los productos a la cesta del usuario que haya iniciado sesion
+	 * @param El nombre del usuario y el del producto
+	 * @return Devuelve un booleano. Si lo ha añadido devuelve un true y si no false
 	 */
 
 	@GET
@@ -566,8 +582,9 @@ public class Resource {
 		return respuesta;
 	}
 	/**
-	 *Hace una busqueda del usuario por su nombre y elimina ese usuario
-	 * 
+	 * Método que vacia la cesta de la base de datos del usuario que haya iniciado sesion
+	 * @param El usuario entero
+	 * @return No devuelve nada. Solo borra la cesta
 	 */
 
 	@POST
@@ -590,8 +607,9 @@ public class Resource {
 		}
 	}
 	/**
-	 *Hace una busqueda del usuario y del producto por su nombre
-	 * @return Devuelve un booleano 
+	 * Método que busca los productos de la cesta del usuario que ha iniciado sesion 
+	 * @return Devuelve una lista de productos 
+	 * @param Obtiene el nombre del usuario que ha añadido cosas a la cesta
 	 */
 
 	@GET
@@ -626,7 +644,10 @@ public class Resource {
 		return productos;
 	}
 	/**
-	 *Añade el pedido a la compra
+	 *Método que añade el pedido a la compra para mostral el historial de compras
+	 *@throws Exception
+	 *@param Lista de Strings de pedido
+	 *@return Nada porque solo añade el pedido
 	 * 
 	 */
 	 
@@ -664,8 +685,10 @@ public class Resource {
 		}
 	  	
 	  	/**
-		 *Hace el metodo de compra de la BD
-		 * 
+		 *	Hace el metodo de compra de la BD
+		 *	@param Obtiene el usuario
+		 *	@return Nada porque solo lo actualiza
+		 * 	
 		 */
 
 		@POST
@@ -695,9 +718,11 @@ public class Resource {
 				
 			}
 		}
+		
 		/**
-		 *Se registran las compras en la BD
-		 * 
+		 *Metodo para registrar las compras en la BD
+		 * @param Obtiene la compra del usuario
+		 * @return Nada. Solo lo registra
 		 */
 		@POST
 		@Path("/regCompra")
@@ -732,7 +757,8 @@ public class Resource {
 		}
 		
 		/**
-		 *
+		 * Metodo que muestra la lista de la compra
+		 * @param Obtener el Usuario por un string
 		 * @return Devuelve una lista de todas las compras
 		 */
 		@GET
@@ -759,6 +785,10 @@ public class Resource {
 			return todaLaCompra;
 		}
 		
+		/**
+		 * Método para borrar los productos añadidos a la compra
+		 */
+		
 		@POST
 		@Path("/vaciarCompra")
 		public static void borrarTodasCompras() {
@@ -781,6 +811,12 @@ public class Resource {
 			}
 
 		}
+		
+		/**
+		 * Metodo para obtener las compras del usuario
+		 * @param el username del usuario
+		 * @return Devuelve sus compras
+		 */
 		
 		@GET
 		@Path("/obtenerCompras")
@@ -805,8 +841,10 @@ public class Resource {
 			return todaLaCompra;
 		}
 		
-		/*
-		 * MODIFICA LOS PRODUCTO DE LA BASE DE DATOS
+		/**
+		 * MODIFICA LOS PRODUCTOS DE LA BASE DE DATOS
+		 * @param Recibe el producto seleccionado de la tabla
+		 * @return No devuelve nada ya que solo lo modifica en la base de datos
 		 */
 		@POST
 		@Path("/modificarProductos")
@@ -818,6 +856,7 @@ public class Resource {
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
+			//Primero borra el producto
 			try (Query<Product> q = pm.newQuery("SELECT FROM " + Product.class.getName() + " WHERE codigo == '" + productos.getCodigo() + "'")) {
 				tx.begin();
 				
@@ -840,6 +879,7 @@ public class Resource {
 			PersistenceManagerFactory pmff = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pmm = pmff.getPersistenceManager();
 			Transaction txx = pmm.currentTransaction();
+			//Despues añade el producto igual pero con un codigo distinto
 			try {
 				txx.begin();
 				pmm.makePersistent(productos);

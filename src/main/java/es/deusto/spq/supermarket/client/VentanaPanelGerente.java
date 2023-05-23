@@ -4,14 +4,11 @@ package es.deusto.spq.supermarket.client;
 
 import java.awt.BorderLayout;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
-import java.util.logging.Logger;
 import javax.swing.JButton;
 
 
@@ -27,28 +24,22 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 /**
-* VentanaPanelGerente sirve para seleccionar que tipo de tarea quieres hacer con el admin
-* puedes registrar nuevos trabajador, tambien nuevos gerentes y tambien cambiar los diferentes porductos
-* 
-*  * @author JavierP
+ * VentanaPanelGerente sirve para seleccionar que tipo de tarea quieres hacer con el admin
+ * puedes registrar nuevos trabajador, tambien nuevos gerentes y tambien cambiar los diferentes productos
+ * 
  * @version 1.0
- * @since 2023-05-20
-*
+ * @since 2023-05-17
 */
 public class VentanaPanelGerente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
 	private JPanel contentPane;
-	private static Usuario usuario;
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
 	final WebTarget productAllTarget = appTarget.path("allP");
 	
 	public VentanaPanelGerente(Usuario usuarioValidado) {
-		usuario = usuarioValidado;
 		initialize();
 	}
 
