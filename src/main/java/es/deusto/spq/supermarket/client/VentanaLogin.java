@@ -13,11 +13,9 @@ import javax.swing.border.EmptyBorder;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 
-import es.deusto.spq.supermarket.server.Resource;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 import javax.ws.rs.core.MediaType;
 
@@ -28,14 +26,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 import javax.swing.JTextField;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
@@ -45,10 +38,8 @@ import javax.swing.SwingConstants;
 
 public class VentanaLogin extends JFrame {
 	/**
-	* VentanaLogin sirve para loggearte como usuario ya creado por tu nombre y contrseña
+	* VentanaLogin sirve para loggearte como usuario o gerente ya creado por tu nombre y contrasena
 	*
-	*
-	* * @author JavierP
  * @version 1.0
  * @since 2023-05-20
 	*/
@@ -115,7 +106,7 @@ public class VentanaLogin extends JFrame {
 
 		textContraseña = new JTextField();
 
-		// Passwordfield para la contraseï¿½a
+		// Passwordfield para la contrasena
 		textContraseña = new JPasswordField();
 		textContraseña.setColumns(10);
 		textContraseña.setBounds(42, 203, 284, 24);
@@ -178,9 +169,6 @@ public class VentanaLogin extends JFrame {
 		
 		/**
 		* Boton necesario para loggerate donde se hace la comprobación de si el usuario existe o no
-		* 
-		* 
-		* 
 		*/
 		
 		btnLogin.addActionListener(new ActionListener() {
@@ -210,10 +198,6 @@ public class VentanaLogin extends JFrame {
 								
 								new VentanaTrabajador();
 						}else if(valorRol == 2) {    //es gerente
-								//Usuario u = new Usuario();
-								//System.out.println("ENTRA EN GERENTE");
-								//new VentanaPanelGerente(u);
-								
 								Usuario uu = new Usuario();
 								VentanaPanelGerente window= new VentanaPanelGerente(uu);
 								window.setVisible(true);

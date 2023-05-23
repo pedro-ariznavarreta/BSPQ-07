@@ -2,15 +2,18 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 
 public class VentanaTrabajador extends JFrame {
+	/*
+	 * Esta Ventana es la que se inicia al iniciar sesion como trabajador
+	 * No tiene ninguna funcionalidad
+	 */
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField Te;
 

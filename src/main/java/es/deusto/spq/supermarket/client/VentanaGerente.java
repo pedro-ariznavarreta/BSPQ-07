@@ -2,17 +2,12 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import java.awt.Font;
 import java.util.*;
 
 import javax.swing.*;
-import java.util.logging.Logger;
 import java.awt.Component;
 
 import javax.swing.table.DefaultTableModel;
@@ -38,25 +33,18 @@ public class VentanaGerente extends JFrame {
 	/**
 	 * En esta VentanaGerente podemos hacer busqueda de los productos disponibles en la tienda y donde exiten 
 	 * tres botones uno para añadirlos otro para eliminar los productos y por otro lado otro para modificarlos
-	 * 
-	 * 
-	 *  * @author JavierP
  * @version 1.0
  * @since 2023-05-20
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private JPanel contentPane;
 	private JTextField textBuscador;
 	private JTable table;
 	private DefaultTableModel tableModel = new DefaultTableModel();
 	private DefaultTableModel tableModel_ofertas = new DefaultTableModel();
-	private static Usuario usuario;
 	private static List<Product> productos;
-	private List<Product> listap;
-
 	private JPanel panel;
 
 
@@ -67,7 +55,6 @@ public class VentanaGerente extends JFrame {
 
 
 	public VentanaGerente(Usuario usuarioValidado) {
-		usuario = usuarioValidado;
 		initialize();
 	}
 
@@ -75,7 +62,6 @@ public class VentanaGerente extends JFrame {
 	 * @wbp.parser.constructor
 	 */
 	public VentanaGerente(Usuario usuarioValidado, int cantidadproductosa) {
-		usuario = usuarioValidado;
 		initialize();
 	}
 	
@@ -203,7 +189,9 @@ public class VentanaGerente extends JFrame {
 		scroll.setBounds(87, 109, 527, 295);
 		panel.add(scroll);
 		table = new JTable(tableModel) {
-			
+		
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false; // todas las celdas son editables salvo el codigo
 			}

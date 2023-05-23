@@ -2,8 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -15,14 +13,10 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import java.util.logging.Logger;
-
 import java.awt.Font;
 import javax.swing.JButton;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
@@ -31,17 +25,16 @@ import java.awt.Color;
  * VentanaVerificarCodigo es una clase que representa una ventana de la GUI para verificar el código durante la creación de una cuenta.
  * Esta clase proporciona la interfaz para la verificación del código que se envía al usuario durante el proceso de registro.
  * 
- * @author JavierP
  * @version 1.0
- * @since 2023-05-20
+ * @since 2023-05-01
  */
 public class VentanaVerificarCodigo extends JFrame {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField textcodigo;
 	Client cliente = ClientBuilder.newClient();
 	final WebTarget appTarget = cliente.target("http://localhost:8080/rest/resource");
-	//final WebTarget userTarget = appTarget.path("usuarios");
 	public int codigoverificacion;
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	MetodsClient mt = new MetodsClient();
 	
 	/**
@@ -131,6 +124,7 @@ public class VentanaVerificarCodigo extends JFrame {
 * @param mail El correo electrónico del usuario.
 * @param trabajador El valor que representa si el usuario es un trabajador o no.
 * @param gerente El valor que representa si el usuario es un gerente o no.
+* @return No devuelve nada
 */
 public void crearCuenta(String usuario, String contraseña, String mail, Integer trabajador, Integer gerente) {
 

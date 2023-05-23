@@ -2,10 +2,6 @@ package es.deusto.spq.supermarket.client;
 /** @package es.deusto.spq.supermarket.client
 */
 
-import java.awt.BorderLayout;
-
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,12 +10,10 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import javax.swing.JTextField;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.Component;
@@ -37,9 +31,6 @@ import es.deusto.spq.supermarket.server.jdo.Usuario;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -51,13 +42,12 @@ import java.awt.Color;
  * y buscarlos. Tambien existe la posiblidad de poner los prodcutos en favoritos.
  * Esta ventana interactúa con un servicio REST para recuperar y gestionar los productos de la cesta.
  * 
- * @author JavierP
- * @version 1.0
- * @since 2023-05-20
  */
 
 public class VentanaBusqueda extends JFrame {
-	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+	private static final long serialVersionUID = 1L;
+
 
 	private JPanel contentPane;
 	private JTextField textBuscador;
@@ -240,9 +230,6 @@ public class VentanaBusqueda extends JFrame {
 		});
 		/**
 		* Boton para volver a la ventana anterior
-		* 
-		* 
-		* 
 		*/
 		JButton btnVolver = new JButton("Finalizar");
 		btnVolver.setBackground(new Color(255, 255, 0));
@@ -256,8 +243,6 @@ public class VentanaBusqueda extends JFrame {
 		});
 		/**
 		* Boton filtrar por favoritos
-		* 
-		* 
 		* 
 		*/
 		JButton botonFavoritos = new JButton("Favoritos");
@@ -275,9 +260,6 @@ public class VentanaBusqueda extends JFrame {
 		contentPane.add(btnVolver);
 		/**
 		* Boton para añadir los productos a la cesta
-		* 
-		* 
-		* 
 		*/
 		JButton btnAñadir = new JButton("Añadir a la cesta");
 		btnAñadir.setBackground(new Color(255, 255, 0));
@@ -332,6 +314,9 @@ public class VentanaBusqueda extends JFrame {
 		scroll.setBounds(87, 109, 527, 295);
 		panel.add(scroll);
 		table = new JTable(tableModel) {
+			
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false; // todas las celdas no son editables
 			}
