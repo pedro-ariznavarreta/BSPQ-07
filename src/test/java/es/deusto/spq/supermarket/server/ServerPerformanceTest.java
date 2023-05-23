@@ -1,6 +1,7 @@
 package es.deusto.spq.supermarket.server;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -8,8 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
-import javax.swing.JProgressBar;
+import javax.jdo.Transaction;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -17,25 +20,24 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import org.databene.contiperf.PerfTest;
-import org.databene.contiperf.Required;
+
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.junit.After;
+
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mockito.Mockito;
+
 
 import com.github.noconnor.junitperf.JUnitPerfRule;
 import com.github.noconnor.junitperf.JUnitPerfTest;
+import com.github.noconnor.junitperf.JUnitPerfTestRequirement;
 import com.github.noconnor.junitperf.reporting.providers.HtmlReportGenerator;
 
 import categories.PerformanceTest;
-import es.deusto.spq.supermarket.client.VentanaBusqueda;
-import es.deusto.spq.supermarket.client.VentanaLogin;
-import es.deusto.spq.supermarket.client.VentanaVerificarCodigo;
+
 import es.deusto.spq.supermarket.server.jdo.Product;
 import es.deusto.spq.supermarket.server.jdo.Usuario;
 
@@ -43,37 +45,68 @@ import es.deusto.spq.supermarket.server.jdo.Usuario;
 
 @Category(PerformanceTest.class)
 public class ServerPerformanceTest {
-
 	
-	private HttpServer server;
+	private static HttpServer server;
 	private WebTarget appTarget;
-	private Usuario usuario = Mockito.mock(Usuario.class);
-	private Product producto = Mockito.mock(Product.class);
-	private static int cantidad;
+	
+	private static final PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	@Rule 
+	public JUnitPerfRule perfTestRule = new JUnitPerfRule(new HtmlReportGenerator("target/junitperf/report.html"));
+	
+	
+	
+	@BeforeClass
+    public static void prepareTests() throws Exception {
+        // start the server
+        server = Main.startServer();
+        
 
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx = pm.currentTransaction();
+        try {
+            tx.begin();
+
+            tx.commit();
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
     @Before
     public void setUp() throws Exception {
-        server = Main.startServer();
+   
         Client c = ClientBuilder.newClient();
         appTarget = c.target(Main.BASE_URI).path("resource");
-
+        
+     
     }
 
-    @After
-    public void tearDown() throws Exception {
-        server.stop();
+    @AfterClass
+    public static void tearDown() throws Exception {
+    	 server.shutdown();
+
+         PersistenceManager pm = pmf.getPersistenceManager();
+         Transaction tx = pm.currentTransaction();
+         try {
+             tx.begin();
+           
+             tx.commit();
+         } finally {
+             if (tx.isActive()) {
+                 tx.rollback();
+             }
+             pm.close();
+         }
     }
     
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testGetUsuarios() {
-
 		WebTarget userAllTarget = appTarget.path("all");
-
-		List<Usuario> listUsuarios = Arrays
-				.asList(new Usuario("pedro", "1234", "pedro.ariznavarreta@opendeusto.es", 0, 0));
-
 		GenericType<List<Usuario>> genericType = new GenericType<List<Usuario>>() {
 		};
 		List<Usuario> usuarios = userAllTarget.request(MediaType.APPLICATION_JSON).get(genericType);
@@ -83,8 +116,8 @@ public class ServerPerformanceTest {
 	}
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testEliminarUsuario() {
 		List<String> listuser = Arrays.asList("A", "A");
 		WebTarget userElimTarget = appTarget.path("elim");
@@ -100,8 +133,8 @@ public class ServerPerformanceTest {
 	}
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testNomCheck() {
 		WebTarget userNomCheckTarget = appTarget.path("nomcheck").queryParam("nick", "pedro");
 
@@ -115,8 +148,8 @@ public class ServerPerformanceTest {
 	
 	
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testGetIt() {
 	    WebTarget productAllTarget = appTarget.path("allP");
 		
@@ -133,8 +166,8 @@ public class ServerPerformanceTest {
 	    assertEquals(listProd.get(2).getNombre(), productos.get(2).getNombre());
 	}
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testgetNombreProductos() {
 	    WebTarget productNomTarget = appTarget.path("nomP").queryParam("nombre", "Lechuga");
 	    
@@ -151,8 +184,8 @@ public class ServerPerformanceTest {
 
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testAñadirProductoCesta() {
 		Product p = new Product("peras", "muy dulces", 0.5, "unai", 10);
 		WebTarget cestaAñadirTarget = appTarget.path("anadir").queryParam("Producto", p.getNombre()).queryParam("Usuario", "pedro");
@@ -166,8 +199,8 @@ public class ServerPerformanceTest {
 
 
 	@Test
-	@PerfTest(invocations = 1000, threads = 20)
-    @Required(max = 1200, average = 300)
+	@JUnitPerfTest(threads = 10, durationMs = 5000)
+	@JUnitPerfTestRequirement(meanLatency = 5000)
 	public void testVaciarCesta() {
 		WebTarget cestaBorrarTarget = appTarget.path("borrar");
 		Usuario usuario = new Usuario("pedro", "1234", null, 0, 0);

@@ -29,8 +29,8 @@ public class Main {
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer()  {
-        // create a resource config that scans for JAX-RS resources and providers
-        // in SA02 package
+    	// create a resource config that scans for JAX-RS resources and providers
+        // in com.example package
         final ResourceConfig rc = new ResourceConfig().packages("es.deusto.spq.supermarket");
 
         // create and start a new instance of grizzly http server
@@ -48,6 +48,6 @@ public class Main {
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         System.in.read();
-        server.stop();
+        server.shutdown();
     }
 }
