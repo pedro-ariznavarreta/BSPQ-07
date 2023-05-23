@@ -851,8 +851,6 @@ public class Resource {
 		@Consumes(MediaType.APPLICATION_JSON)
 		public static void modificarProductos(Product productos) {
 			
-
-			System.out.println(productos.getCodigo());
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
@@ -861,7 +859,6 @@ public class Resource {
 				tx.begin();
 				
 				List<Product> prod = q.executeList();
-				System.out.println(prod);
 
 				pm.deletePersistentAll(prod);
 				tx.commit();
